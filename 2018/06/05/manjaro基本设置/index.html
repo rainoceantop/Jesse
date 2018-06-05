@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Language" content="zh-cn">
+    <meta charset="utf-8">
+    
+    
+    
+    <title>manjaro基本设置 | Jesse | 个人博客</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    
+    <meta name="theme-color" content="#77AAFF">
+    
+    
+    <meta name="keywords" content="linux,archlinux,manjaro,manjaro基本设置">
+    
+    
+
+    
+
+    <!-- Baidu Push -->
+<script>
+	(function(){
+		var bp = document.createElement('script');
+		var curProtocol = window.location.protocol.split(':')[0];
+		if (curProtocol === 'https') {
+			bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+		}
+		else {
+			bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+		}
+		var s = document.getElementsByTagName("script")[0];
+		s.parentNode.insertBefore(bp, s);
+	})();
+
+	var _hmt = _hmt || [];
+</script>
+
+
+
+    
+    <meta name="description" content="Manjaro是一款基于Arch Linux、对用户友好、全球排名第1的Linux发行版。详情参见distrowatch这篇文章主要是将manjaro刚安装完需要设置的东西罗列出来，一切都是为了在使用中尽量减少碰见的问题附上manjaro的相关链接：manjaro中文网manjaro官方网站manjaro安装参考">
+<meta name="keywords" content="linux,archlinux,manjaro,manjaro基本设置">
+<meta property="og:type" content="article">
+<meta property="og:title" content="manjaro基本设置">
+<meta property="og:url" content="https://rainoceantop.github.io/Jesse/2018/06/05/manjaro基本设置/index.html">
+<meta property="og:site_name" content="Jesse">
+<meta property="og:description" content="Manjaro是一款基于Arch Linux、对用户友好、全球排名第1的Linux发行版。详情参见distrowatch这篇文章主要是将manjaro刚安装完需要设置的东西罗列出来，一切都是为了在使用中尽量减少碰见的问题附上manjaro的相关链接：manjaro中文网manjaro官方网站manjaro安装参考">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=3223425153,1628165458&fm=27&gp=0.jpg">
+<meta property="og:updated_time" content="2018-06-05T00:38:23.738Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="manjaro基本设置">
+<meta name="twitter:description" content="Manjaro是一款基于Arch Linux、对用户友好、全球排名第1的Linux发行版。详情参见distrowatch这篇文章主要是将manjaro刚安装完需要设置的东西罗列出来，一切都是为了在使用中尽量减少碰见的问题附上manjaro的相关链接：manjaro中文网manjaro官方网站manjaro安装参考">
+<meta name="twitter:image" content="https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=3223425153,1628165458&fm=27&gp=0.jpg">
+    
+        <link rel="alternate" type="application/atom+xml" title="Jesse" href="/Jesse/atom.xml">
+    
+    <link rel="shortcut icon" href="/Jesse/img/favicon.ico">
+    <link id="style" rel="stylesheet" href="/Jesse/css/style.css?v=3.0">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+            
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+    <aside id="menu"  class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" >
+      <div class="brand">
+        <a href="/Jesse/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/Jesse/img/avatar.jpg" alt="avatar">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname" id="name">Jesse</h5>
+          
+            <div id="mymotto" class="motto"></div>
+          
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+              <li class="waves-block waves-effect">
+                  <a href="/Jesse/"  >
+                    <i class="icon icon-lg icon-home"></i>
+                    <span>主 页</span><i class="icon icon-lg icon-caret-left"></i>
+                  </a>
+              </li>
+            
+              <li class="waves-block waves-effect">
+                  <a href="/Jesse/archives"  >
+                    <i class="icon icon-lg icon-archives"></i>
+                    <span>归 档</span><i class="icon icon-lg icon-caret-left"></i>
+                  </a>
+              </li>
+            
+              <li class="waves-block waves-effect">
+                  <a href="/Jesse/categories"  >
+                    <i class="icon icon-lg icon-th-list"></i>
+                    <span>分 类</span><i class="icon icon-lg icon-caret-left"></i>
+                  </a>
+              </li>
+            
+              <li class="waves-block waves-effect">
+                  <a href="/Jesse/tags"  >
+                    <i class="icon icon-lg icon-tags"></i>
+                    <span>标 签</span><i class="icon icon-lg icon-caret-left"></i>
+                  </a>
+              </li>
+            
+      <div class="nav2">
+          
+              <a class="nav2item" data-title="Email" href="mailto:2424457572@qq.com" target="_parent"title="Email" >
+                <i class="icon icon-lg icon-envelope-o envelope-o"></i>
+              </a>
+          
+              <a class="nav2item" data-title="Github" href="https://github.com/rainoceantop" target="_blank"title="Github" >
+                <i class="icon icon-lg icon-github github"></i>
+              </a>
+          
+              <a class="nav2item" data-title="微博" href="/Jesse/" target="_blank"title="微博" >
+                <i class="icon icon-lg icon-weibo weibo"></i>
+              </a>
+          
+
+            </div>
+        
+      </ul>
+        
+    </div>
+  </div>
+ 
+</aside>
+
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">manjaro基本设置</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        <a href="../../atom.xml" target="_blank" class="header-icon waves-effect waves-circle waves-light" id="Rss">
+            <i class="icon icon-lg icon-rss"></i>
+        </a>
+    </div>
+</header>
+<header class="content-header post-header">
+    
+    
+    <div class="container fade-scale">
+        <div id="myheader">
+            <h1 class="title">
+                
+            </h1>
+            <h5 class="subtitle">
+                
+                
+            </h5>
+        </div>
+    </div>
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#配置国内源"><span class="post-toc-number">1.</span> <span class="post-toc-text">配置国内源</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#升级软件"><span class="post-toc-number">2.</span> <span class="post-toc-text">升级软件</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#配置输入法"><span class="post-toc-number">3.</span> <span class="post-toc-text">配置输入法</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#时间调整"><span class="post-toc-number">4.</span> <span class="post-toc-text">时间调整</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#win10系统下关机后自动重启"><span class="post-toc-number">5.</span> <span class="post-toc-text">win10系统下关机后自动重启</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#添加archlinuxCN源"><span class="post-toc-number">6.</span> <span class="post-toc-text">添加archlinuxCN源</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#安装常用软件"><span class="post-toc-number">7.</span> <span class="post-toc-text">安装常用软件</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#网易云音乐"><span class="post-toc-number">7.1.</span> <span class="post-toc-text">网易云音乐</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#微信"><span class="post-toc-number">7.2.</span> <span class="post-toc-text">微信</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+   
+<article id="post-manjaro基本设置"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">manjaro基本设置</h1>
+        <div class="post-meta">
+            <i class="icon icon-lg icon-calendar-o"></i>
+            发表于
+            <time class="post-time" title="2018-06-05 07:11:33" datetime="2018-06-04T23:11:33.000Z"  itemprop="datePublished">2018-06-05</time>
+
+            <br id="mybreak"/>
+            
+	<i class="icon icon-lg icon-folder-o"></i>
+	分类：<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/Jesse/categories/linux/">linux</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/Jesse/categories/linux/manjaro/">manjaro</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/Jesse/categories/linux/manjaro/基本设置/">基本设置</a></li></ul></li></ul></li></ul>
+
+
+            <i>·</i>
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>次浏览
+</span>
+
+
+        </div>
+        <div class="post-count-custom">
+            <i class="icon icon-lg icon-comment-o"></i>
+            阅读本文可能花费您&nbsp;<span class="post-count">4</span>&nbsp;分钟
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>Manjaro是一款基于Arch Linux、对用户友好、全球排名第1的Linux发行版。详情参见<a href="https://distrowatch.com/dwres.php?resource=popularity" target="_blank" rel="noopener">distrowatch</a><br>这篇文章主要是将manjaro刚安装完需要设置的东西罗列出来，一切都是为了在使用中尽量减少碰见的问题<br>附上manjaro的相关链接：<br><a href="https://www.manjaro.cn/" target="_blank" rel="noopener">manjaro中文网</a><br><a href="http://manjaro.github.io/" target="_blank" rel="noopener">manjaro官方网站</a><br><a href="https://zhuanlan.zhihu.com/p/35663653" target="_blank" rel="noopener">manjaro安装参考</a></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=3223425153,1628165458&fm=27&gp=0.jpg" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<a id="more"></a>
+<h3 id="配置国内源"><a href="#配置国内源" class="headerlink" title="配置国内源"></a>配置国内源</h3><p>打开manjaro命令行（菜单里的终端模拟器），键入如下两行代码<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">//由于各方面原因，有些命令可能不起作用，前三行代码逐个测试，可以之后跳到更新系统</span><br><span class="line">sudo pacman-mirrors -gb testing -c China //选择中国源，可选一个或多个或全选</span><br><span class="line">sudo pacman-mirrors -b testing -c China</span><br><span class="line">sudo pacman-mirrors -i -c China -m rank</span><br><span class="line">sudo pacman -Syyu  //更新系统</span><br></pre></td></tr></table></figure></p>
+<h3 id="升级软件"><a href="#升级软件" class="headerlink" title="升级软件"></a>升级软件</h3><p>由于配置了中国源，现在就不受网速限制了。看到右下角的软件包管理器提醒你更新软件了吗？打开它并更新软件至最新版本</p>
+<h3 id="配置输入法"><a href="#配置输入法" class="headerlink" title="配置输入法"></a>配置输入法</h3><p>在软件管理包搜索并下载谷歌拼音，通过软件包管理器下载输入法会同时下载相关依赖，如fcitx。<br><strong>下载完重启才能开启输入法（至少目前我不知道还有其他方法）</strong><br>如果发现不能配置输入法，打开命令行键入以下命令后再重试<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo pacman -S fcitx-im</span><br><span class="line">sudo pacman -S fcitx-configtool</span><br></pre></td></tr></table></figure></p>
+<p>在配置界面里可以配置输入法的切换激活快捷键，但还差最后一步配置才能正常使用输入法<br>打开命令行，键入以下代码<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sudo nano ~/.xprofile </span><br><span class="line">//进入编辑页面后，复制以下代码粘贴上去，然后根据提示保存后离开重试</span><br><span class="line"><span class="comment">#fcitx</span></span><br><span class="line"><span class="built_in">export</span> GTK_IM_MODULE=fcitx </span><br><span class="line"><span class="built_in">export</span> QT_IM_MODULE=fcitx </span><br><span class="line"><span class="built_in">export</span> XMODIFIERS=<span class="string">"@im=fcitx"</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="时间调整"><a href="#时间调整" class="headerlink" title="时间调整"></a>时间调整</h3><p>如果你使用的是双系统（manjaro和windows并存），那么你可能会遇到时间比你所在时区的正常时间快了8个小时。这是因为linux和windows看待系统硬件的方式是不一样的<br>Windows把系统硬件时间当作本地时间(local time),即操作系统中显示的时间跟BIOS中显示的时间是一样的。 Linux/Unix/Mac把硬件时间当作UTC，操作系统中显示的时间是硬件时间经过换算得来的，比如说北京时间是GMT+8，则系统中显示时间是硬件时间+8。<br>解决方法其实也很简单，只要进入windows系统。通过右击时间显示区，打开日期和时间，修改时区为<code>(UTC)协调世界时</code>即可</p>
+<h3 id="win10系统下关机后自动重启"><a href="#win10系统下关机后自动重启" class="headerlink" title="win10系统下关机后自动重启"></a>win10系统下关机后自动重启</h3><p>进入电源选项（控制面板或左下角搜索栏搜索电源）→选择电源按钮的功能→更改当前不可用的设置→取消勾选“启用快速启动”功能 即可</p>
+<h3 id="添加archlinuxCN源"><a href="#添加archlinuxCN源" class="headerlink" title="添加archlinuxCN源"></a>添加archlinuxCN源</h3><p>打开命令行，键入以下代码<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">sudo nano /etc/pacman.conf</span><br><span class="line">//进入编辑页面后，在文件底部加入如下几行，保存离开</span><br><span class="line">[archlinuxcn]</span><br><span class="line">SigLevel = Optional TrustedOnly</span><br><span class="line">Server = https://mirrors.ustc.edu.cn/archlinuxcn/<span class="variable">$arch</span></span><br><span class="line">//配置完后键入以下命令</span><br><span class="line">sudo pacman-mirrors -g //更新并选择最快的源列表</span><br><span class="line">pacman -S archlinux-keying //更新archlinux签名</span><br><span class="line">sudo pacman -S yaourt //用于软件安装arch源的软件</span><br><span class="line">sudo pacman -Syyu //同步并更新系统</span><br></pre></td></tr></table></figure></p>
+<h3 id="安装常用软件"><a href="#安装常用软件" class="headerlink" title="安装常用软件"></a>安装常用软件</h3><p>如果已经安装了archlinuxcn源，可以打开软件包管理器-&gt;首选项-&gt;AUR-&gt;启用AUR支持，然后就可以直接在管理器里下载需要的软件了<br>或者也可以使用命令行安装，以下列出两个例子</p>
+<h4 id="网易云音乐"><a href="#网易云音乐" class="headerlink" title="网易云音乐"></a>网易云音乐</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo yaourt -S netease-cloud-music</span><br></pre></td></tr></table></figure>
+<h4 id="微信"><a href="#微信" class="headerlink" title="微信"></a>微信</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo yaourt -S electronic-wechat</span><br></pre></td></tr></table></figure>
+        </div>
+
+        <blockquote class="post-copyright">
+    <div class="content">
+        
+<span class="post-time">
+    最后更新：<time datetime="2018-06-05T00:38:23.738Z" itemprop="dateUpdated">2018-06-05 08:38:23</time>
+</span>
+
+
+        
+        原文链接：<a href="/Jesse/2018/06/05/manjaro基本设置/" target="_blank" rel="external">https://rainoceantop.github.io/Jesse/2018/06/05/manjaro基本设置/</a>
+        
+    </div>
+    <footer>
+        <div onclick="location.href='https://rainoceantop.github.io/Jesse'">
+            <img src="/Jesse/img/avatar.jpg" alt="Jesse">
+            <a>Jesse</a>
+        </div>
+    </footer>
+</blockquote>
+
+        
+    <div class="page-reward">
+        <nav class="myreward">
+            <a id="rewardBtn" href="javascript:;"><span>打&nbsp;赏</span><span>装成好像很多人打赏的样子</span></a>
+        </nav>
+    </div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/Jesse/tags/archlinux/">archlinux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/Jesse/tags/linux/">linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/Jesse/tags/manjaro/">manjaro</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/Jesse/tags/manjaro基本设置/">manjaro基本设置</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://rainoceantop.github.io/Jesse/2018/06/05/manjaro基本设置/&title=《manjaro基本设置》 — Jesse&pic=https://rainoceantop.github.io/Jesse/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://rainoceantop.github.io/Jesse/2018/06/05/manjaro基本设置/&title=《manjaro基本设置》 — Jesse&source=Manjaro是一款基于Arch Linux、对用户友好、全球排名第1的Linux发行版。详情参见distrowatch这篇文章主要是将manjaro刚安..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://rainoceantop.github.io/Jesse/2018/06/05/manjaro基本设置/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《manjaro基本设置》 — Jesse&url=https://rainoceantop.github.io/Jesse/2018/06/05/manjaro基本设置/&via=https://rainoceantop.github.io/Jesse" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://rainoceantop.github.io/Jesse/2018/06/05/manjaro基本设置/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/Jesse/2018/06/05/linux基础/" id="post-next" class="post-nav-link">
+        <h4 class="title" data-hover="下一篇：linux基础">下一篇：linux基础</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+    
+
+    
+
+    
+
+
+</article>
+
+</div>
+
+        <footer class="footer">
+    <div class="footer-content">
+        <span class="power">
+            <i class="icon icon-lg icon-copyright"></i>
+            2018
+            <i class="icon icon-lg icon-heart"></i>
+            <a href="https://rainoceantop.github.io/Jesse">jesse</a>
+            <br/>
+            Power by
+            <a href="https://hexo.io/" target="_blank" rel="external nofollow">Hexo</a>&nbsp;·&nbsp;
+            Theme
+            <a class="tomotoeslink" href="https://github.com/tomotoes/hexo-theme-tomotoes/" target="_blank" rel="external nofollow">tomotoes</a>
+        </span>
+
+        <br/>
+
+        <span id="RunTime" style="color:#a7a7a2;"></span>
+        <br/>
+
+        <span>
+            
+
+        </span>
+        <br/>
+
+        <!--<span class="license"><a  target="_blank" rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">博客内容遵循 知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>-->
+    </div>
+</footer>
+
+    </main>
+    
+        
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        <span>感谢您的鼓励支持！</span>
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" data-img="/Jesse/img/thankyou.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/Jesse/img/wechatpay.png" data-alipay="/Jesse/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechatPay">&nbsp;&nbsp;微信&nbsp;&nbsp;</span>
+                <span class="reward-toggle-item alipayPay">支付宝</span>
+            </div>
+        </label>
+        
+        <i class="icon icon-caret-up"></i>
+    </div>
+</div>
+
+
+    
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://rainoceantop.github.io/Jesse/2018/06/05/manjaro基本设置/&title=《manjaro基本设置》 — Jesse&pic=https://rainoceantop.github.io/Jesse/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://rainoceantop.github.io/Jesse/2018/06/05/manjaro基本设置/&title=《manjaro基本设置》 — Jesse&source=Manjaro是一款基于Arch Linux、对用户友好、全球排名第1的Linux发行版。详情参见distrowatch这篇文章主要是将manjaro刚安..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://rainoceantop.github.io/Jesse/2018/06/05/manjaro基本设置/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《manjaro基本设置》 — Jesse&url=https://rainoceantop.github.io/Jesse/2018/06/05/manjaro基本设置/&via=https://rainoceantop.github.io/Jesse" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://rainoceantop.github.io/Jesse/2018/06/05/manjaro基本设置/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p class="wechatshare">扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACtUlEQVR42u3aQXLjMAwEQP//09kHZBXPgIQ3W9U6uRJJZvNAwABer/j6Cq7ZU9+fffrv07dcuPDw8PCuLv37Pe07v//95zvb9bzZaDw8PLw13tMSnz7PqD8f9wkjXzMeHh7e7+HdXXq7NXh4eHj/Iy9Ji5MvTsoQ+Rrw8PDwPs+bvXrjzmSDVmoteHh4eF2v6tW++t9+Xunv4eHh4V0aCDgv2ubpe564R6vFw8PDW+CdlFOTNlX7bDt2EI0s4OHh4a3x2sW141N5Mfdka/7yTjw8PLwFXluAaNtaUZsqeNvlGgweHh7eiNc2rpKDOE+1Z024vJyBh4eH9xneSWI9Y+djWG2YwcPDw9vj5c2kvDHW3pNvUDF6hYeHh7fGqwug5UGfhJ/ZdtSdPTw8PLxjXv6VOWOGudV4K0YH8PDw8C7x2nR2Vto4abnV/T08PDy8q7z8EC8O4tHg1Eki/vgZDw8Pb4GXl1/Pk+BZyj5rsL3yncbDw8Mb8WaLaMdM88O9DTZ1GRcPDw/vgJc3wNq2Uz5SkGPqcS48PDy8NV6bRrd3XljoKMDg4eHhbfDyn/R1wbQMIUmQaJNsPDw8vA3eyUtnYaAdHUje8LgGPDw8vGXebAwr2aa8dHsyEPaYTOPh4eFd5eWp6jljNgowa629aYPh4eHhLfDyuYM28b37VNRCw8PDw1vjJY2lqAQwuicPLcMqNR4eHt4yr/3Bn49PnQSG4YWHh4d3lfdVXnki3g5ptcMBUZkDDw8Pb4E3O2NnZdY82JwEqmEgwcPDwxv11vOSRBs8bo0UDAMDHh4e3hovKbDOjv62FDsr4D7+BQ8PD+8X8IpXl0WKfFPqlBoPDw/vF/DaEu3JdrSpPB4eHt5neG3Lqh2lSg79WbnhzXrw8PDwFnizH/wn7DxpHgYDPDw8vC3eH88ssYa5KwMfAAAAAElFTkSuQmCC" alt="微信分享二维码">
+</div>
+
+
+
+
+    <!-- waves按钮特效 -->
+<script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+
+<!-- 主题配置脚本 -->
+<script>
+var BLOG = { ROOT: '/Jesse/', SHARE: true, REWARD: true };
+</script>
+
+<!-- jquery -->
+<script src="/Jesse/js/jquery.min.js?v=3.0"></script>
+
+<!-- 搜索 -->
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item waves-block waves-effect" onclick="location.href='{path}'">
+    <div class="title ellipsis" title="{title}">{title}</div>
+</li>
+</template>
+
+
+<!-- main博客脚本 -->
+<script src="/Jesse/js/main.min.js?v=3.0" ></script>
+
+<!-- 动画&配置 -->
+<script src="/Jesse/js/script.min.js?v=3.0" ></script>
+
+<!-- 脚本管理 -->
+<script>
+
+if(window.innerWidth > 800){
+	/* 3D标题 */
+	$(".content-header").on("mousemove", threedee);
+
+	/* 底部追随鼠标 */
+	$(".footer").hover(2);
+
+	/* gotop键的涟漪 */
+	$("#gotop").hover(1);
+
+	/* 赞赏的粒子雨 */
+	$("#reward").hover(3);
+
+	/* 微信公众号的底部渲染 */
+	$("#wechat").hover(4);
+
+    /* 标题跳动 */
+    $(".archivestitle").bumpyText();
+
+	/* 图片点击放大 */
+	const postimg = jQuery(".post-content img:not(.github-emoji)");
+	postimg.on("click",function(){
+
+		mask.classList.add("in");
+		main.classList.add("Mask");
+		menu.classList.add("Mask");
+		var myimg = this.cloneNode(true);
+		myimg.classList.add("imgShow");
+
+		setTimeout(function(){
+			jQuery(myimg).animate({
+				opacity:"1"
+			},1000);
+		},0);
+
+		document.body.appendChild(myimg);
+
+		myimg.onclick=function(){
+			document.body.removeChild(myimg);
+			mask.classList.remove("in");
+			main.classList.remove("Mask");
+			menu.classList.remove("Mask");
+		};
+
+	});
+
+}
+
+/* 名字跳动 */
+$("#name").bumpyText();
+
+
+/* 网站运行时间 */
+setInterval(function () {
+	setTime("2018/06/04");
+}, 1000);
+
+/* 文章块的淡出 */
+postshow();
+
+/* 座右铭 */
+
+    elasticText({
+        id: "mymotto",
+        duration: 100,
+        effact: "easeOut",
+        content: "那时候没有伤,不会哭泣"
+    });
+
+
+
+/* 粘贴提示 */
+G($(".post-content"), location.href, "Jesse");
+
+
+/* 控制台 */
+if (window.console && window.console.log) {
+	setTimeout(function () {
+		console.log("\n %c 一个坏掉的番茄 %c  © Simon Ma  http://tomotoes.com \n\n", "color:#FFFFFB;background:#1abc9c;padding:5px 0;border-radius:.5rem 0 0 .5rem;", "color:#FFFFFB;background:#080808;padding:5px 0;border-radius:0 .5rem .5rem 0;");
+	}, 0);
+}
+
+</script>
+
+
+
+
+<!-- 公式渲染 -->
+
+
+
+<!-- 不蒜子 -->
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+
+
+</body>
+</html>

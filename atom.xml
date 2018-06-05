@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title>Jesse的个人博客</title>
+  <title>Jesse</title>
   
   <subtitle>个人博客</subtitle>
   <link href="/Jesse/atom.xml" rel="self"/>
   
   <link href="https://rainoceantop.github.io/Jesse/"/>
-  <updated>2018-06-04T19:06:57.665Z</updated>
+  <updated>2018-06-05T00:38:23.738Z</updated>
   <id>https://rainoceantop.github.io/Jesse/</id>
   
   <author>
@@ -17,20 +17,126 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>Hello World</title>
-    <link href="https://rainoceantop.github.io/Jesse/2018/06/05/hello-world/"/>
-    <id>https://rainoceantop.github.io/Jesse/2018/06/05/hello-world/</id>
-    <published>2018-06-04T19:06:57.665Z</published>
-    <updated>2018-06-04T19:06:57.665Z</updated>
+    <title>manjaro基本设置</title>
+    <link href="https://rainoceantop.github.io/Jesse/2018/06/05/manjaro%E5%9F%BA%E6%9C%AC%E8%AE%BE%E7%BD%AE/"/>
+    <id>https://rainoceantop.github.io/Jesse/2018/06/05/manjaro基本设置/</id>
+    <published>2018-06-04T23:11:33.000Z</published>
+    <updated>2018-06-05T00:38:23.738Z</updated>
     
-    <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>]]></content>
+    <content type="html"><![CDATA[<p>Manjaro是一款基于Arch Linux、对用户友好、全球排名第1的Linux发行版。详情参见<a href="https://distrowatch.com/dwres.php?resource=popularity" target="_blank" rel="noopener">distrowatch</a><br>这篇文章主要是将manjaro刚安装完需要设置的东西罗列出来，一切都是为了在使用中尽量减少碰见的问题<br>附上manjaro的相关链接：<br><a href="https://www.manjaro.cn/" target="_blank" rel="noopener">manjaro中文网</a><br><a href="http://manjaro.github.io/" target="_blank" rel="noopener">manjaro官方网站</a><br><a href="https://zhuanlan.zhihu.com/p/35663653" target="_blank" rel="noopener">manjaro安装参考</a></p><figure class="image-bubble">                <div class="img-lightbox">                    <div class="overlay"></div>                    <img src="https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=3223425153,1628165458&fm=27&gp=0.jpg" alt="" title="">                </div>                <div class="image-caption"></div>            </figure><a id="more"></a><h3 id="配置国内源"><a href="#配置国内源" class="headerlink" title="配置国内源"></a>配置国内源</h3><p>打开manjaro命令行（菜单里的终端模拟器），键入如下两行代码<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">//由于各方面原因，有些命令可能不起作用，前三行代码逐个测试，可以之后跳到更新系统</span><br><span class="line">sudo pacman-mirrors -gb testing -c China //选择中国源，可选一个或多个或全选</span><br><span class="line">sudo pacman-mirrors -b testing -c China</span><br><span class="line">sudo pacman-mirrors -i -c China -m rank</span><br><span class="line">sudo pacman -Syyu  //更新系统</span><br></pre></td></tr></table></figure></p><h3 id="升级软件"><a href="#升级软件" class="headerlink" title="升级软件"></a>升级软件</h3><p>由于配置了中国源，现在就不受网速限制了。看到右下角的软件包管理器提醒你更新软件了吗？打开它并更新软件至最新版本</p><h3 id="配置输入法"><a href="#配置输入法" class="headerlink" title="配置输入法"></a>配置输入法</h3><p>在软件管理包搜索并下载谷歌拼音，通过软件包管理器下载输入法会同时下载相关依赖，如fcitx。<br><strong>下载完重启才能开启输入法（至少目前我不知道还有其他方法）</strong><br>如果发现不能配置输入法，打开命令行键入以下命令后再重试<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo pacman -S fcitx-im</span><br><span class="line">sudo pacman -S fcitx-configtool</span><br></pre></td></tr></table></figure></p><p>在配置界面里可以配置输入法的切换激活快捷键，但还差最后一步配置才能正常使用输入法<br>打开命令行，键入以下代码<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sudo nano ~/.xprofile </span><br><span class="line">//进入编辑页面后，复制以下代码粘贴上去，然后根据提示保存后离开重试</span><br><span class="line"><span class="comment">#fcitx</span></span><br><span class="line"><span class="built_in">export</span> GTK_IM_MODULE=fcitx </span><br><span class="line"><span class="built_in">export</span> QT_IM_MODULE=fcitx </span><br><span class="line"><span class="built_in">export</span> XMODIFIERS=<span class="string">"@im=fcitx"</span></span><br></pre></td></tr></table></figure></p><h3 id="时间调整"><a href="#时间调整" class="headerlink" title="时间调整"></a>时间调整</h3><p>如果你使用的是双系统（manjaro和windows并存），那么你可能会遇到时间比你所在时区的正常时间快了8个小时。这是因为linux和windows看待系统硬件的方式是不一样的<br>Windows把系统硬件时间当作本地时间(local time),即操作系统中显示的时间跟BIOS中显示的时间是一样的。 Linux/Unix/Mac把硬件时间当作UTC，操作系统中显示的时间是硬件时间经过换算得来的，比如说北京时间是GMT+8，则系统中显示时间是硬件时间+8。<br>解决方法其实也很简单，只要进入windows系统。通过右击时间显示区，打开日期和时间，修改时区为<code>(UTC)协调世界时</code>即可</p><h3 id="win10系统下关机后自动重启"><a href="#win10系统下关机后自动重启" class="headerlink" title="win10系统下关机后自动重启"></a>win10系统下关机后自动重启</h3><p>进入电源选项（控制面板或左下角搜索栏搜索电源）→选择电源按钮的功能→更改当前不可用的设置→取消勾选“启用快速启动”功能 即可</p><h3 id="添加archlinuxCN源"><a href="#添加archlinuxCN源" class="headerlink" title="添加archlinuxCN源"></a>添加archlinuxCN源</h3><p>打开命令行，键入以下代码<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">sudo nano /etc/pacman.conf</span><br><span class="line">//进入编辑页面后，在文件底部加入如下几行，保存离开</span><br><span class="line">[archlinuxcn]</span><br><span class="line">SigLevel = Optional TrustedOnly</span><br><span class="line">Server = https://mirrors.ustc.edu.cn/archlinuxcn/<span class="variable">$arch</span></span><br><span class="line">//配置完后键入以下命令</span><br><span class="line">sudo pacman-mirrors -g //更新并选择最快的源列表</span><br><span class="line">pacman -S archlinux-keying //更新archlinux签名</span><br><span class="line">sudo pacman -S yaourt //用于软件安装arch源的软件</span><br><span class="line">sudo pacman -Syyu //同步并更新系统</span><br></pre></td></tr></table></figure></p><h3 id="安装常用软件"><a href="#安装常用软件" class="headerlink" title="安装常用软件"></a>安装常用软件</h3><p>如果已经安装了archlinuxcn源，可以打开软件包管理器-&gt;首选项-&gt;AUR-&gt;启用AUR支持，然后就可以直接在管理器里下载需要的软件了<br>或者也可以使用命令行安装，以下列出两个例子</p><h4 id="网易云音乐"><a href="#网易云音乐" class="headerlink" title="网易云音乐"></a>网易云音乐</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo yaourt -S netease-cloud-music</span><br></pre></td></tr></table></figure><h4 id="微信"><a href="#微信" class="headerlink" title="微信"></a>微信</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo yaourt -S electronic-wechat</span><br></pre></td></tr></table></figure>]]></content>
     
     <summary type="html">
     
-      
-      
-        &lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a href=&quot;https://hexo.
-      
+      &lt;p&gt;Manjaro是一款基于Arch Linux、对用户友好、全球排名第1的Linux发行版。详情参见&lt;a href=&quot;https://distrowatch.com/dwres.php?resource=popularity&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;distrowatch&lt;/a&gt;&lt;br&gt;这篇文章主要是将manjaro刚安装完需要设置的东西罗列出来，一切都是为了在使用中尽量减少碰见的问题&lt;br&gt;附上manjaro的相关链接：&lt;br&gt;&lt;a href=&quot;https://www.manjaro.cn/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;manjaro中文网&lt;/a&gt;&lt;br&gt;&lt;a href=&quot;http://manjaro.github.io/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;manjaro官方网站&lt;/a&gt;&lt;br&gt;&lt;a href=&quot;https://zhuanlan.zhihu.com/p/35663653&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;manjaro安装参考&lt;/a&gt;&lt;/p&gt;
+&lt;figure class=&quot;image-bubble&quot;&gt;
+                &lt;div class=&quot;img-lightbox&quot;&gt;
+                    &lt;div class=&quot;overlay&quot;&gt;&lt;/div&gt;
+                    &lt;img src=&quot;https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=3223425153,1628165458&amp;fm=27&amp;gp=0.jpg&quot; alt=&quot;&quot; title=&quot;&quot;&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;image-caption&quot;&gt;&lt;/div&gt;
+            &lt;/figure&gt;
+    
+    </summary>
+    
+      <category term="linux" scheme="https://rainoceantop.github.io/Jesse/categories/linux/"/>
+    
+      <category term="manjaro" scheme="https://rainoceantop.github.io/Jesse/categories/linux/manjaro/"/>
+    
+      <category term="基本设置" scheme="https://rainoceantop.github.io/Jesse/categories/linux/manjaro/%E5%9F%BA%E6%9C%AC%E8%AE%BE%E7%BD%AE/"/>
+    
+    
+      <category term="linux" scheme="https://rainoceantop.github.io/Jesse/tags/linux/"/>
+    
+      <category term="archlinux" scheme="https://rainoceantop.github.io/Jesse/tags/archlinux/"/>
+    
+      <category term="manjaro" scheme="https://rainoceantop.github.io/Jesse/tags/manjaro/"/>
+    
+      <category term="manjaro基本设置" scheme="https://rainoceantop.github.io/Jesse/tags/manjaro%E5%9F%BA%E6%9C%AC%E8%AE%BE%E7%BD%AE/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>linux基础</title>
+    <link href="https://rainoceantop.github.io/Jesse/2018/06/05/linux%E5%9F%BA%E7%A1%80/"/>
+    <id>https://rainoceantop.github.io/Jesse/2018/06/05/linux基础/</id>
+    <published>2018-06-04T21:59:02.000Z</published>
+    <updated>2018-06-04T22:42:38.528Z</updated>
+    
+    <content type="html"><![CDATA[<p>Linux是一套免费使用和自由传播的类Unix操作系统，是一个基于POSIX和UNIX的多用户、多任务、支持多线程和多CPU的操作系统。它能运行主要的UNIX工具软件、应用程序和网络协议。它支持32位和64位硬件。Linux继承了Unix以网络为核心的设计思想，是一个性能稳定的多用户网络操作系统。<br>严格来讲，Linux这个词本身只表示Linux内核，但实际上人们已经习惯了用Linux来形容整个基于Linux内核，并且使用GNU 工程各种工具和数据库的操作系统。<br>开发者：Linus Torvalds（同时也是git的开发者）<br><figure class="image-bubble">                <div class="img-lightbox">                    <div class="overlay"></div>                    <img src="https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1923395011,885347984&fm=27&gp=0.jpg" alt="Linux吉祥物 Tux" title="">                </div>                <div class="image-caption">Linux吉祥物 Tux</div>            </figure></p><a id="more"></a><h3 id="目录操作"><a href="#目录操作" class="headerlink" title="目录操作"></a>目录操作</h3><pre><code>进入目录：cd mulu/mulu2返回目录：cd ../..返回最上层目录：cd -返回home : cd ~绝对路径进入目录：cd /home/jesse/Documents/folder</code></pre><h3 id="文件操作"><a href="#文件操作" class="headerlink" title="文件操作"></a>文件操作</h3><h4 id="创建"><a href="#创建" class="headerlink" title="创建"></a>创建</h4><pre><code>创建文件：touch file1.txt file2 file3创建文件夹：mkdir folder3</code></pre><h4 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h4><pre><code>删除文件夹：rmdir folder3(删除空文件夹)删除文件/文件夹：    rm file1    rm -r folder1/(递归逐个删除)    rm -i file1 file2 file3 file4(逐个提示是否删除)    rm -I file1 file2 file3 file4(大于三个文件时提示是否删除)    rm *(清空该目录下所有文件)    rm /(清空系统所有文件)</code></pre><h4 id="复制-amp-剪切"><a href="#复制-amp-剪切" class="headerlink" title="复制&amp;剪切"></a>复制&amp;剪切</h4><pre><code>复制文件：    cp file1 filecopy(如果存在会覆盖)    cp -i file1 filecopy(如果存在会提示)    cp file1 folder/(复制到文件夹folder中，/识别文件夹)    cp -R folder/ folder2/(-R代表递归，逐个将folder的文件复制到folder2中)    cp file* folder2/(将所有file开头的文件复制到folder2目录下)    cp *file folder2/(将所有file结尾的文件复制到folder2目录下)    cp file1 file2 file3 folder2/(将前面所有的东西复制到最后所指的目录)剪切：mv file1 folder/</code></pre><h4 id="查看"><a href="#查看" class="headerlink" title="查看"></a>查看</h4><pre><code>查看当前目录下的文件列表：ls查看当前目录下的文件列表的详细信息：ls -l 或者 ls -lh(适合人类看的)查看当前目录下的所有文件列表：ls -a查看ls的所有功能：ls --helpnano编辑文件(功能命令^代表ctrl键)：nano t.py(不存在文件的话会自动创建文件)cat编辑文件：    cat t.py(显示文件内容)    cat t.py &gt; t1.py(将t.py的内容复制到t1.py中)    cat t.py t1.py &gt; t2.py(将t.py t1.py的内容复制到t2.py中)    cat t3.py &gt;&gt; t2.py(将t3.py的内容加到t2.ty的后面)</code></pre><h4 id="执行"><a href="#执行" class="headerlink" title="执行"></a>执行</h4><pre><code>运行python3文件：python3 t.py（被执行文件头部需要有解释器声明 #!/usr/bin/python3）</code></pre><h3 id="权限操作"><a href="#权限操作" class="headerlink" title="权限操作"></a>权限操作</h3><h4 id="权限解读"><a href="#权限解读" class="headerlink" title="权限解读"></a>权限解读</h4><pre><code>第1代表类型，第2-4代表user，第5-7代表group，第8-10代表其他的权限，例如：drwxr-xr-x：d代表文件夹类型，r代表可读，w代表可写，x代表可执行(执行命令：./t1.py)-rw-r--r--：第一个-代表文件类型</code></pre><h4 id="修改权限"><a href="#修改权限" class="headerlink" title="修改权限"></a>修改权限</h4><pre><code>chmod u+r t1.py(为user用户t1.py增加可读权限)chmod u+rwx t1.py(为user用户t1.py增加可读可写可执行权限)chmod u-r t1.py(为user用户t1.py减去可读权限)chmod g+r t1.py(为group用户t1.py增加可读权限)chmod o+r t1.py(为others用户t1.py增加可读权限)chmod a+r t1.py(为全部用户t1.py增加可读权限)chmod ug+r t1.py(为user,group用户t1.py增加可读权限)</code></pre><h3 id="SSH连接"><a href="#SSH连接" class="headerlink" title="SSH连接"></a>SSH连接</h3><pre><code>下载linux SSH终端：sudo apt-get install openssh-server获取ip地址：ifconfig(如果提示没安装一些东西：sudo apt install net-tools)用mac控制linux：ssh jesse@192.168.0.108用windows控制：下载PuTTY手机控制：下载ssh应用控制后图形界面显示：  使用外网 Teamviewer  使用局域网 VNC(sudo apt-get install x11vnc)mac将文件推送到linux运行：ssh jesse@192.168.0.108 python3 &lt; t1.py(将t1.py推送到linux上运行)将文件复制到linux上：scp {a,b}.py jesse@192.168.0.108:~/Desktop/从linux云端保存到本地：scp jesse@192.168.0.108:~/Desktop/b.py c.py控制云端弹出窗口：ssh jesse@192.168.0.108 &quot;export DISPLAY:0; firefox&quot;</code></pre><h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><pre><code>清空命令行：clear下载软件：sudo apt-get install xxxxx （arch系列的linux不适用）</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Linux是一套免费使用和自由传播的类Unix操作系统，是一个基于POSIX和UNIX的多用户、多任务、支持多线程和多CPU的操作系统。它能运行主要的UNIX工具软件、应用程序和网络协议。它支持32位和64位硬件。Linux继承了Unix以网络为核心的设计思想，是一个性能稳定的多用户网络操作系统。&lt;br&gt;严格来讲，Linux这个词本身只表示Linux内核，但实际上人们已经习惯了用Linux来形容整个基于Linux内核，并且使用GNU 工程各种工具和数据库的操作系统。&lt;br&gt;开发者：Linus Torvalds（同时也是git的开发者）&lt;br&gt;&lt;figure class=&quot;image-bubble&quot;&gt;
+                &lt;div class=&quot;img-lightbox&quot;&gt;
+                    &lt;div class=&quot;overlay&quot;&gt;&lt;/div&gt;
+                    &lt;img src=&quot;https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1923395011,885347984&amp;fm=27&amp;gp=0.jpg&quot; alt=&quot;Linux吉祥物 Tux&quot; title=&quot;&quot;&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;image-caption&quot;&gt;Linux吉祥物 Tux&lt;/div&gt;
+            &lt;/figure&gt;&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="linux" scheme="https://rainoceantop.github.io/Jesse/categories/linux/"/>
+    
+      <category term="基础" scheme="https://rainoceantop.github.io/Jesse/categories/linux/%E5%9F%BA%E7%A1%80/"/>
+    
+    
+      <category term="linux" scheme="https://rainoceantop.github.io/Jesse/tags/linux/"/>
+    
+      <category term="linux基础" scheme="https://rainoceantop.github.io/Jesse/tags/linux%E5%9F%BA%E7%A1%80/"/>
+    
+      <category term="linux基本指令" scheme="https://rainoceantop.github.io/Jesse/tags/linux%E5%9F%BA%E6%9C%AC%E6%8C%87%E4%BB%A4/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>git的基本命令</title>
+    <link href="https://rainoceantop.github.io/Jesse/2018/06/05/git%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4/"/>
+    <id>https://rainoceantop.github.io/Jesse/2018/06/05/git的基本命令/</id>
+    <published>2018-06-04T21:02:42.000Z</published>
+    <updated>2018-06-04T22:42:42.448Z</updated>
+    
+    <content type="html"><![CDATA[<p>Git是一个开源的分布式版本控制系统，可以有效、高速的处理从很小到非常大的项目版本管理。 Git 是 Linus Torvalds 为了帮助管理 Linux 内核开发而开发的一个开放源码的版本控制软件。<br>开发者：Linus Torvalds（同时也是linux的开发者，<strong>他是神↓</strong>）</p><figure class="image-bubble">                <div class="img-lightbox">                    <div class="overlay"></div>                    <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1528156573582&di=3e846e62c187ef6710eb2e3e0545eb62&imgtype=jpg&src=http%3A%2F%2Fimg3.imgtn.bdimg.com%2Fit%2Fu%3D2475420643%2C1638975679%26fm%3D214%26gp%3D0.jpg" alt="Linus Torvalds" title="">                </div>                <div class="image-caption">Linus Torvalds</div>            </figure><a id="more"></a><h3 id="身份象征"><a href="#身份象征" class="headerlink" title="身份象征"></a>身份象征</h3><h4 id="确定身份象征-提交任何修改使用"><a href="#确定身份象征-提交任何修改使用" class="headerlink" title="确定身份象征(提交任何修改使用)"></a>确定身份象征(提交任何修改使用)</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name <span class="string">""</span></span><br><span class="line">git config --global user.email <span class="string">""</span></span><br></pre></td></tr></table></figure><h4 id="查看身份象征"><a href="#查看身份象征" class="headerlink" title="查看身份象征"></a>查看身份象征</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config user.name</span><br><span class="line">git config user.email</span><br></pre></td></tr></table></figure><h3 id="操作项目"><a href="#操作项目" class="headerlink" title="操作项目"></a>操作项目</h3><h4 id="确定管理项目"><a href="#确定管理项目" class="headerlink" title="确定管理项目"></a>确定管理项目</h4><p><code>cd进入到该项目目录</code></p><h4 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h4><p><code>git init</code></p><h4 id="查看管理库状态"><a href="#查看管理库状态" class="headerlink" title="查看管理库状态"></a>查看管理库状态</h4><blockquote><p>查看普通状态<br><code>git status</code><br>查看修改状态<br><code>git status -s</code></p></blockquote><h4 id="添加可提交修改（commited）文件（stage状态的文件）"><a href="#添加可提交修改（commited）文件（stage状态的文件）" class="headerlink" title="添加可提交修改（commited）文件（stage状态的文件）"></a>添加可提交修改（commited）文件（stage状态的文件）</h4><blockquote><p>提交单个文件<br><code>git add 1.py</code><br>提交所有文件<br><code>git add .</code><br>撤销提交的文件<br><code>git reset 1.py</code></p></blockquote><h4 id="提交文件"><a href="#提交文件" class="headerlink" title="提交文件"></a>提交文件</h4><blockquote><p>直接提交<br><code>git commit -m &quot;提交信息&quot;</code><br>直接提交并添加<br><code>git commit -am &quot;提交信息&quot;（已经管理库有的文件，新文件无法识别到）</code><br>提交文件至上次提交的分支<br><code>git commit --amend（上次分支） --no-edit（不修改-m信息）</code></p></blockquote><h4 id="打印git日志"><a href="#打印git日志" class="headerlink" title="打印git日志"></a>打印git日志</h4><blockquote><p>直接打印<br><code>git log</code><br>简洁打印<br><code>git log --oneline</code><br>简洁图形打印<br><code>git log --oneline --graph</code></p></blockquote><h4 id="查看修改信息"><a href="#查看修改信息" class="headerlink" title="查看修改信息"></a>查看修改信息</h4><blockquote><p>查看已修改未添加的修改信息<br><code>git diff</code><br>查看已添加的修改信息<br><code>git diff --cached</code><br>查看已添加再修改文件的修改信息<br><code>git diff HEAD</code></p></blockquote><h4 id="修改当前的头分支"><a href="#修改当前的头分支" class="headerlink" title="修改当前的头分支"></a>修改当前的头分支</h4><p><code>git reset --hard (分支id号或HEAD指针（HEAD@{0}）)</code></p><h4 id="重置单个文件的内容信息"><a href="#重置单个文件的内容信息" class="headerlink" title="重置单个文件的内容信息"></a>重置单个文件的内容信息</h4><p><code>git checkout 分支id号 -- 1.py</code></p><h4 id="暂存任务"><a href="#暂存任务" class="headerlink" title="暂存任务"></a>暂存任务</h4><blockquote><p>暂存当前任务<br><code>git stash</code><br>取出暂存任务<br><code>git stash pop</code></p></blockquote><h4 id="分支操作"><a href="#分支操作" class="headerlink" title="分支操作"></a>分支操作</h4><blockquote><p>创建分支<br><code>git branch dev 或者 git checkout -b dev(创建并切换到该分支)</code><br>查看分支<br><code>git branch</code><br>切换分支<br><code>git checkout dev</code><br>删除分支<br><code>git branch -d dev</code><br>合并分支<br><code>git merge --no-ff -m &quot;合并信息&quot; dev</code><br>合并分支<br><code>git rebase dev</code></p></blockquote><h4 id="git工作流程图"><a href="#git工作流程图" class="headerlink" title="git工作流程图"></a>git工作流程图</h4><figure class="image-bubble">                <div class="img-lightbox">                    <div class="overlay"></div>                    <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1526969275687&di=39008720c7a6be94f84e01fb027878ad&imgtype=jpg&src=http%3A%2F%2Fimg4.imgtn.bdimg.com%2Fit%2Fu%3D2476305079%2C1118351419%26fm%3D214%26gp%3D0.jpg" alt="git工作流程图" title="">                </div>                <div class="image-caption">git工作流程图</div>            </figure><h3 id="github"><a href="#github" class="headerlink" title="github"></a>github</h3><h4 id="建立远程连接"><a href="#建立远程连接" class="headerlink" title="建立远程连接"></a>建立远程连接</h4><p><code>git remote add origin xxxxxxxxxx.git</code></p><h4 id="从远程取分支的更新并与本地指定分支结合"><a href="#从远程取分支的更新并与本地指定分支结合" class="headerlink" title="从远程取分支的更新并与本地指定分支结合"></a>从远程取分支的更新并与本地指定分支结合</h4><p><code>git pull origin remotebranch:localbranch</code></p><h4 id="远程分支的更新与当前分支结合"><a href="#远程分支的更新与当前分支结合" class="headerlink" title="远程分支的更新与当前分支结合"></a>远程分支的更新与当前分支结合</h4><p><code>git pull origin remotebranch</code></p><h4 id="将本地分支上传到远程分支"><a href="#将本地分支上传到远程分支" class="headerlink" title="将本地分支上传到远程分支"></a>将本地分支上传到远程分支</h4><p><code>git push -u origin master</code></p><h4 id="将本地分支强制上传到远程分支"><a href="#将本地分支强制上传到远程分支" class="headerlink" title="将本地分支强制上传到远程分支"></a>将本地分支强制上传到远程分支</h4><p><code>git push -fu origin master（覆盖掉远程分支的所有文件）</code></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Git是一个开源的分布式版本控制系统，可以有效、高速的处理从很小到非常大的项目版本管理。 Git 是 Linus Torvalds 为了帮助管理 Linux 内核开发而开发的一个开放源码的版本控制软件。&lt;br&gt;开发者：Linus Torvalds（同时也是linux的开发者，&lt;strong&gt;他是神↓&lt;/strong&gt;）&lt;/p&gt;
+&lt;figure class=&quot;image-bubble&quot;&gt;
+                &lt;div class=&quot;img-lightbox&quot;&gt;
+                    &lt;div class=&quot;overlay&quot;&gt;&lt;/div&gt;
+                    &lt;img src=&quot;https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1528156573582&amp;di=3e846e62c187ef6710eb2e3e0545eb62&amp;imgtype=jpg&amp;src=http%3A%2F%2Fimg3.imgtn.bdimg.com%2Fit%2Fu%3D2475420643%2C1638975679%26fm%3D214%26gp%3D0.jpg&quot; alt=&quot;Linus Torvalds&quot; title=&quot;&quot;&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;image-caption&quot;&gt;Linus Torvalds&lt;/div&gt;
+            &lt;/figure&gt;
+    
+    </summary>
+    
+      <category term="git" scheme="https://rainoceantop.github.io/Jesse/categories/git/"/>
+    
+      <category term="基本命令" scheme="https://rainoceantop.github.io/Jesse/categories/git/%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4/"/>
+    
+    
+      <category term="git" scheme="https://rainoceantop.github.io/Jesse/tags/git/"/>
+    
+      <category term="git基本命令" scheme="https://rainoceantop.github.io/Jesse/tags/git%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4/"/>
+    
+      <category term="git基础" scheme="https://rainoceantop.github.io/Jesse/tags/git%E5%9F%BA%E7%A1%80/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Hello World</title>
+    <link href="https://rainoceantop.github.io/Jesse/2018/06/05/hello-world/"/>
+    <id>https://rainoceantop.github.io/Jesse/2018/06/05/hello-world/</id>
+    <published>2018-06-04T20:57:11.152Z</published>
+    <updated>2018-06-04T20:57:11.152Z</updated>
+    
+    <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure><a id="more"></a><p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a href=&quot;https://hexo.io/docs/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;documentation&lt;/a&gt; for more info. If you get any problems when using Hexo, you can find the answer in &lt;a href=&quot;https://hexo.io/docs/troubleshooting.html&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;troubleshooting&lt;/a&gt; or you can ask me on &lt;a href=&quot;https://github.com/hexojs/hexo/issues&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;GitHub&lt;/a&gt;.&lt;/p&gt;
+&lt;h2 id=&quot;Quick-Start&quot;&gt;&lt;a href=&quot;#Quick-Start&quot; class=&quot;headerlink&quot; title=&quot;Quick Start&quot;&gt;&lt;/a&gt;Quick Start&lt;/h2&gt;&lt;h3 id=&quot;Create-a-new-post&quot;&gt;&lt;a href=&quot;#Create-a-new-post&quot; class=&quot;headerlink&quot; title=&quot;Create a new post&quot;&gt;&lt;/a&gt;Create a new post&lt;/h3&gt;&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;$ hexo new &lt;span class=&quot;string&quot;&gt;&quot;My New Post&quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
     
     </summary>
     

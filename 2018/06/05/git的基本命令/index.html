@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Language" content="zh-cn">
+    <meta charset="utf-8">
+    
+    
+    
+    <title>git的基本命令 | Jesse | 个人博客</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    
+    <meta name="theme-color" content="#77AAFF">
+    
+    
+    <meta name="keywords" content="git,git基本命令,git基础">
+    
+    
+
+    
+
+    <!-- Baidu Push -->
+<script>
+	(function(){
+		var bp = document.createElement('script');
+		var curProtocol = window.location.protocol.split(':')[0];
+		if (curProtocol === 'https') {
+			bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+		}
+		else {
+			bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+		}
+		var s = document.getElementsByTagName("script")[0];
+		s.parentNode.insertBefore(bp, s);
+	})();
+
+	var _hmt = _hmt || [];
+</script>
+
+
+
+    
+    <meta name="description" content="Git是一个开源的分布式版本控制系统，可以有效、高速的处理从很小到非常大的项目版本管理。 Git 是 Linus Torvalds 为了帮助管理 Linux 内核开发而开发的一个开放源码的版本控制软件。开发者：Linus Torvalds（同时也是linux的开发者，他是神↓）">
+<meta name="keywords" content="git,git基本命令,git基础">
+<meta property="og:type" content="article">
+<meta property="og:title" content="git的基本命令">
+<meta property="og:url" content="https://rainoceantop.github.io/Jesse/2018/06/05/git的基本命令/index.html">
+<meta property="og:site_name" content="Jesse">
+<meta property="og:description" content="Git是一个开源的分布式版本控制系统，可以有效、高速的处理从很小到非常大的项目版本管理。 Git 是 Linus Torvalds 为了帮助管理 Linux 内核开发而开发的一个开放源码的版本控制软件。开发者：Linus Torvalds（同时也是linux的开发者，他是神↓）">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1528156573582&di=3e846e62c187ef6710eb2e3e0545eb62&imgtype=jpg&src=http%3A%2F%2Fimg3.imgtn.bdimg.com%2Fit%2Fu%3D2475420643%2C1638975679%26fm%3D214%26gp%3D0.jpg">
+<meta property="og:image" content="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1526969275687&di=39008720c7a6be94f84e01fb027878ad&imgtype=jpg&src=http%3A%2F%2Fimg4.imgtn.bdimg.com%2Fit%2Fu%3D2476305079%2C1118351419%26fm%3D214%26gp%3D0.jpg">
+<meta property="og:updated_time" content="2018-06-04T22:42:42.448Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="git的基本命令">
+<meta name="twitter:description" content="Git是一个开源的分布式版本控制系统，可以有效、高速的处理从很小到非常大的项目版本管理。 Git 是 Linus Torvalds 为了帮助管理 Linux 内核开发而开发的一个开放源码的版本控制软件。开发者：Linus Torvalds（同时也是linux的开发者，他是神↓）">
+<meta name="twitter:image" content="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1528156573582&di=3e846e62c187ef6710eb2e3e0545eb62&imgtype=jpg&src=http%3A%2F%2Fimg3.imgtn.bdimg.com%2Fit%2Fu%3D2475420643%2C1638975679%26fm%3D214%26gp%3D0.jpg">
+    
+        <link rel="alternate" type="application/atom+xml" title="Jesse" href="/Jesse/atom.xml">
+    
+    <link rel="shortcut icon" href="/Jesse/img/favicon.ico">
+    <link id="style" rel="stylesheet" href="/Jesse/css/style.css?v=3.0">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+            
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+    <aside id="menu"  class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" >
+      <div class="brand">
+        <a href="/Jesse/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/Jesse/img/avatar.jpg" alt="avatar">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname" id="name">Jesse</h5>
+          
+            <div id="mymotto" class="motto"></div>
+          
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+              <li class="waves-block waves-effect">
+                  <a href="/Jesse/"  >
+                    <i class="icon icon-lg icon-home"></i>
+                    <span>主 页</span><i class="icon icon-lg icon-caret-left"></i>
+                  </a>
+              </li>
+            
+              <li class="waves-block waves-effect">
+                  <a href="/Jesse/archives"  >
+                    <i class="icon icon-lg icon-archives"></i>
+                    <span>归 档</span><i class="icon icon-lg icon-caret-left"></i>
+                  </a>
+              </li>
+            
+              <li class="waves-block waves-effect">
+                  <a href="/Jesse/categories"  >
+                    <i class="icon icon-lg icon-th-list"></i>
+                    <span>分 类</span><i class="icon icon-lg icon-caret-left"></i>
+                  </a>
+              </li>
+            
+              <li class="waves-block waves-effect">
+                  <a href="/Jesse/tags"  >
+                    <i class="icon icon-lg icon-tags"></i>
+                    <span>标 签</span><i class="icon icon-lg icon-caret-left"></i>
+                  </a>
+              </li>
+            
+      <div class="nav2">
+          
+              <a class="nav2item" data-title="Email" href="mailto:2424457572@qq.com" target="_parent"title="Email" >
+                <i class="icon icon-lg icon-envelope-o envelope-o"></i>
+              </a>
+          
+              <a class="nav2item" data-title="Github" href="https://github.com/rainoceantop" target="_blank"title="Github" >
+                <i class="icon icon-lg icon-github github"></i>
+              </a>
+          
+              <a class="nav2item" data-title="微博" href="/Jesse/" target="_blank"title="微博" >
+                <i class="icon icon-lg icon-weibo weibo"></i>
+              </a>
+          
+
+            </div>
+        
+      </ul>
+        
+    </div>
+  </div>
+ 
+</aside>
+
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">git的基本命令</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        <a href="../../atom.xml" target="_blank" class="header-icon waves-effect waves-circle waves-light" id="Rss">
+            <i class="icon icon-lg icon-rss"></i>
+        </a>
+    </div>
+</header>
+<header class="content-header post-header">
+    
+    
+    <div class="container fade-scale">
+        <div id="myheader">
+            <h1 class="title">
+                
+            </h1>
+            <h5 class="subtitle">
+                
+                
+            </h5>
+        </div>
+    </div>
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#身份象征"><span class="post-toc-number">1.</span> <span class="post-toc-text">身份象征</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#确定身份象征-提交任何修改使用"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">确定身份象征(提交任何修改使用)</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#查看身份象征"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">查看身份象征</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#操作项目"><span class="post-toc-number">2.</span> <span class="post-toc-text">操作项目</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#确定管理项目"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">确定管理项目</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#初始化"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">初始化</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#查看管理库状态"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">查看管理库状态</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#添加可提交修改（commited）文件（stage状态的文件）"><span class="post-toc-number">2.4.</span> <span class="post-toc-text">添加可提交修改（commited）文件（stage状态的文件）</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#提交文件"><span class="post-toc-number">2.5.</span> <span class="post-toc-text">提交文件</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#打印git日志"><span class="post-toc-number">2.6.</span> <span class="post-toc-text">打印git日志</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#查看修改信息"><span class="post-toc-number">2.7.</span> <span class="post-toc-text">查看修改信息</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#修改当前的头分支"><span class="post-toc-number">2.8.</span> <span class="post-toc-text">修改当前的头分支</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#重置单个文件的内容信息"><span class="post-toc-number">2.9.</span> <span class="post-toc-text">重置单个文件的内容信息</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#暂存任务"><span class="post-toc-number">2.10.</span> <span class="post-toc-text">暂存任务</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#分支操作"><span class="post-toc-number">2.11.</span> <span class="post-toc-text">分支操作</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#git工作流程图"><span class="post-toc-number">2.12.</span> <span class="post-toc-text">git工作流程图</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#github"><span class="post-toc-number">3.</span> <span class="post-toc-text">github</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#建立远程连接"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">建立远程连接</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#从远程取分支的更新并与本地指定分支结合"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">从远程取分支的更新并与本地指定分支结合</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#远程分支的更新与当前分支结合"><span class="post-toc-number">3.3.</span> <span class="post-toc-text">远程分支的更新与当前分支结合</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#将本地分支上传到远程分支"><span class="post-toc-number">3.4.</span> <span class="post-toc-text">将本地分支上传到远程分支</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#将本地分支强制上传到远程分支"><span class="post-toc-number">3.5.</span> <span class="post-toc-text">将本地分支强制上传到远程分支</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+   
+<article id="post-git的基本命令"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">git的基本命令</h1>
+        <div class="post-meta">
+            <i class="icon icon-lg icon-calendar-o"></i>
+            发表于
+            <time class="post-time" title="2018-06-05 05:02:42" datetime="2018-06-04T21:02:42.000Z"  itemprop="datePublished">2018-06-05</time>
+
+            <br id="mybreak"/>
+            
+	<i class="icon icon-lg icon-folder-o"></i>
+	分类：<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/Jesse/categories/git/">git</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/Jesse/categories/git/基本命令/">基本命令</a></li></ul></li></ul>
+
+
+            <i>·</i>
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>次浏览
+</span>
+
+
+        </div>
+        <div class="post-count-custom">
+            <i class="icon icon-lg icon-comment-o"></i>
+            阅读本文可能花费您&nbsp;<span class="post-count">3</span>&nbsp;分钟
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>Git是一个开源的分布式版本控制系统，可以有效、高速的处理从很小到非常大的项目版本管理。 Git 是 Linus Torvalds 为了帮助管理 Linux 内核开发而开发的一个开放源码的版本控制软件。<br>开发者：Linus Torvalds（同时也是linux的开发者，<strong>他是神↓</strong>）</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1528156573582&di=3e846e62c187ef6710eb2e3e0545eb62&imgtype=jpg&src=http%3A%2F%2Fimg3.imgtn.bdimg.com%2Fit%2Fu%3D2475420643%2C1638975679%26fm%3D214%26gp%3D0.jpg" alt="Linus Torvalds" title="">
+                </div>
+                <div class="image-caption">Linus Torvalds</div>
+            </figure>
+<a id="more"></a>
+<h3 id="身份象征"><a href="#身份象征" class="headerlink" title="身份象征"></a>身份象征</h3><h4 id="确定身份象征-提交任何修改使用"><a href="#确定身份象征-提交任何修改使用" class="headerlink" title="确定身份象征(提交任何修改使用)"></a>确定身份象征(提交任何修改使用)</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name <span class="string">""</span></span><br><span class="line">git config --global user.email <span class="string">""</span></span><br></pre></td></tr></table></figure>
+<h4 id="查看身份象征"><a href="#查看身份象征" class="headerlink" title="查看身份象征"></a>查看身份象征</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config user.name</span><br><span class="line">git config user.email</span><br></pre></td></tr></table></figure>
+<h3 id="操作项目"><a href="#操作项目" class="headerlink" title="操作项目"></a>操作项目</h3><h4 id="确定管理项目"><a href="#确定管理项目" class="headerlink" title="确定管理项目"></a>确定管理项目</h4><p><code>cd进入到该项目目录</code></p>
+<h4 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h4><p><code>git init</code></p>
+<h4 id="查看管理库状态"><a href="#查看管理库状态" class="headerlink" title="查看管理库状态"></a>查看管理库状态</h4><blockquote>
+<p>查看普通状态<br><code>git status</code><br>查看修改状态<br><code>git status -s</code></p>
+</blockquote>
+<h4 id="添加可提交修改（commited）文件（stage状态的文件）"><a href="#添加可提交修改（commited）文件（stage状态的文件）" class="headerlink" title="添加可提交修改（commited）文件（stage状态的文件）"></a>添加可提交修改（commited）文件（stage状态的文件）</h4><blockquote>
+<p>提交单个文件<br><code>git add 1.py</code><br>提交所有文件<br><code>git add .</code><br>撤销提交的文件<br><code>git reset 1.py</code></p>
+</blockquote>
+<h4 id="提交文件"><a href="#提交文件" class="headerlink" title="提交文件"></a>提交文件</h4><blockquote>
+<p>直接提交<br><code>git commit -m &quot;提交信息&quot;</code><br>直接提交并添加<br><code>git commit -am &quot;提交信息&quot;（已经管理库有的文件，新文件无法识别到）</code><br>提交文件至上次提交的分支<br><code>git commit --amend（上次分支） --no-edit（不修改-m信息）</code></p>
+</blockquote>
+<h4 id="打印git日志"><a href="#打印git日志" class="headerlink" title="打印git日志"></a>打印git日志</h4><blockquote>
+<p>直接打印<br><code>git log</code><br>简洁打印<br><code>git log --oneline</code><br>简洁图形打印<br><code>git log --oneline --graph</code></p>
+</blockquote>
+<h4 id="查看修改信息"><a href="#查看修改信息" class="headerlink" title="查看修改信息"></a>查看修改信息</h4><blockquote>
+<p>查看已修改未添加的修改信息<br><code>git diff</code><br>查看已添加的修改信息<br><code>git diff --cached</code><br>查看已添加再修改文件的修改信息<br><code>git diff HEAD</code></p>
+</blockquote>
+<h4 id="修改当前的头分支"><a href="#修改当前的头分支" class="headerlink" title="修改当前的头分支"></a>修改当前的头分支</h4><p><code>git reset --hard (分支id号或HEAD指针（HEAD@{0}）)</code></p>
+<h4 id="重置单个文件的内容信息"><a href="#重置单个文件的内容信息" class="headerlink" title="重置单个文件的内容信息"></a>重置单个文件的内容信息</h4><p><code>git checkout 分支id号 -- 1.py</code></p>
+<h4 id="暂存任务"><a href="#暂存任务" class="headerlink" title="暂存任务"></a>暂存任务</h4><blockquote>
+<p>暂存当前任务<br><code>git stash</code><br>取出暂存任务<br><code>git stash pop</code></p>
+</blockquote>
+<h4 id="分支操作"><a href="#分支操作" class="headerlink" title="分支操作"></a>分支操作</h4><blockquote>
+<p>创建分支<br><code>git branch dev 或者 git checkout -b dev(创建并切换到该分支)</code><br>查看分支<br><code>git branch</code><br>切换分支<br><code>git checkout dev</code><br>删除分支<br><code>git branch -d dev</code><br>合并分支<br><code>git merge --no-ff -m &quot;合并信息&quot; dev</code><br>合并分支<br><code>git rebase dev</code></p>
+</blockquote>
+<h4 id="git工作流程图"><a href="#git工作流程图" class="headerlink" title="git工作流程图"></a>git工作流程图</h4><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1526969275687&di=39008720c7a6be94f84e01fb027878ad&imgtype=jpg&src=http%3A%2F%2Fimg4.imgtn.bdimg.com%2Fit%2Fu%3D2476305079%2C1118351419%26fm%3D214%26gp%3D0.jpg" alt="git工作流程图" title="">
+                </div>
+                <div class="image-caption">git工作流程图</div>
+            </figure>
+<h3 id="github"><a href="#github" class="headerlink" title="github"></a>github</h3><h4 id="建立远程连接"><a href="#建立远程连接" class="headerlink" title="建立远程连接"></a>建立远程连接</h4><p><code>git remote add origin xxxxxxxxxx.git</code></p>
+<h4 id="从远程取分支的更新并与本地指定分支结合"><a href="#从远程取分支的更新并与本地指定分支结合" class="headerlink" title="从远程取分支的更新并与本地指定分支结合"></a>从远程取分支的更新并与本地指定分支结合</h4><p><code>git pull origin remotebranch:localbranch</code></p>
+<h4 id="远程分支的更新与当前分支结合"><a href="#远程分支的更新与当前分支结合" class="headerlink" title="远程分支的更新与当前分支结合"></a>远程分支的更新与当前分支结合</h4><p><code>git pull origin remotebranch</code></p>
+<h4 id="将本地分支上传到远程分支"><a href="#将本地分支上传到远程分支" class="headerlink" title="将本地分支上传到远程分支"></a>将本地分支上传到远程分支</h4><p><code>git push -u origin master</code></p>
+<h4 id="将本地分支强制上传到远程分支"><a href="#将本地分支强制上传到远程分支" class="headerlink" title="将本地分支强制上传到远程分支"></a>将本地分支强制上传到远程分支</h4><p><code>git push -fu origin master（覆盖掉远程分支的所有文件）</code></p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    <div class="content">
+        
+<span class="post-time">
+    最后更新：<time datetime="2018-06-04T22:42:42.448Z" itemprop="dateUpdated">2018-06-05 06:42:42</time>
+</span>
+
+
+        
+        原文链接：<a href="/Jesse/2018/06/05/git的基本命令/" target="_blank" rel="external">https://rainoceantop.github.io/Jesse/2018/06/05/git的基本命令/</a>
+        
+    </div>
+    <footer>
+        <div onclick="location.href='https://rainoceantop.github.io/Jesse'">
+            <img src="/Jesse/img/avatar.jpg" alt="Jesse">
+            <a>Jesse</a>
+        </div>
+    </footer>
+</blockquote>
+
+        
+    <div class="page-reward">
+        <nav class="myreward">
+            <a id="rewardBtn" href="javascript:;"><span>打&nbsp;赏</span><span>装成好像很多人打赏的样子</span></a>
+        </nav>
+    </div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/Jesse/tags/git/">git</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/Jesse/tags/git基本命令/">git基本命令</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/Jesse/tags/git基础/">git基础</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://rainoceantop.github.io/Jesse/2018/06/05/git的基本命令/&title=《git的基本命令》 — Jesse&pic=https://rainoceantop.github.io/Jesse/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://rainoceantop.github.io/Jesse/2018/06/05/git的基本命令/&title=《git的基本命令》 — Jesse&source=Git是一个开源的分布式版本控制系统，可以有效、高速的处理从很小到非常大的项目版本管理。 Git 是 Linus Torvalds 为了帮助管理 Linu..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://rainoceantop.github.io/Jesse/2018/06/05/git的基本命令/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《git的基本命令》 — Jesse&url=https://rainoceantop.github.io/Jesse/2018/06/05/git的基本命令/&via=https://rainoceantop.github.io/Jesse" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://rainoceantop.github.io/Jesse/2018/06/05/git的基本命令/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/Jesse/2018/06/05/linux基础/" id="post-prev" class="post-nav-link">
+        <h4 class="title" >
+          上一篇：linux基础
+        </h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/Jesse/2018/06/05/hello-world/" id="post-next" class="post-nav-link">
+        <h4 class="title" data-hover="下一篇：Hello World">下一篇：Hello World</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+    
+
+    
+
+    
+
+
+</article>
+
+</div>
+
+        <footer class="footer">
+    <div class="footer-content">
+        <span class="power">
+            <i class="icon icon-lg icon-copyright"></i>
+            2018
+            <i class="icon icon-lg icon-heart"></i>
+            <a href="https://rainoceantop.github.io/Jesse">jesse</a>
+            <br/>
+            Power by
+            <a href="https://hexo.io/" target="_blank" rel="external nofollow">Hexo</a>&nbsp;·&nbsp;
+            Theme
+            <a class="tomotoeslink" href="https://github.com/tomotoes/hexo-theme-tomotoes/" target="_blank" rel="external nofollow">tomotoes</a>
+        </span>
+
+        <br/>
+
+        <span id="RunTime" style="color:#a7a7a2;"></span>
+        <br/>
+
+        <span>
+            
+
+        </span>
+        <br/>
+
+        <!--<span class="license"><a  target="_blank" rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">博客内容遵循 知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>-->
+    </div>
+</footer>
+
+    </main>
+    
+        
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        <span>感谢您的鼓励支持！</span>
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" data-img="/Jesse/img/thankyou.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/Jesse/img/wechatpay.png" data-alipay="/Jesse/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechatPay">&nbsp;&nbsp;微信&nbsp;&nbsp;</span>
+                <span class="reward-toggle-item alipayPay">支付宝</span>
+            </div>
+        </label>
+        
+        <i class="icon icon-caret-up"></i>
+    </div>
+</div>
+
+
+    
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://rainoceantop.github.io/Jesse/2018/06/05/git的基本命令/&title=《git的基本命令》 — Jesse&pic=https://rainoceantop.github.io/Jesse/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://rainoceantop.github.io/Jesse/2018/06/05/git的基本命令/&title=《git的基本命令》 — Jesse&source=Git是一个开源的分布式版本控制系统，可以有效、高速的处理从很小到非常大的项目版本管理。 Git 是 Linus Torvalds 为了帮助管理 Linu..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://rainoceantop.github.io/Jesse/2018/06/05/git的基本命令/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《git的基本命令》 — Jesse&url=https://rainoceantop.github.io/Jesse/2018/06/05/git的基本命令/&via=https://rainoceantop.github.io/Jesse" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://rainoceantop.github.io/Jesse/2018/06/05/git的基本命令/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p class="wechatshare">扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACxUlEQVR42u3aQW7cMBAEQP//0wkQ5BLEK3fPkOsEKJ2MtSSydBBHPfz4iI8fv47n//59zvPv+bWvzjl24OHh4Y2m/ny7ZJhk+Od7Pt85ufaTO+Dh4eFd47VTeXVOC36+TzLuFyPi4eHhfStvU8fmtW77CPDw8PD+R97zFDelMx4eHt6/zEvCiLz8zWPc51/yUvtA1oKHh4cX8/Zhwfv/vtjfw8PDw1t01W/sSmjL9Nk8f1+Lh4eHd4G3aTK1w7flchJPREEGHh4e3lHecyiQb73Kg4Pkee8bZn+se3h4eHgXeG1jqY1lk0ViFu8WXwx4eHh4h3jtLWapaV5M5xu2ig0EeHh4eG/h7UPY/bat/BEUk8bDw8O7xsu3Yc1K5OSe7YJxoKTGw8PDG1WqSRTbbopqG1qbIvuLRQgPDw/vEC9vZeXbCDYbBdqZfAHGw8PDO8orPukXV82K8nxr17GJ4uHh4ZU55z6AmMUKbXxcLyF4eHh4F3j7l/IsntgX1vWDw8PDwzvEa8vWuqgdld35cjWMcfHw8PAWvBaWN6va4ngf4L4cHQ8PD+8QbxZAJIV1El7kJfgsCsHDw8O7x5ttAsgfRPKY2sUjin3x8PDwrvFmzap9DDELfIsyHQ8PD+8CbzaVtp3f/p6X1MceOh4eHt6Ct4lZZwPnhXtb7uPh4eHd4M1e3G3EkMQTbUGfLEh4eHh47+ElK0nysj413VnLrdjFgIeHh7f4Ws+pZ8PcPMjYxMF4eHh4p3g/yqOF7YvvTVmPh4eHd4O3f3G3i0fe4pqFGnh4eHjv4eUNp1Mt//a/ean9ye94eHh413j5R37bsmofzWoFe7Uw4OHh4X0Tb7MtYPaunrXKPjaD4eHh4b2R124+yMdKNhO8PB8PDw/vGi8PI/YN/uTlnoOLnWV4eHh4h3j1530Zv242HGzmgIeHh3eB9xNyU88U2xYAWwAAAABJRU5ErkJggg==" alt="微信分享二维码">
+</div>
+
+
+
+
+    <!-- waves按钮特效 -->
+<script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+
+<!-- 主题配置脚本 -->
+<script>
+var BLOG = { ROOT: '/Jesse/', SHARE: true, REWARD: true };
+</script>
+
+<!-- jquery -->
+<script src="/Jesse/js/jquery.min.js?v=3.0"></script>
+
+<!-- 搜索 -->
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item waves-block waves-effect" onclick="location.href='{path}'">
+    <div class="title ellipsis" title="{title}">{title}</div>
+</li>
+</template>
+
+
+<!-- main博客脚本 -->
+<script src="/Jesse/js/main.min.js?v=3.0" ></script>
+
+<!-- 动画&配置 -->
+<script src="/Jesse/js/script.min.js?v=3.0" ></script>
+
+<!-- 脚本管理 -->
+<script>
+
+if(window.innerWidth > 800){
+	/* 3D标题 */
+	$(".content-header").on("mousemove", threedee);
+
+	/* 底部追随鼠标 */
+	$(".footer").hover(2);
+
+	/* gotop键的涟漪 */
+	$("#gotop").hover(1);
+
+	/* 赞赏的粒子雨 */
+	$("#reward").hover(3);
+
+	/* 微信公众号的底部渲染 */
+	$("#wechat").hover(4);
+
+    /* 标题跳动 */
+    $(".archivestitle").bumpyText();
+
+	/* 图片点击放大 */
+	const postimg = jQuery(".post-content img:not(.github-emoji)");
+	postimg.on("click",function(){
+
+		mask.classList.add("in");
+		main.classList.add("Mask");
+		menu.classList.add("Mask");
+		var myimg = this.cloneNode(true);
+		myimg.classList.add("imgShow");
+
+		setTimeout(function(){
+			jQuery(myimg).animate({
+				opacity:"1"
+			},1000);
+		},0);
+
+		document.body.appendChild(myimg);
+
+		myimg.onclick=function(){
+			document.body.removeChild(myimg);
+			mask.classList.remove("in");
+			main.classList.remove("Mask");
+			menu.classList.remove("Mask");
+		};
+
+	});
+
+}
+
+/* 名字跳动 */
+$("#name").bumpyText();
+
+
+/* 网站运行时间 */
+setInterval(function () {
+	setTime("2018/06/04");
+}, 1000);
+
+/* 文章块的淡出 */
+postshow();
+
+/* 座右铭 */
+
+    elasticText({
+        id: "mymotto",
+        duration: 100,
+        effact: "easeOut",
+        content: "那时候没有伤,不会哭泣"
+    });
+
+
+
+/* 粘贴提示 */
+G($(".post-content"), location.href, "Jesse");
+
+
+/* 控制台 */
+if (window.console && window.console.log) {
+	setTimeout(function () {
+		console.log("\n %c 一个坏掉的番茄 %c  © Simon Ma  http://tomotoes.com \n\n", "color:#FFFFFB;background:#1abc9c;padding:5px 0;border-radius:.5rem 0 0 .5rem;", "color:#FFFFFB;background:#080808;padding:5px 0;border-radius:0 .5rem .5rem 0;");
+	}, 0);
+}
+
+</script>
+
+
+
+
+<!-- 公式渲染 -->
+
+
+
+<!-- 不蒜子 -->
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+
+
+</body>
+</html>

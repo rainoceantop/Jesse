@@ -6,7 +6,7 @@
     
     
     
-    <title>Jesse | 个人博客</title>
+    <title>分类: 基础 | Jesse | 个人博客</title>
     <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
     
     <meta name="theme-color" content="#77AAFF">
@@ -42,7 +42,7 @@
     <meta name="description" content="通过这个博客来记录学习笔记以及一些学习上遇到的问题">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Jesse">
-<meta property="og:url" content="https://rainoceantop.github.io/Jesse/index.html">
+<meta property="og:url" content="https://rainoceantop.github.io/Jesse/categories/linux/基础/index.html">
 <meta property="og:site_name" content="Jesse">
 <meta property="og:description" content="通过这个博客来记录学习笔记以及一些学习上遇到的问题">
 <meta property="og:locale" content="zh-CN">
@@ -84,7 +84,7 @@
     <div class="scroll-wrap flex-col">
       <ul class="nav">
         
-              <li class="waves-block waves-effect active">
+              <li class="waves-block waves-effect">
                   <a href="/Jesse/"  >
                     <i class="icon icon-lg icon-home"></i>
                     <span>主 页</span><i class="icon icon-lg icon-caret-left"></i>
@@ -98,7 +98,7 @@
                   </a>
               </li>
             
-              <li class="waves-block waves-effect">
+              <li class="waves-block waves-effect active">
                   <a href="/Jesse/categories"  >
                     <i class="icon icon-lg icon-th-list"></i>
                     <span>分 类</span><i class="icon icon-lg icon-caret-left"></i>
@@ -143,7 +143,7 @@
         <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
           <i class="icon icon-lg icon-navicon"></i>
         </a>
-        <div class="flex-col header-title ellipsis">Jesse</div>
+        <div class="flex-col header-title ellipsis">分类: 基础</div>
         
         <div class="search-wrap" id="search-wrap">
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
@@ -160,19 +160,29 @@
         </a>
     </div>
 </header>
-<header class="content-header index-header">
+<header class="content-header categories-header">
     
     
     <div class="container fade-scale">
         <div id="myheader">
             <h1 class="title">
-                 
-                    Jesse
                 
             </h1>
             <h5 class="subtitle">
                 
-                    坠落的雨点让这个孤单的城市变得热闹非凡
+                    <h1 id="pagetitle" class="archivestitle"></h1>
+                    <script>
+                        if(location.href.indexOf('about')!=-1){
+                            pagetitle.textContent = '一个坏掉的番茄';
+                        }else if(location.href.indexOf('tags')!=-1||location.href.indexOf('categories')!=-1){
+                            var a=location.href.substring(location.href.length-5,location.href.length-1);
+                            if(a==='tags'){
+                                pagetitle.textContent = '雪融';
+                            }else if(a==='ries'){
+                                pagetitle.textContent = '雪停';
+                            }
+                        }
+                    </script>
                 
             </h5>
         </div>
@@ -180,64 +190,28 @@
 
 </header>
 
-<div class="container body-wrap">
-    <ul class="post-list">
+<div class="container body-wrap fade">
     
-        <li class="post-list-item fade">
-            <article id="post-manjaro基本设置"
-  class="article-card article-type-post" itemprop="blogPost">
-
-    
-
-
-  
-    <h3 class="post-title" itemprop="name">
-      <a href="/Jesse/2018/06/05/manjaro基本设置/">manjaro基本设置</a>
-    </h3>
-  
-
-
-
-
-     <div class="post-meta">
-        <time class="post-time" title="2018-06-05 07:11:33" datetime="2018-06-04T23:11:33.000Z"  itemprop="datePublished">2018-06-05</time>
-
-    </div>
-
-    <div class="post-content" id="post-content" itemprop="postContent">
-
-    
-        <p>Manjaro是一款基于Arch Linux、对用户友好、全球排名第1的Linux发行版。详情参见<a href="https://distrowatch.com/dwres.php?resource=popularity" target="_blank" rel="noopener">distrowatch</a><br>这篇文章主要是将manjaro刚安装完需要设置的东西罗列出来，一切都是为了在使用中尽量减少碰见的问题<br>附上manjaro的相关链接：<br><a href="https://www.manjaro.cn/" target="_blank" rel="noopener">manjaro中文网</a><br><a href="http://manjaro.github.io/" target="_blank" rel="noopener">manjaro官方网站</a><br><a href="https://zhuanlan.zhihu.com/p/35663653" target="_blank" rel="noopener">manjaro安装参考</a></p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=3223425153,1628165458&fm=27&gp=0.jpg" alt="" title="">
-                </div>
-                <div class="image-caption"></div>
-            </figure>
-    
-        <div>
-            <a href="/Jesse/2018/06/05/manjaro基本设置/" class="post-more waves-button">
-                阅读全文 »
-            </a>
-        </div>
-    </div>
-    
-    <div class="post-footer">
         
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/Jesse/tags/archlinux/">archlinux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/Jesse/tags/linux/">linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/Jesse/tags/manjaro/">manjaro</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/Jesse/tags/manjaro基本设置/">manjaro基本设置</a></li></ul>
-
+        
+        <h5 class="tag-tip">
+            <i class="icon icon-tag"></i>
+            关于
+            <span style="color:rgb(100, 100, 100)">基础</span>
+            共&nbsp;1&nbsp;篇文章</h5>
+        <div class="waterfall">
+            
+                <article class="archive-article" onclick="location.href='/Jesse/2018/06/05/linux基础/'">
+    <div class="archive-article-date">
+      
+      <time class="my-post-time">
+        <i class="icon icon-lg icon-file-text-o"></i>
+        &nbsp;
+          2018-06-05
+      </time>
     </div>
-    
-</article>
-
-        </li>
-    
-        <li class="post-list-item fade">
-            <article id="post-linux基础"
-  class="article-card article-type-post" itemprop="blogPost">
-
-    
+    <div class="archive-article-inner">
+      
 
 
   
@@ -248,133 +222,17 @@
 
 
 
-
-     <div class="post-meta">
-        <time class="post-time" title="2018-06-05 05:59:02" datetime="2018-06-04T21:59:02.000Z"  itemprop="datePublished">2018-06-05</time>
-
-    </div>
-
-    <div class="post-content" id="post-content" itemprop="postContent">
-
-    
-        <p>Linux是一套免费使用和自由传播的类Unix操作系统，是一个基于POSIX和UNIX的多用户、多任务、支持多线程和多CPU的操作系统。它能运行主要的UNIX工具软件、应用程序和网络协议。它支持32位和64位硬件。Linux继承了Unix以网络为核心的设计思想，是一个性能稳定的多用户网络操作系统。<br>严格来讲，Linux这个词本身只表示Linux内核，但实际上人们已经习惯了用Linux来形容整个基于Linux内核，并且使用GNU 工程各种工具和数据库的操作系统。<br>开发者：Linus Torvalds（同时也是git的开发者）<br><figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1923395011,885347984&fm=27&gp=0.jpg" alt="Linux吉祥物 Tux" title="">
-                </div>
-                <div class="image-caption">Linux吉祥物 Tux</div>
-            </figure></p>
-    
-        <div>
-            <a href="/Jesse/2018/06/05/linux基础/" class="post-more waves-button">
-                阅读全文 »
-            </a>
-        </div>
-    </div>
-    
-    <div class="post-footer">
-        
+      
 	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/Jesse/tags/linux/">linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/Jesse/tags/linux基本指令/">linux基本指令</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/Jesse/tags/linux基础/">linux基础</a></li></ul>
 
     </div>
-    
-</article>
-
-        </li>
-    
-        <li class="post-list-item fade">
-            <article id="post-git的基本命令"
-  class="article-card article-type-post" itemprop="blogPost">
-
-    
-
-
-  
-    <h3 class="post-title" itemprop="name">
-      <a href="/Jesse/2018/06/05/git的基本命令/">git的基本命令</a>
-    </h3>
-  
-
-
-
-
-     <div class="post-meta">
-        <time class="post-time" title="2018-06-05 05:02:42" datetime="2018-06-04T21:02:42.000Z"  itemprop="datePublished">2018-06-05</time>
-
-    </div>
-
-    <div class="post-content" id="post-content" itemprop="postContent">
-
-    
-        <p>Git是一个开源的分布式版本控制系统，可以有效、高速的处理从很小到非常大的项目版本管理。 Git 是 Linus Torvalds 为了帮助管理 Linux 内核开发而开发的一个开放源码的版本控制软件。<br>开发者：Linus Torvalds（同时也是linux的开发者，<strong>他是神↓</strong>）</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1528156573582&di=3e846e62c187ef6710eb2e3e0545eb62&imgtype=jpg&src=http%3A%2F%2Fimg3.imgtn.bdimg.com%2Fit%2Fu%3D2475420643%2C1638975679%26fm%3D214%26gp%3D0.jpg" alt="Linus Torvalds" title="">
-                </div>
-                <div class="image-caption">Linus Torvalds</div>
-            </figure>
-    
-        <div>
-            <a href="/Jesse/2018/06/05/git的基本命令/" class="post-more waves-button">
-                阅读全文 »
-            </a>
+  </article>
+            
         </div>
-    </div>
-    
-    <div class="post-footer">
-        
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/Jesse/tags/git/">git</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/Jesse/tags/git基本命令/">git基本命令</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/Jesse/tags/git基础/">git基础</a></li></ul>
-
-    </div>
-    
-</article>
-
-        </li>
-    
-        <li class="post-list-item fade">
-            <article id="post-hello-world"
-  class="article-card article-type-post" itemprop="blogPost">
-
-    
-
-
-  
-    <h3 class="post-title" itemprop="name">
-      <a href="/Jesse/2018/06/05/hello-world/">Hello World</a>
-    </h3>
-  
-
-
-
-
-     <div class="post-meta">
-        <time class="post-time" title="2018-06-05 04:57:11" datetime="2018-06-04T20:57:11.152Z"  itemprop="datePublished">2018-06-05</time>
-
-    </div>
-
-    <div class="post-content" id="post-content" itemprop="postContent">
-
-    
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-    
-        <div>
-            <a href="/Jesse/2018/06/05/hello-world/" class="post-more waves-button">
-                阅读全文 »
-            </a>
-        </div>
-    </div>
-    
-</article>
-
-        </li>
-    
-    </ul>
-
     
 
 </div>
+
 
         <footer class="footer">
     <div class="footer-content">
