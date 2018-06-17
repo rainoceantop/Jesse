@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Language" content="zh-cn">
+    <meta charset="utf-8">
+    
+    
+    
+    <title>linux下php集成环境配置 | Jesse | 个人博客</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    
+    <meta name="theme-color" content="#77AAFF">
+    
+    
+    <meta name="keywords" content="linux,php,php集成环境配置">
+    
+    
+
+    
+
+    <!-- Baidu Push -->
+<script>
+	(function(){
+		var bp = document.createElement('script');
+		var curProtocol = window.location.protocol.split(':')[0];
+		if (curProtocol === 'https') {
+			bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+		}
+		else {
+			bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+		}
+		var s = document.getElementsByTagName("script")[0];
+		s.parentNode.insertBefore(bp, s);
+	})();
+
+	var _hmt = _hmt || [];
+</script>
+
+
+
+    
+    <meta name="description" content="本文主要讲解linux下配置php集成环境。主要有以下内容：  xampp的下载以及安装 apache以及mysql的启动与停止 修改配置文件">
+<meta name="keywords" content="linux,php,php集成环境配置">
+<meta property="og:type" content="article">
+<meta property="og:title" content="linux下php集成环境配置">
+<meta property="og:url" content="https://rainoceantop.github.io/Jesse/2018/06/18/linux下php集成环境配置/index.html">
+<meta property="og:site_name" content="Jesse">
+<meta property="og:description" content="本文主要讲解linux下配置php集成环境。主要有以下内容：  xampp的下载以及安装 apache以及mysql的启动与停止 修改配置文件">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://rainoceantop.github.io/Jesse/2018/06/18/linux下php集成环境配置/xampp_panel.png">
+<meta property="og:updated_time" content="2018-06-17T23:54:17.442Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="linux下php集成环境配置">
+<meta name="twitter:description" content="本文主要讲解linux下配置php集成环境。主要有以下内容：  xampp的下载以及安装 apache以及mysql的启动与停止 修改配置文件">
+<meta name="twitter:image" content="https://rainoceantop.github.io/Jesse/2018/06/18/linux下php集成环境配置/xampp_panel.png">
+    
+        <link rel="alternate" type="application/atom+xml" title="Jesse" href="/Jesse/atom.xml">
+    
+    <link rel="shortcut icon" href="/Jesse/img/favicon.ico">
+    <link id="style" rel="stylesheet" href="/Jesse/css/style.css?v=3.0">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+            
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+    <aside id="menu"  class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" >
+      <div class="brand">
+        <a href="/Jesse/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/Jesse/img/avatar.jpg" alt="avatar">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname" id="name">Jesse</h5>
+          
+            <div id="mymotto" class="motto"></div>
+          
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+              <li class="waves-block waves-effect">
+                  <a href="/Jesse/"  >
+                    <i class="icon icon-lg icon-home"></i>
+                    <span>主 页</span><i class="icon icon-lg icon-caret-left"></i>
+                  </a>
+              </li>
+            
+              <li class="waves-block waves-effect">
+                  <a href="/Jesse/archives"  >
+                    <i class="icon icon-lg icon-archives"></i>
+                    <span>归 档</span><i class="icon icon-lg icon-caret-left"></i>
+                  </a>
+              </li>
+            
+              <li class="waves-block waves-effect">
+                  <a href="/Jesse/categories"  >
+                    <i class="icon icon-lg icon-th-list"></i>
+                    <span>分 类</span><i class="icon icon-lg icon-caret-left"></i>
+                  </a>
+              </li>
+            
+              <li class="waves-block waves-effect">
+                  <a href="/Jesse/tags"  >
+                    <i class="icon icon-lg icon-tags"></i>
+                    <span>标 签</span><i class="icon icon-lg icon-caret-left"></i>
+                  </a>
+              </li>
+            
+      <div class="nav2">
+          
+              <a class="nav2item" data-title="Email" href="mailto:2424457572@qq.com" target="_parent"title="Email" >
+                <i class="icon icon-lg icon-envelope-o envelope-o"></i>
+              </a>
+          
+              <a class="nav2item" data-title="Github" href="https://github.com/rainoceantop" target="_blank"title="Github" >
+                <i class="icon icon-lg icon-github github"></i>
+              </a>
+          
+              <a class="nav2item" data-title="微博" href="/Jesse/" target="_blank"title="微博" >
+                <i class="icon icon-lg icon-weibo weibo"></i>
+              </a>
+          
+
+            </div>
+        
+      </ul>
+        
+    </div>
+  </div>
+ 
+</aside>
+
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">linux下php集成环境配置</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        <a href="../../atom.xml" target="_blank" class="header-icon waves-effect waves-circle waves-light" id="Rss">
+            <i class="icon icon-lg icon-rss"></i>
+        </a>
+    </div>
+</header>
+<header class="content-header post-header">
+    
+    
+    <div class="container fade-scale">
+        <div id="myheader">
+            <h1 class="title">
+                
+            </h1>
+            <h5 class="subtitle">
+                
+                
+            </h5>
+        </div>
+    </div>
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#xampp的下载与安装"><span class="post-toc-number">1.</span> <span class="post-toc-text">xampp的下载与安装</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#apache以及mysql"><span class="post-toc-number">2.</span> <span class="post-toc-text">apache以及mysql</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#命令行启动停止操作（推荐）"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">命令行启动停止操作（推荐）</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#图形管理界面操作"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">图形管理界面操作</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#修改apache默认执行路径"><span class="post-toc-number">3.</span> <span class="post-toc-text">修改apache默认执行路径</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#其他"><span class="post-toc-number">4.</span> <span class="post-toc-text">其他</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#mysql操作"><span class="post-toc-number">4.1.</span> <span class="post-toc-text">mysql操作</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#php解释器路径"><span class="post-toc-number">4.2.</span> <span class="post-toc-text">php解释器路径</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+   
+<article id="post-linux下php集成环境配置"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">linux下php集成环境配置</h1>
+        <div class="post-meta">
+            <i class="icon icon-lg icon-calendar-o"></i>
+            发表于
+            <time class="post-time" title="2018-06-18 07:02:54" datetime="2018-06-17T23:02:54.000Z"  itemprop="datePublished">2018-06-18</time>
+
+            <br id="mybreak"/>
+            
+	<i class="icon icon-lg icon-folder-o"></i>
+	分类：<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/Jesse/categories/linux/">linux</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/Jesse/categories/linux/php/">php</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/Jesse/categories/linux/php/环境配置/">环境配置</a></li></ul></li></ul></li></ul>
+
+
+            <i>·</i>
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>次浏览
+</span>
+
+
+        </div>
+        <div class="post-count-custom">
+            <i class="icon icon-lg icon-comment-o"></i>
+            阅读本文可能花费您&nbsp;<span class="post-count">3</span>&nbsp;分钟
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>本文主要讲解linux下配置php集成环境。主要有以下内容：</p>
+<ul>
+<li>xampp的下载以及安装</li>
+<li>apache以及mysql的启动与停止</li>
+<li>修改配置文件</li>
+</ul>
+<a id="more"></a>
+<h3 id="xampp的下载与安装"><a href="#xampp的下载与安装" class="headerlink" title="xampp的下载与安装"></a>xampp的下载与安装</h3><p>xampp可在<a href="官方网站的下载页"></a>下载，下载完打开下载目录，可以看到有一个名类似为<code>xampp-linux-x64-xxxxx-x-installer.run</code>的安装文件。<br>打开终端命令行，键入以下代码进行安装<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">//首先进入到xampp安装文件的目录，我的是下载目录</span><br><span class="line"><span class="built_in">cd</span> 下载</span><br><span class="line">//然后运行安装文件启动安装程序，一般情况下一直点击next即可，xampp一般情况下会被安装在/opt目录下的lampp</span><br><span class="line">sudo ./xampp-linux-x64-xxxxx-x-installer.run</span><br></pre></td></tr></table></figure></p>
+<h3 id="apache以及mysql"><a href="#apache以及mysql" class="headerlink" title="apache以及mysql"></a>apache以及mysql</h3><h4 id="命令行启动停止操作（推荐）"><a href="#命令行启动停止操作（推荐）" class="headerlink" title="命令行启动停止操作（推荐）"></a>命令行启动停止操作（推荐）</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo /opt/lampp/lampp start    //启动服务</span><br><span class="line">sudo /opt/lampp/lampp restart  //重启服务</span><br><span class="line">sudo /opt/lampp/lampp stop     //停止服务</span><br></pre></td></tr></table></figure>
+<h4 id="图形管理界面操作"><a href="#图形管理界面操作" class="headerlink" title="图形管理界面操作"></a>图形管理界面操作</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo /opt/lampp/manager-linux-x64.run //打开图形管理界面</span><br></pre></td></tr></table></figure>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/Jesse/2018/06/18/linux下php集成环境配置/xampp_panel.png" alt="图形管理界面" title="">
+                </div>
+                <div class="image-caption">图形管理界面</div>
+            </figure>
+<p><strong>启动服务后建议打开浏览器输入localhost网址看下有没有运行成功</strong></p>
+<h3 id="修改apache默认执行路径"><a href="#修改apache默认执行路径" class="headerlink" title="修改apache默认执行路径"></a>修改apache默认执行路径</h3><p>apache的默认执行路径是项目文件夹的htdocs目录，因为xampp是安装在linux根目录的opt文件夹下面，由于权限问题是不能创建文件以及文件夹的。为了方便操作，我们可以把他的执行路径更改到可方便操作的地方，比如用户下面(<code>/home/user/</code>)。<br>xampp的配置文件放在该目录的etc文件夹中，由于权限问题，如果要更改执行路径可以用命令行通过nano操作<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">//通过nano打开apache配置文件，注意要用sudo管理员身份打开</span><br><span class="line">sudo nano /opt/lampp/etc/httpd.conf</span><br><span class="line">//找到下面两行，将路径改为你的项目路径</span><br><span class="line">DocumentRoot <span class="string">"/home/user/yourapp"</span></span><br><span class="line">&lt;Directory <span class="string">"/home/user/yourapp"</span>&gt;</span><br><span class="line">//打开apache下的config文件</span><br><span class="line">sudo nano /opt/lampp/apache2/conf/httpd.conf</span><br><span class="line">//继续修改路径</span><br><span class="line">&lt;Directory <span class="string">"/home/user/yourapp"</span>&gt;</span><br></pre></td></tr></table></figure></p>
+<p>修改完后按<code>ctrl o</code>保存，<code>ctrl x</code>退出编辑，然后输入<code>sudo /opt/lampp/lampp restart</code>重启apache服务器</p>
+<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><h4 id="mysql操作"><a href="#mysql操作" class="headerlink" title="mysql操作"></a>mysql操作</h4><p>因为xampp自带phpmyadmin，我们可以很方便的查看以及操作数据库。<br>在打开了apache以及mysql服务后，在浏览器输入<code>localhost/phpmyadmin</code>即可进入数据库图形操作界面（自动登录）。<br>值得注意的是，phpmyadmin默认的帐号是root，密码为空，也就是””，与mysql相同（可以打开<code>/opt/lampp/phpmyadmin/config.inc.php</code>查看）。如果要连接mysql数据库，使用帐号<code>root</code>密码<code>&quot;&quot;</code>连接即可。</p>
+<h4 id="php解释器路径"><a href="#php解释器路径" class="headerlink" title="php解释器路径"></a>php解释器路径</h4><p>xampp的php解释器默认情况下放在<code>/opt/lampp/bin/php</code>，可以在命令行键入<code>whereis php</code>查看</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    <div class="content">
+        
+<span class="post-time">
+    最后更新：<time datetime="2018-06-17T23:54:17.442Z" itemprop="dateUpdated">2018-06-18 07:54:17</time>
+</span>
+
+
+        
+        原文链接：<a href="/Jesse/2018/06/18/linux下php集成环境配置/" target="_blank" rel="external">https://rainoceantop.github.io/Jesse/2018/06/18/linux下php集成环境配置/</a>
+        
+    </div>
+    <footer>
+        <div onclick="location.href='https://rainoceantop.github.io/Jesse'">
+            <img src="/Jesse/img/avatar.jpg" alt="Jesse">
+            <a>Jesse</a>
+        </div>
+    </footer>
+</blockquote>
+
+        
+    <div class="page-reward">
+        <nav class="myreward">
+            <a id="rewardBtn" href="javascript:;"><span>打&nbsp;赏</span><span>装成好像很多人打赏的样子</span></a>
+        </nav>
+    </div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/Jesse/tags/linux/">linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/Jesse/tags/php/">php</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/Jesse/tags/php集成环境配置/">php集成环境配置</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://rainoceantop.github.io/Jesse/2018/06/18/linux下php集成环境配置/&title=《linux下php集成环境配置》 — Jesse&pic=https://rainoceantop.github.io/Jesse/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://rainoceantop.github.io/Jesse/2018/06/18/linux下php集成环境配置/&title=《linux下php集成环境配置》 — Jesse&source=本文主要讲解linux下配置php集成环境。主要有以下内容：
+
+xampp的下载以及安装
+apache以及mysql的启动与停止
+修改配置文件
+" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://rainoceantop.github.io/Jesse/2018/06/18/linux下php集成环境配置/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《linux下php集成环境配置》 — Jesse&url=https://rainoceantop.github.io/Jesse/2018/06/18/linux下php集成环境配置/&via=https://rainoceantop.github.io/Jesse" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://rainoceantop.github.io/Jesse/2018/06/18/linux下php集成环境配置/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/Jesse/2018/06/05/manjaro基本设置/" id="post-next" class="post-nav-link">
+        <h4 class="title" data-hover="下一篇：manjaro基本设置">下一篇：manjaro基本设置</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+    
+
+    
+
+    
+
+
+</article>
+
+</div>
+
+        <footer class="footer">
+    <div class="footer-content">
+        <span class="power">
+            <i class="icon icon-lg icon-copyright"></i>
+            2018
+            <i class="icon icon-lg icon-heart"></i>
+            <a href="https://rainoceantop.github.io/Jesse">jesse</a>
+            <br/>
+            Power by
+            <a href="https://hexo.io/" target="_blank" rel="external nofollow">Hexo</a>&nbsp;·&nbsp;
+            Theme
+            <a class="tomotoeslink" href="https://github.com/tomotoes/hexo-theme-tomotoes/" target="_blank" rel="external nofollow">tomotoes</a>
+        </span>
+
+        <br/>
+
+        <span id="RunTime" style="color:#a7a7a2;"></span>
+        <br/>
+
+        <span>
+            
+
+        </span>
+        <br/>
+
+        <!--<span class="license"><a  target="_blank" rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">博客内容遵循 知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>-->
+    </div>
+</footer>
+
+    </main>
+    
+        
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        <span>感谢您的鼓励支持！</span>
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" data-img="/Jesse/img/thankyou.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/Jesse/img/wechatpay.png" data-alipay="/Jesse/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechatPay">&nbsp;&nbsp;微信&nbsp;&nbsp;</span>
+                <span class="reward-toggle-item alipayPay">支付宝</span>
+            </div>
+        </label>
+        
+        <i class="icon icon-caret-up"></i>
+    </div>
+</div>
+
+
+    
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://rainoceantop.github.io/Jesse/2018/06/18/linux下php集成环境配置/&title=《linux下php集成环境配置》 — Jesse&pic=https://rainoceantop.github.io/Jesse/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://rainoceantop.github.io/Jesse/2018/06/18/linux下php集成环境配置/&title=《linux下php集成环境配置》 — Jesse&source=本文主要讲解linux下配置php集成环境。主要有以下内容：
+
+xampp的下载以及安装
+apache以及mysql的启动与停止
+修改配置文件
+" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://rainoceantop.github.io/Jesse/2018/06/18/linux下php集成环境配置/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《linux下php集成环境配置》 — Jesse&url=https://rainoceantop.github.io/Jesse/2018/06/18/linux下php集成环境配置/&via=https://rainoceantop.github.io/Jesse" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://rainoceantop.github.io/Jesse/2018/06/18/linux下php集成环境配置/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p class="wechatshare">扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACrUlEQVR42u3aQW7DMAwEwP7/0+kDAttLUkxTYHwKUlf26CAxS/38xNfr7crvfL8/+ev958MXHh4e3vjV3x/8iq/3+5OnX71P8s3D1OPh4eGt8e4fnLx6sgEk20AOTiYLDw8P79t4yZJ9j++V8nh4eHj/l9cbobeR4OHh4X0brzd0r7yej7mSteDh4eHFvLyL9D2fV/p7eHh4eOOuet7+r37TK9PLb4uHh4e3wJvEqfOwIF/0qwcR8PDw8PZ4kxAhB5w6LlAeHw8PD+8jvHJ7qbhw55FHLwI+wMDDw8Mbx7t5MZ1/nz8rH6c5xXh4eHgt3qScrbbNEkC+YURvgoeHh3eUlwQB20egkqZXEos89Pfw8PDwFni9RT/fPPKDCL3a/7Kzh4eHh7fAy1+3F7BWD2NVE5SHjQEPDw/vKK+3KOdxar4N9EiFrAUPDw/vKK8a5k6K7DzqzeOJCIyHh4d3iNf7wZ+U1NXtIZmO6gaDh4eHt8GrLs15IdsLcHvtt4dtDA8PD2+NVw1k84mYxB+TNhseHh7eBi8pXieRRL6g51tUYXLx8PDwPsLLj1tV44zJ61Ybb9Fc4uHh4Y15kyi2h5+0u6KtCA8PD2+BlxfNp6KH6lTebyeFMxF4eHh4a7x8uHxSkmclW0Kz7MbDw8Nb4yUDVQ9p5cV3tVWWUPHw8PA+w+u19ifjVCOJcuMNDw8Pb5mXx7XV8npy/2gTwsPDwzvKexWvagu/cECqNfLDFoWHh4e3wKsutb12VN76ykv2XisODw8P7xRvFJIW89I82K023i7fFg8PD2+NN4lok+2k+r/HWmt4eHh4X8CbR72TsKNZUuPh4eH9Ka9a/p4qxPOjrnh4eHif4VUX6zwOmDfPkqm/vB8PDw9vgVf9wT8pr3uTdayPh4eHhzfl/QKFKl6T3MQVMwAAAABJRU5ErkJggg==" alt="微信分享二维码">
+</div>
+
+
+
+
+    <!-- waves按钮特效 -->
+<script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+
+<!-- 主题配置脚本 -->
+<script>
+var BLOG = { ROOT: '/Jesse/', SHARE: true, REWARD: true };
+</script>
+
+<!-- jquery -->
+<script src="/Jesse/js/jquery.min.js?v=3.0"></script>
+
+<!-- 搜索 -->
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item waves-block waves-effect" onclick="location.href='{path}'">
+    <div class="title ellipsis" title="{title}">{title}</div>
+</li>
+</template>
+
+
+<!-- main博客脚本 -->
+<script src="/Jesse/js/main.min.js?v=3.0" ></script>
+
+<!-- 动画&配置 -->
+<script src="/Jesse/js/script.min.js?v=3.0" ></script>
+
+<!-- 脚本管理 -->
+<script>
+
+if(window.innerWidth > 800){
+	/* 3D标题 */
+	$(".content-header").on("mousemove", threedee);
+
+	/* 底部追随鼠标 */
+	$(".footer").hover(2);
+
+	/* gotop键的涟漪 */
+	$("#gotop").hover(1);
+
+	/* 赞赏的粒子雨 */
+	$("#reward").hover(3);
+
+	/* 微信公众号的底部渲染 */
+	$("#wechat").hover(4);
+
+    /* 标题跳动 */
+    $(".archivestitle").bumpyText();
+
+	/* 图片点击放大 */
+	const postimg = jQuery(".post-content img:not(.github-emoji)");
+	postimg.on("click",function(){
+
+		mask.classList.add("in");
+		main.classList.add("Mask");
+		menu.classList.add("Mask");
+		var myimg = this.cloneNode(true);
+		myimg.classList.add("imgShow");
+
+		setTimeout(function(){
+			jQuery(myimg).animate({
+				opacity:"1"
+			},1000);
+		},0);
+
+		document.body.appendChild(myimg);
+
+		myimg.onclick=function(){
+			document.body.removeChild(myimg);
+			mask.classList.remove("in");
+			main.classList.remove("Mask");
+			menu.classList.remove("Mask");
+		};
+
+	});
+
+}
+
+/* 名字跳动 */
+$("#name").bumpyText();
+
+
+/* 网站运行时间 */
+setInterval(function () {
+	setTime("2018/06/04");
+}, 1000);
+
+/* 文章块的淡出 */
+postshow();
+
+/* 座右铭 */
+
+    elasticText({
+        id: "mymotto",
+        duration: 100,
+        effact: "easeOut",
+        content: "那时候没有伤,不会哭泣"
+    });
+
+
+
+/* 粘贴提示 */
+G($(".post-content"), location.href, "Jesse");
+
+
+/* 控制台 */
+if (window.console && window.console.log) {
+	setTimeout(function () {
+		console.log("\n %c 一个坏掉的番茄 %c  © Simon Ma  http://tomotoes.com \n\n", "color:#FFFFFB;background:#1abc9c;padding:5px 0;border-radius:.5rem 0 0 .5rem;", "color:#FFFFFB;background:#080808;padding:5px 0;border-radius:0 .5rem .5rem 0;");
+	}, 0);
+}
+
+</script>
+
+
+
+
+<!-- 公式渲染 -->
+
+
+
+<!-- 不蒜子 -->
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+
+
+</body>
+</html>
