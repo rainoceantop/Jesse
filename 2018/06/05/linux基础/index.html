@@ -48,7 +48,7 @@
 <meta property="og:description" content="Linux是一套免费使用和自由传播的类Unix操作系统，是一个基于POSIX和UNIX的多用户、多任务、支持多线程和多CPU的操作系统。它能运行主要的UNIX工具软件、应用程序和网络协议。它支持32位和64位硬件。Linux继承了Unix以网络为核心的设计思想，是一个性能稳定的多用户网络操作系统。严格来讲，Linux这个词本身只表示Linux内核，但实际上人们已经习惯了用Linux来形容整个基于L">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1923395011,885347984&fm=27&gp=0.jpg">
-<meta property="og:updated_time" content="2018-06-04T22:42:38.528Z">
+<meta property="og:updated_time" content="2018-06-17T22:04:27.752Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="linux基础">
 <meta name="twitter:description" content="Linux是一套免费使用和自由传播的类Unix操作系统，是一个基于POSIX和UNIX的多用户、多任务、支持多线程和多CPU的操作系统。它能运行主要的UNIX工具软件、应用程序和网络协议。它支持32位和64位硬件。Linux继承了Unix以网络为核心的设计思想，是一个性能稳定的多用户网络操作系统。严格来讲，Linux这个词本身只表示Linux内核，但实际上人们已经习惯了用Linux来形容整个基于L">
@@ -217,7 +217,7 @@
         </div>
         <div class="post-count-custom">
             <i class="icon icon-lg icon-comment-o"></i>
-            阅读本文可能花费您&nbsp;<span class="post-count">4</span>&nbsp;分钟
+            阅读本文可能花费您&nbsp;<span class="post-count">5</span>&nbsp;分钟
         </div>
         <div class="post-content" id="post-content" itemprop="postContent">
             <p>Linux是一套免费使用和自由传播的类Unix操作系统，是一个基于POSIX和UNIX的多用户、多任务、支持多线程和多CPU的操作系统。它能运行主要的UNIX工具软件、应用程序和网络协议。它支持32位和64位硬件。Linux继承了Unix以网络为核心的设计思想，是一个性能稳定的多用户网络操作系统。<br>严格来讲，Linux这个词本身只表示Linux内核，但实际上人们已经习惯了用Linux来形容整个基于Linux内核，并且使用GNU 工程各种工具和数据库的操作系统。<br>开发者：Linus Torvalds（同时也是git的开发者）<br><figure class="image-bubble">
@@ -251,7 +251,11 @@
     cp file* folder2/(将所有file开头的文件复制到folder2目录下)
     cp *file folder2/(将所有file结尾的文件复制到folder2目录下)
     cp file1 file2 file3 folder2/(将前面所有的东西复制到最后所指的目录)
-剪切：mv file1 folder/
+剪切：
+    mv file1 folder/  (移动到当前文件夹的folader文件夹下)
+    mv file1 ./folder (同上，移动到当前文件夹的folader文件夹下)
+    mv file1 ./folder file2 (移动到当前文件夹的folader文件夹下并重命名为file2)
+    mv file1 /folder (!此操作会将文件移动到根目录)
 </code></pre><h4 id="查看"><a href="#查看" class="headerlink" title="查看"></a>查看</h4><pre><code>查看当前目录下的文件列表：ls
 查看当前目录下的文件列表的详细信息：ls -l 或者 ls -lh(适合人类看的)
 查看当前目录下的所有文件列表：ls -a
@@ -294,7 +298,7 @@ mac将文件推送到linux运行：ssh jesse@192.168.0.108 python3 &lt; t1.py(�
     <div class="content">
         
 <span class="post-time">
-    最后更新：<time datetime="2018-06-04T22:42:38.528Z" itemprop="dateUpdated">2018-06-05 06:42:38</time>
+    最后更新：<time datetime="2018-06-17T22:04:27.752Z" itemprop="dateUpdated">2018-06-18 06:04:27</time>
 </span>
 
 
