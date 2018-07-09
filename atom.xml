@@ -6,7 +6,7 @@
   <link href="/Jesse/atom.xml" rel="self"/>
   
   <link href="https://rainoceantop.github.io/Jesse/"/>
-  <updated>2018-06-18T15:38:49.065Z</updated>
+  <updated>2018-07-09T18:15:55.445Z</updated>
   <id>https://rainoceantop.github.io/Jesse/</id>
   
   <author>
@@ -15,6 +15,34 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>mysql优化</title>
+    <link href="https://rainoceantop.github.io/Jesse/2018/07/10/mysql%E4%BC%98%E5%8C%96/"/>
+    <id>https://rainoceantop.github.io/Jesse/2018/07/10/mysql优化/</id>
+    <published>2018-07-09T17:55:39.000Z</published>
+    <updated>2018-07-09T18:15:55.445Z</updated>
+    
+    <content type="html"><![CDATA[<p>mysql优化主要分为三个方面<br>1.内核优化（主要由服务器运维人员完成）<br><strong>2.配置参数优化（my.cnf），通过进行压力测试来适当调整配置参数</strong><br>3.SQL语句优化</p><a id="more"></a><p>一.查看运行时间<br>1.select version()：查看数据库版本，只有5.0.37以上版本才支持show profiles（查看语句具体运行时间）<br>2.show variables like “%pro%”：查看profiling是否开启（默认不开启）<br>3.set profiling = 1：开启profiling<br>4.show profiles：查看所有运行过的sql语句的执行时间<br>5.show profile for query 1：查看第一个sql语句执行过程的各个操作的耗时情况<br>6.show profile cpu,block io,memory,swaps,context switches,source<br>      for query 1：查看第一个sql语句执行的各种资源消耗情况<br>7.set profiling = 0：关闭profiling</p><p>二.修改变量<br>1.set (sort|join|read|read_rnd)_buffer_size = 64<em>1024</em>1024：在需要查询大量数据时，适当修改缓冲区大小可以在不修改全局变量(my.cnf)的情况下应用于当前的会话</p><p>三.查询变量<br>1.GLOBAL：全局变量，修改这个变量影响所有会话<br>2.SESSION：当前会话变量，修改这个变量影响当前会话<br>3.SHOW [GLOBAL | SESSION] VARIABLES<br>    [LIKE ‘pattern’ | WHERE expr]：查看变量（全局会话，当前会话）的通用表达式<br>4.select @@global.var_name/@@session.var_name：查看单个变量（完全显示变量名和值）<br>5.自定义变量：set @name=’hello world’;<br>6.变量赋值：set @name:=author from posts limit 0,1;（将查询到的author栏的第一个值赋值）<br>7.查看变量：select @name;</p><p>四.添加索引<br>1.alter table table_name add index index_name(column_name);</p><p>五.查询缓存<br>1.show variables like ‘%query_cache%’：如果query_cache_type值是ON的话说明已经开启缓存<br>have_query_cache：表示是否支持query cache；<br>query_cache_limit：指定单个查询能够使用的缓冲区大小，缺省为1M。<br>query_cache_min_res_unit：表示query cache每个结果集存放的最小内存大小，默认4k；<br>query_cache_size 表示系统中用于query cache的内存大小；<br>query_cache_type 系统是否打开了query cache功能；<br>query_cache_type=0（OFF）关闭<br>query_cache_type=1（ON）缓存所有结果，除非select语句使用SQL_NO_CACHE禁用查询缓存<br>query_cache_type=2(demand)，只缓存select语句中通过SQL_CACHE指定需要缓存的查询，for e.g. “select SQL_CACHE count(*) from table”<br>query_cache_wlock_invalidate 针对myisam存储引擎，设置当有write lock在某个table上面的时候，读请求是要等待write lock释放资源之后再查询还是允许直接从query cache中读取结果，默认是OFF，可以直接从query cache中取得结果。</p><p>2.set global query_cache_type=1：如果设置完不修改配置文件的话，数据库重启就失效<br>[mysqld]中添加：<br>query_cache_size = 20M<br>query_cache_type = ON<br>3.show status like ‘qcache%’：查看缓存状态<br>其中各个参数的意义如下：  </p><p>Qcache_free_blocks：缓存中相邻内存块的个数。数目大说明可能有碎片。FLUSH QUERY CACHE会对缓存中的碎片进行整理，从而得到一个空闲块。<br>Qcache_free_memory：缓存中的空闲内存。<br>Qcache_hits：每次查询在缓存中命中时就增大<br>Qcache_inserts：表示未命中cache后将结果集再写入到cache中的次数；<br>Qcache_lowmem_prunes：缓存出现内存不足并且必须要进行清理以便为更多查询提供空间的次数。这个数字最好长时间来看;如果这个 数字在不断增长，就表示可能碎片非常严重，或者内存很少。(上面的 free_blocks和free_memory可以告诉您属于哪种情况)<br>Qcache_not_cached：不适合进行缓存的查询的数量，通常是由于这些查询不是 SELECT 语句或者用了now()之类的函数。<br>Qcache_queries_in_cache：当前缓存的查询(和响应)的数量。<br>Qcache_total_blocks：缓存中块的数量。 </p><p>评估select缓存命中率公式如下：<br>Qcache_hits/Com_select<br>当读写操作差不多的时候，建议关闭该功能，但是如果是大量查询,即读多写少的环境中，建议启用缓存<br>注意，第一次查询时生成缓存，接下去的查询才会命中缓存<br>查看Com_select的总数<br>MariaDB [sunny]&gt; show global status like ‘Com%select%’;</p><p>！其他<br>mysql配置文件：linux一般放在/etc/my.cnf（集成环境在lampp下的etc中）</p><p>缓存数据失效时机<br>在表的结构或数据发生改变时，查询缓存中的数据不再有效。<br>有这些INSERT、UPDATE、 DELETE、TRUNCATE、ALTER TABLE、DROP TABLE或DROP DATABASE会导致缓存数据失效。<br>所以查询缓存适合有大量相同查询的应用，不适合有大量数据更新的应用。</p><p> 可以使用下面三个SQL来清理查询缓存：<br>1、FLUSH QUERY CACHE; // 清理查询缓存内存碎片。<br>2、RESET QUERY CACHE; // 从查询缓存中移出所有查询。<br>3、FLUSH TABLES; //关闭所有打开的表，同时该操作将会清空查询缓存中的内容。</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;mysql优化主要分为三个方面&lt;br&gt;1.内核优化（主要由服务器运维人员完成）&lt;br&gt;&lt;strong&gt;2.配置参数优化（my.cnf），通过进行压力测试来适当调整配置参数&lt;/strong&gt;&lt;br&gt;3.SQL语句优化&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="mysql" scheme="https://rainoceantop.github.io/Jesse/categories/mysql/"/>
+    
+      <category term="优化配置" scheme="https://rainoceantop.github.io/Jesse/categories/mysql/%E4%BC%98%E5%8C%96%E9%85%8D%E7%BD%AE/"/>
+    
+    
+      <category term="mysql" scheme="https://rainoceantop.github.io/Jesse/tags/mysql/"/>
+    
+      <category term="mysql优化" scheme="https://rainoceantop.github.io/Jesse/tags/mysql%E4%BC%98%E5%8C%96/"/>
+    
+      <category term="mysql优化配置" scheme="https://rainoceantop.github.io/Jesse/tags/mysql%E4%BC%98%E5%8C%96%E9%85%8D%E7%BD%AE/"/>
+    
+  </entry>
   
   <entry>
     <title>linux下php集成环境配置</title>

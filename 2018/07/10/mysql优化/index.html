@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Language" content="zh-cn">
+    <meta charset="utf-8">
+    
+    
+    
+    <title>mysql优化 | Jesse | 个人博客</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    
+    <meta name="theme-color" content="#77AAFF">
+    
+    
+    <meta name="keywords" content="mysql,mysql优化,mysql优化配置">
+    
+    
+
+    
+
+    <!-- Baidu Push -->
+<script>
+	(function(){
+		var bp = document.createElement('script');
+		var curProtocol = window.location.protocol.split(':')[0];
+		if (curProtocol === 'https') {
+			bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+		}
+		else {
+			bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+		}
+		var s = document.getElementsByTagName("script")[0];
+		s.parentNode.insertBefore(bp, s);
+	})();
+
+	var _hmt = _hmt || [];
+</script>
+
+
+
+    
+    <meta name="description" content="mysql优化主要分为三个方面1.内核优化（主要由服务器运维人员完成）2.配置参数优化（my.cnf），通过进行压力测试来适当调整配置参数3.SQL语句优化">
+<meta name="keywords" content="mysql,mysql优化,mysql优化配置">
+<meta property="og:type" content="article">
+<meta property="og:title" content="mysql优化">
+<meta property="og:url" content="https://rainoceantop.github.io/Jesse/2018/07/10/mysql优化/index.html">
+<meta property="og:site_name" content="Jesse">
+<meta property="og:description" content="mysql优化主要分为三个方面1.内核优化（主要由服务器运维人员完成）2.配置参数优化（my.cnf），通过进行压力测试来适当调整配置参数3.SQL语句优化">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-07-09T18:15:55.445Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="mysql优化">
+<meta name="twitter:description" content="mysql优化主要分为三个方面1.内核优化（主要由服务器运维人员完成）2.配置参数优化（my.cnf），通过进行压力测试来适当调整配置参数3.SQL语句优化">
+    
+        <link rel="alternate" type="application/atom+xml" title="Jesse" href="/Jesse/atom.xml">
+    
+    <link rel="shortcut icon" href="/Jesse/img/favicon.ico">
+    <link id="style" rel="stylesheet" href="/Jesse/css/style.css?v=3.0">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+            
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+    <aside id="menu"  class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" >
+      <div class="brand">
+        <a href="/Jesse/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/Jesse/img/avatar.jpg" alt="avatar">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname" id="name">Jesse</h5>
+          
+            <div id="mymotto" class="motto"></div>
+          
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+              <li class="waves-block waves-effect">
+                  <a href="/Jesse/"  >
+                    <i class="icon icon-lg icon-home"></i>
+                    <span>主 页</span><i class="icon icon-lg icon-caret-left"></i>
+                  </a>
+              </li>
+            
+              <li class="waves-block waves-effect">
+                  <a href="/Jesse/archives"  >
+                    <i class="icon icon-lg icon-archives"></i>
+                    <span>归 档</span><i class="icon icon-lg icon-caret-left"></i>
+                  </a>
+              </li>
+            
+              <li class="waves-block waves-effect">
+                  <a href="/Jesse/categories"  >
+                    <i class="icon icon-lg icon-th-list"></i>
+                    <span>分 类</span><i class="icon icon-lg icon-caret-left"></i>
+                  </a>
+              </li>
+            
+              <li class="waves-block waves-effect">
+                  <a href="/Jesse/tags"  >
+                    <i class="icon icon-lg icon-tags"></i>
+                    <span>标 签</span><i class="icon icon-lg icon-caret-left"></i>
+                  </a>
+              </li>
+            
+      <div class="nav2">
+          
+              <a class="nav2item" data-title="Email" href="mailto:2424457572@qq.com" target="_parent"title="Email" >
+                <i class="icon icon-lg icon-envelope-o envelope-o"></i>
+              </a>
+          
+              <a class="nav2item" data-title="Github" href="https://github.com/rainoceantop" target="_blank"title="Github" >
+                <i class="icon icon-lg icon-github github"></i>
+              </a>
+          
+              <a class="nav2item" data-title="微博" href="/Jesse/" target="_blank"title="微博" >
+                <i class="icon icon-lg icon-weibo weibo"></i>
+              </a>
+          
+
+            </div>
+        
+      </ul>
+        
+    </div>
+  </div>
+ 
+</aside>
+
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">mysql优化</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        <a href="../../atom.xml" target="_blank" class="header-icon waves-effect waves-circle waves-light" id="Rss">
+            <i class="icon icon-lg icon-rss"></i>
+        </a>
+    </div>
+</header>
+<header class="content-header post-header">
+    
+    
+    <div class="container fade-scale">
+        <div id="myheader">
+            <h1 class="title">
+                
+            </h1>
+            <h5 class="subtitle">
+                
+                
+            </h5>
+        </div>
+    </div>
+
+</header>
+
+
+<div class="container body-wrap">
+    
+<article id="post-mysql优化"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">mysql优化</h1>
+        <div class="post-meta">
+            <i class="icon icon-lg icon-calendar-o"></i>
+            发表于
+            <time class="post-time" title="2018-07-10 01:55:39" datetime="2018-07-09T17:55:39.000Z"  itemprop="datePublished">2018-07-10</time>
+
+            <br id="mybreak"/>
+            
+	<i class="icon icon-lg icon-folder-o"></i>
+	分类：<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/Jesse/categories/mysql/">mysql</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/Jesse/categories/mysql/优化配置/">优化配置</a></li></ul></li></ul>
+
+
+            <i>·</i>
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>次浏览
+</span>
+
+
+        </div>
+        <div class="post-count-custom">
+            <i class="icon icon-lg icon-comment-o"></i>
+            阅读本文可能花费您&nbsp;<span class="post-count">5</span>&nbsp;分钟
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>mysql优化主要分为三个方面<br>1.内核优化（主要由服务器运维人员完成）<br><strong>2.配置参数优化（my.cnf），通过进行压力测试来适当调整配置参数</strong><br>3.SQL语句优化</p>
+<a id="more"></a>
+<p>一.查看运行时间<br>1.select version()：查看数据库版本，只有5.0.37以上版本才支持show profiles（查看语句具体运行时间）<br>2.show variables like “%pro%”：查看profiling是否开启（默认不开启）<br>3.set profiling = 1：开启profiling<br>4.show profiles：查看所有运行过的sql语句的执行时间<br>5.show profile for query 1：查看第一个sql语句执行过程的各个操作的耗时情况<br>6.show profile cpu,block io,memory,swaps,context switches,source<br>      for query 1：查看第一个sql语句执行的各种资源消耗情况<br>7.set profiling = 0：关闭profiling</p>
+<p>二.修改变量<br>1.set (sort|join|read|read_rnd)_buffer_size = 64<em>1024</em>1024：在需要查询大量数据时，适当修改缓冲区大小可以在不修改全局变量(my.cnf)的情况下应用于当前的会话</p>
+<p>三.查询变量<br>1.GLOBAL：全局变量，修改这个变量影响所有会话<br>2.SESSION：当前会话变量，修改这个变量影响当前会话<br>3.SHOW [GLOBAL | SESSION] VARIABLES<br>    [LIKE ‘pattern’ | WHERE expr]：查看变量（全局会话，当前会话）的通用表达式<br>4.select @@global.var_name/@@session.var_name：查看单个变量（完全显示变量名和值）<br>5.自定义变量：set @name=’hello world’;<br>6.变量赋值：set @name:=author from posts limit 0,1;（将查询到的author栏的第一个值赋值）<br>7.查看变量：select @name;</p>
+<p>四.添加索引<br>1.alter table table_name add index index_name(column_name);</p>
+<p>五.查询缓存<br>1.show variables like ‘%query_cache%’：如果query_cache_type值是ON的话说明已经开启缓存<br>have_query_cache：表示是否支持query cache；<br>query_cache_limit：指定单个查询能够使用的缓冲区大小，缺省为1M。<br>query_cache_min_res_unit：表示query cache每个结果集存放的最小内存大小，默认4k；<br>query_cache_size 表示系统中用于query cache的内存大小；<br>query_cache_type 系统是否打开了query cache功能；<br>query_cache_type=0（OFF）关闭<br>query_cache_type=1（ON）缓存所有结果，除非select语句使用SQL_NO_CACHE禁用查询缓存<br>query_cache_type=2(demand)，只缓存select语句中通过SQL_CACHE指定需要缓存的查询，for e.g. “select SQL_CACHE count(*) from table”<br>query_cache_wlock_invalidate 针对myisam存储引擎，设置当有write lock在某个table上面的时候，读请求是要等待write lock释放资源之后再查询还是允许直接从query cache中读取结果，默认是OFF，可以直接从query cache中取得结果。</p>
+<p>2.set global query_cache_type=1：如果设置完不修改配置文件的话，数据库重启就失效<br>[mysqld]中添加：<br>query_cache_size = 20M<br>query_cache_type = ON<br>3.show status like ‘qcache%’：查看缓存状态<br>其中各个参数的意义如下：  </p>
+<p>Qcache_free_blocks：缓存中相邻内存块的个数。数目大说明可能有碎片。FLUSH QUERY CACHE会对缓存中的碎片进行整理，从而得到一个空闲块。<br>Qcache_free_memory：缓存中的空闲内存。<br>Qcache_hits：每次查询在缓存中命中时就增大<br>Qcache_inserts：表示未命中cache后将结果集再写入到cache中的次数；<br>Qcache_lowmem_prunes：缓存出现内存不足并且必须要进行清理以便为更多查询提供空间的次数。这个数字最好长时间来看;如果这个 数字在不断增长，就表示可能碎片非常严重，或者内存很少。(上面的 free_blocks和free_memory可以告诉您属于哪种情况)<br>Qcache_not_cached：不适合进行缓存的查询的数量，通常是由于这些查询不是 SELECT 语句或者用了now()之类的函数。<br>Qcache_queries_in_cache：当前缓存的查询(和响应)的数量。<br>Qcache_total_blocks：缓存中块的数量。 </p>
+<p>评估select缓存命中率公式如下：<br>Qcache_hits/Com_select<br>当读写操作差不多的时候，建议关闭该功能，但是如果是大量查询,即读多写少的环境中，建议启用缓存<br>注意，第一次查询时生成缓存，接下去的查询才会命中缓存<br>查看Com_select的总数<br>MariaDB [sunny]&gt; show global status like ‘Com%select%’;</p>
+<p>！其他<br>mysql配置文件：linux一般放在/etc/my.cnf（集成环境在lampp下的etc中）</p>
+<p>缓存数据失效时机<br>在表的结构或数据发生改变时，查询缓存中的数据不再有效。<br>有这些INSERT、UPDATE、 DELETE、TRUNCATE、ALTER TABLE、DROP TABLE或DROP DATABASE会导致缓存数据失效。<br>所以查询缓存适合有大量相同查询的应用，不适合有大量数据更新的应用。</p>
+<p> 可以使用下面三个SQL来清理查询缓存：<br>1、FLUSH QUERY CACHE; // 清理查询缓存内存碎片。<br>2、RESET QUERY CACHE; // 从查询缓存中移出所有查询。<br>3、FLUSH TABLES; //关闭所有打开的表，同时该操作将会清空查询缓存中的内容。</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    <div class="content">
+        
+<span class="post-time">
+    最后更新：<time datetime="2018-07-09T18:15:55.445Z" itemprop="dateUpdated">2018-07-10 02:15:55</time>
+</span>
+
+
+        
+        原文链接：<a href="/Jesse/2018/07/10/mysql优化/" target="_blank" rel="external">https://rainoceantop.github.io/Jesse/2018/07/10/mysql优化/</a>
+        
+    </div>
+    <footer>
+        <div onclick="location.href='https://rainoceantop.github.io/Jesse'">
+            <img src="/Jesse/img/avatar.jpg" alt="Jesse">
+            <a>Jesse</a>
+        </div>
+    </footer>
+</blockquote>
+
+        
+    <div class="page-reward">
+        <nav class="myreward">
+            <a id="rewardBtn" href="javascript:;"><span>打&nbsp;赏</span><span>装成好像很多人打赏的样子</span></a>
+        </nav>
+    </div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/Jesse/tags/mysql/">mysql</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/Jesse/tags/mysql优化/">mysql优化</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/Jesse/tags/mysql优化配置/">mysql优化配置</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://rainoceantop.github.io/Jesse/2018/07/10/mysql优化/&title=《mysql优化》 — Jesse&pic=https://rainoceantop.github.io/Jesse/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://rainoceantop.github.io/Jesse/2018/07/10/mysql优化/&title=《mysql优化》 — Jesse&source=mysql优化主要分为三个方面1.内核优化（主要由服务器运维人员完成）2.配置参数优化（my.cnf），通过进行压力测试来适当调整配置参数3.SQL语句优化" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://rainoceantop.github.io/Jesse/2018/07/10/mysql优化/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《mysql优化》 — Jesse&url=https://rainoceantop.github.io/Jesse/2018/07/10/mysql优化/&via=https://rainoceantop.github.io/Jesse" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://rainoceantop.github.io/Jesse/2018/07/10/mysql优化/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/Jesse/2018/06/18/linux下php集成环境配置/" id="post-next" class="post-nav-link">
+        <h4 class="title" data-hover="下一篇：linux下php集成环境配置">下一篇：linux下php集成环境配置</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+    
+
+    
+
+    
+
+
+</article>
+
+</div>
+
+        <footer class="footer">
+    <div class="footer-content">
+        <span class="power">
+            <i class="icon icon-lg icon-copyright"></i>
+            2018
+            <i class="icon icon-lg icon-heart"></i>
+            <a href="https://rainoceantop.github.io/Jesse">jesse</a>
+            <br/>
+            Power by
+            <a href="https://hexo.io/" target="_blank" rel="external nofollow">Hexo</a>&nbsp;·&nbsp;
+            Theme
+            <a class="tomotoeslink" href="https://github.com/tomotoes/hexo-theme-tomotoes/" target="_blank" rel="external nofollow">tomotoes</a>
+        </span>
+
+        <br/>
+
+        <span id="RunTime" style="color:#a7a7a2;"></span>
+        <br/>
+
+        <span>
+            
+
+        </span>
+        <br/>
+
+        <!--<span class="license"><a  target="_blank" rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">博客内容遵循 知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>-->
+    </div>
+</footer>
+
+    </main>
+    
+        
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        <span>感谢您的鼓励支持！</span>
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" data-img="/Jesse/img/thankyou.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/Jesse/img/wechatpay.png" data-alipay="/Jesse/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechatPay">&nbsp;&nbsp;微信&nbsp;&nbsp;</span>
+                <span class="reward-toggle-item alipayPay">支付宝</span>
+            </div>
+        </label>
+        
+        <i class="icon icon-caret-up"></i>
+    </div>
+</div>
+
+
+    
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://rainoceantop.github.io/Jesse/2018/07/10/mysql优化/&title=《mysql优化》 — Jesse&pic=https://rainoceantop.github.io/Jesse/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://rainoceantop.github.io/Jesse/2018/07/10/mysql优化/&title=《mysql优化》 — Jesse&source=mysql优化主要分为三个方面1.内核优化（主要由服务器运维人员完成）2.配置参数优化（my.cnf），通过进行压力测试来适当调整配置参数3.SQL语句优化" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://rainoceantop.github.io/Jesse/2018/07/10/mysql优化/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《mysql优化》 — Jesse&url=https://rainoceantop.github.io/Jesse/2018/07/10/mysql优化/&via=https://rainoceantop.github.io/Jesse" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://rainoceantop.github.io/Jesse/2018/07/10/mysql优化/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p class="wechatshare">扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACJklEQVR42u3aSYrDMBAF0Nz/0m7oVUMT8askLSw9rYIzWM+BogZ9PvF6ftf4+v/Xf1fv+uKFgYHxWsYzXN8Y4018ezffQ743DAyMexh5MC3fYHivMTjZGwYGBkYSEJPAmid8GBgYGPsCbq/0TYphDAwMjLyIHWNWJY7ba3EMDIwXMmbStd2vN843MDAwXsJ4WitP8pKgvGA/GBgYRzPyEWMvHeyNPKtDAgwMjNsY+TGLmVBbDbjRQBQDA+MCxnz7vnqQonqXQp2NgYFxECP50PyRr7zR3xtLYGBg3MDYEQSryeXUKBQDA+NoRl7EjoNmNX1MittyCMbAwLiGkbfyeyOBZMzQ3AkGBsahjDyw5sPOtfioFYiBgXEBI7nxOCwm36qOJwunKTAwMC5gJMVnNWmrHs7olcSf3tYxMDBey5gvaPNkLj/ekTw+DAyMsxm9VKw3JKj+Zt6qw8DAOJuxtrDMW3gzc4zyMQsMDIyXM/JtVYPjqgFD/psYGBhnM3phNx8A5AF02T+AgYFxGSMvTfO2XXW0GYVsDAyMoxl5SVk9WtG7Xm0CYmBgnM14iitv9/f6YM1GGwYGxtGM6gAgL1+rCWL1KFhvjIGBgfFexkyQzQNr3tqrhm8MDIx7GHmQzc+aVdtqMwc7MDAwMKpF7KpHUMhnMTAwMIpl5/jG+WfyZBQDA+MGRrVx1muZ7SubMTAwzmZUBwMzLf7eg8hbdRgYGMcxfgAICzf1JuBmDQAAAABJRU5ErkJggg==" alt="微信分享二维码">
+</div>
+
+
+
+
+    <!-- waves按钮特效 -->
+<script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+
+<!-- 主题配置脚本 -->
+<script>
+var BLOG = { ROOT: '/Jesse/', SHARE: true, REWARD: true };
+</script>
+
+<!-- jquery -->
+<script src="/Jesse/js/jquery.min.js?v=3.0"></script>
+
+<!-- 搜索 -->
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item waves-block waves-effect" onclick="location.href='{path}'">
+    <div class="title ellipsis" title="{title}">{title}</div>
+</li>
+</template>
+
+
+<!-- main博客脚本 -->
+<script src="/Jesse/js/main.min.js?v=3.0" ></script>
+
+<!-- 动画&配置 -->
+<script src="/Jesse/js/script.min.js?v=3.0" ></script>
+
+<!-- 脚本管理 -->
+<script>
+
+if(window.innerWidth > 800){
+	/* 3D标题 */
+	$(".content-header").on("mousemove", threedee);
+
+	/* 底部追随鼠标 */
+	$(".footer").hover(2);
+
+	/* gotop键的涟漪 */
+	$("#gotop").hover(1);
+
+	/* 赞赏的粒子雨 */
+	$("#reward").hover(3);
+
+	/* 微信公众号的底部渲染 */
+	$("#wechat").hover(4);
+
+    /* 标题跳动 */
+    $(".archivestitle").bumpyText();
+
+	/* 图片点击放大 */
+	const postimg = jQuery(".post-content img:not(.github-emoji)");
+	postimg.on("click",function(){
+
+		mask.classList.add("in");
+		main.classList.add("Mask");
+		menu.classList.add("Mask");
+		var myimg = this.cloneNode(true);
+		myimg.classList.add("imgShow");
+
+		setTimeout(function(){
+			jQuery(myimg).animate({
+				opacity:"1"
+			},1000);
+		},0);
+
+		document.body.appendChild(myimg);
+
+		myimg.onclick=function(){
+			document.body.removeChild(myimg);
+			mask.classList.remove("in");
+			main.classList.remove("Mask");
+			menu.classList.remove("Mask");
+		};
+
+	});
+
+}
+
+/* 名字跳动 */
+$("#name").bumpyText();
+
+
+/* 网站运行时间 */
+setInterval(function () {
+	setTime("2018/06/04");
+}, 1000);
+
+/* 文章块的淡出 */
+postshow();
+
+/* 座右铭 */
+
+    elasticText({
+        id: "mymotto",
+        duration: 100,
+        effact: "easeOut",
+        content: "那时候没有伤,不会哭泣"
+    });
+
+
+
+/* 粘贴提示 */
+G($(".post-content"), location.href, "Jesse");
+
+
+/* 控制台 */
+if (window.console && window.console.log) {
+	setTimeout(function () {
+		console.log("\n %c 一个坏掉的番茄 %c  © Simon Ma  http://tomotoes.com \n\n", "color:#FFFFFB;background:#1abc9c;padding:5px 0;border-radius:.5rem 0 0 .5rem;", "color:#FFFFFB;background:#080808;padding:5px 0;border-radius:0 .5rem .5rem 0;");
+	}, 0);
+}
+
+</script>
+
+
+
+
+<!-- 公式渲染 -->
+
+
+
+<!-- 不蒜子 -->
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+
+
+</body>
+</html>
