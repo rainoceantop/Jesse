@@ -47,7 +47,7 @@
 <meta property="og:site_name" content="Jesse">
 <meta property="og:description" content="mysql优化主要分为三个方面1.内核优化（主要由服务器运维人员完成）2.配置参数优化（my.cnf），通过进行压力测试来适当调整配置参数3.SQL语句优化">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-07-10T16:45:32.494Z">
+<meta property="og:updated_time" content="2018-07-10T17:00:08.864Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="mysql优化（配置参数优化）">
 <meta name="twitter:description" content="mysql优化主要分为三个方面1.内核优化（主要由服务器运维人员完成）2.配置参数优化（my.cnf），通过进行压力测试来适当调整配置参数3.SQL语句优化">
@@ -259,7 +259,7 @@
 <li><code>RESET QUERY CACHE;</code> // 从查询缓存中移出所有查询</li>
 <li><code>FLUSH TABLES;</code> //关闭所有打开的表，同时该操作将会清空查询缓存中的内容</li>
 </ul>
-<h4 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h4><p>1.mysql配置文件：linux一般放在/etc/my.cnf（xampp集成环境在lampp下的etc中）<br>2.查询mysql变量的单位：B（也就是如果你设置query_cache_size=20M，那么查询该变量时会显示20<em>1024</em>1024的值）<br>3.如果使用的数据库引擎是innodb，那么innodb_buffer_pool_size是一个对于优化很重要的变量，可以缓存表的索引，数据，插入数据时的缓冲，值越大，可缓存的数据越多，就不需要频繁地进行磁盘I/O读写操作。如果是一个专用DB服务器，那么他可以占到内存的70%-80%。<strong>但是也不是越大越好，分配过大，会使Swap占用过多，致使Mysql的查询特慢</strong></p>
+<h4 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h4><p>1.mysql配置文件：linux一般放在/etc/my.cnf（xampp集成环境在lampp下的etc中）<br>2.查询mysql变量的单位：B（也就是如果你设置query_cache_size=20M，那么查询该变量时会显示20*1024*1024的值）<br>3.如果使用的数据库引擎是innodb，那么innodb_buffer_pool_size是一个对于优化很重要的变量，可以缓存表的索引，数据，插入数据时的缓冲，值越大，可缓存的数据越多，就不需要频繁地进行磁盘I/O读写操作。如果是一个专用DB服务器，那么他可以占到内存的70%-80%。<strong>但是也不是越大越好，分配过大，会使Swap占用过多，致使Mysql的查询特慢</strong></p>
 
         </div>
 
@@ -267,7 +267,7 @@
     <div class="content">
         
 <span class="post-time">
-    最后更新：<time datetime="2018-07-10T16:45:32.494Z" itemprop="dateUpdated">2018-07-11 00:45:32</time>
+    最后更新：<time datetime="2018-07-10T17:00:08.864Z" itemprop="dateUpdated">2018-07-11 01:00:08</time>
 </span>
 
 
