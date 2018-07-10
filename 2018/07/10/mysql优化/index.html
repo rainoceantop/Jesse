@@ -47,7 +47,7 @@
 <meta property="og:site_name" content="Jesse">
 <meta property="og:description" content="mysql优化主要分为三个方面1.内核优化（主要由服务器运维人员完成）2.配置参数优化（my.cnf），通过进行压力测试来适当调整配置参数3.SQL语句优化">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-07-09T20:13:10.908Z">
+<meta property="og:updated_time" content="2018-07-10T16:45:32.494Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="mysql优化（配置参数优化）">
 <meta name="twitter:description" content="mysql优化主要分为三个方面1.内核优化（主要由服务器运维人员完成）2.配置参数优化（my.cnf），通过进行压力测试来适当调整配置参数3.SQL语句优化">
@@ -222,7 +222,7 @@
 <a id="more"></a>
 <p><strong>前言：本文代码必须在mysql环境下实现</strong><br><strong>命令行运行mysql命令：<code>mysql -u 帐号 -p 密码</code></strong></p>
 <h4 id="查看运行时间"><a href="#查看运行时间" class="headerlink" title="查看运行时间"></a>查看运行时间</h4><p>1.<code>select version()</code>：查看数据库版本，只有5.0.37以上版本才支持show profiles（查看语句具体运行时间）<br>2.<code>show variables like &quot;%pro%&quot;</code>：查看profiling是否开启（默认不开启）<br>3.<code>set profiling = 1</code>：开启profiling<br>4.<code>show profiles</code>：查看所有运行过的sql语句的执行时间<br>5.<code>show profile for query 1</code>：查看第一个sql语句执行过程的各个操作的耗时情况<br>6.<code>show profile cpu,block io,memory,swaps,context switches,source for query 1</code>：查看第一个sql语句执行的各种资源消耗情况<br>7.<code>set profiling = 0</code>：关闭profiling</p>
-<h4 id="修改变量"><a href="#修改变量" class="headerlink" title="修改变量"></a>修改变量</h4><p><strong>大部分mysql变量都是可以用set加变量名修改的，具体有以下几种方式</strong><br>1.<code>set profiling = 1/0</code>：开启/关闭profiling，也可以使用2/3/4的命令<br>2.<code>set @@profiling = 1/0</code>：效果如2<br>3.<code>set @@session.profiling = 1/0</code>：效果如2<br>4.<code>set session profiling = 1/0</code>：效果如2<br><strong>set global profiling = 1/0：由于profiling是当前会话级别的，所以该语句无效</strong></p>
+<h4 id="修改变量"><a href="#修改变量" class="headerlink" title="修改变量"></a>修改变量</h4><p><strong>大部分mysql变量都是可以用set加变量名修改的，具体有以下几种方式</strong><br>1.<code>set profiling = 1/0</code>：开启/关闭profiling，也可以使用2/3/4的命令<br>2.<code>set @@profiling = 1/0</code>：效果如1<br>3.<code>set @@session.profiling = 1/0</code>：效果如1<br>4.<code>set session profiling = 1/0</code>：效果如1<br><strong>set global profiling = 1/0：由于profiling是当前会话级别的，所以该语句无效</strong></p>
 <h4 id="查询变量"><a href="#查询变量" class="headerlink" title="查询变量"></a>查询变量</h4><p><strong>查询变量可用<code>show variables like &#39;%somthing%&#39;</code>查询相关变量，如想查询指定变量可用<code>select @@var_name</code></strong><br>1.GLOBAL：全局变量，修改这个级别的变量影响所有会话<br>2.SESSION：当前会话变量，修改这个级别的变量影响当前会话<br>3.<code>SHOW [GLOBAL | SESSION] VARIABLES [LIKE &#39;pattern&#39; | WHERE expr]</code>：查看变量（全局会话，当前会话）的通用表达式<br>4.<code>select @@global.var_name/@@session.var_name</code>：查看单个变量（完全显示变量名和值）</p>
 <h4 id="自定义变量"><a href="#自定义变量" class="headerlink" title="自定义变量"></a>自定义变量</h4><p>1.创建变量并赋值：<code>set @name=&#39;hello world&#39;</code>;<br>2.变量赋值：<code>set @name:=author from posts limit 0,1;</code>（将查询到的author栏的第一个值赋值）<br>3.查看变量：<code>select @name</code>;</p>
 <h4 id="缓存"><a href="#缓存" class="headerlink" title="缓存"></a>缓存</h4><h5 id="查看是否开启缓存"><a href="#查看是否开启缓存" class="headerlink" title="查看是否开启缓存"></a>查看是否开启缓存</h5><p><code>show variables like &#39;%query_cache%&#39;</code>：如果query_cache_type值是ON的话说明已经开启缓存<br><strong>查询得到的如下属性以及其代表意义</strong></p>
@@ -267,7 +267,7 @@
     <div class="content">
         
 <span class="post-time">
-    最后更新：<time datetime="2018-07-09T20:13:10.908Z" itemprop="dateUpdated">2018-07-10 04:13:10</time>
+    最后更新：<time datetime="2018-07-10T16:45:32.494Z" itemprop="dateUpdated">2018-07-11 00:45:32</time>
 </span>
 
 
