@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Language" content="zh-cn">
+    <meta charset="utf-8">
+    
+    
+    
+    <title>分布式缓存系统memcached笔记 | Jesse | 个人博客</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    
+    <meta name="theme-color" content="#77AAFF">
+    
+    
+    <meta name="keywords" content="memcached,memcache,缓存技术,缓存">
+    
+    
+
+    
+
+    <!-- Baidu Push -->
+<script>
+	(function(){
+		var bp = document.createElement('script');
+		var curProtocol = window.location.protocol.split(':')[0];
+		if (curProtocol === 'https') {
+			bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+		}
+		else {
+			bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+		}
+		var s = document.getElementsByTagName("script")[0];
+		s.parentNode.insertBefore(bp, s);
+	})();
+
+	var _hmt = _hmt || [];
+</script>
+
+
+
+    
+    <meta name="description" content="Memcached 是一个高性能的分布式内存对象缓存系统，用于动态Web应用以减轻数据库负载。它通过在内存中缓存数据和对象来减少读取数据库的次数，从而提高动态、数据库驱动网站的速度。Memcached基于一个存储键/值对的hashmap。">
+<meta name="keywords" content="memcached,memcache,缓存技术,缓存">
+<meta property="og:type" content="article">
+<meta property="og:title" content="分布式缓存系统memcached笔记">
+<meta property="og:url" content="https://rainoceantop.github.io/Jesse/2018/07/23/分布式缓存系统memcached笔记/index.html">
+<meta property="og:site_name" content="Jesse">
+<meta property="og:description" content="Memcached 是一个高性能的分布式内存对象缓存系统，用于动态Web应用以减轻数据库负载。它通过在内存中缓存数据和对象来减少读取数据库的次数，从而提高动态、数据库驱动网站的速度。Memcached基于一个存储键/值对的hashmap。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-07-22T23:27:15.704Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="分布式缓存系统memcached笔记">
+<meta name="twitter:description" content="Memcached 是一个高性能的分布式内存对象缓存系统，用于动态Web应用以减轻数据库负载。它通过在内存中缓存数据和对象来减少读取数据库的次数，从而提高动态、数据库驱动网站的速度。Memcached基于一个存储键/值对的hashmap。">
+    
+        <link rel="alternate" type="application/atom+xml" title="Jesse" href="/Jesse/atom.xml">
+    
+    <link rel="shortcut icon" href="/Jesse/img/favicon.ico">
+    <link id="style" rel="stylesheet" href="/Jesse/css/style.css?v=3.0">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+            
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+    <aside id="menu"  class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" >
+      <div class="brand">
+        <a href="/Jesse/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/Jesse/img/avatar.jpg" alt="avatar">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname" id="name">Jesse</h5>
+          
+            <div id="mymotto" class="motto"></div>
+          
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+              <li class="waves-block waves-effect">
+                  <a href="/Jesse/"  >
+                    <i class="icon icon-lg icon-home"></i>
+                    <span>主 页</span><i class="icon icon-lg icon-caret-left"></i>
+                  </a>
+              </li>
+            
+              <li class="waves-block waves-effect">
+                  <a href="/Jesse/archives"  >
+                    <i class="icon icon-lg icon-archives"></i>
+                    <span>归 档</span><i class="icon icon-lg icon-caret-left"></i>
+                  </a>
+              </li>
+            
+              <li class="waves-block waves-effect">
+                  <a href="/Jesse/categories"  >
+                    <i class="icon icon-lg icon-th-list"></i>
+                    <span>分 类</span><i class="icon icon-lg icon-caret-left"></i>
+                  </a>
+              </li>
+            
+              <li class="waves-block waves-effect">
+                  <a href="/Jesse/tags"  >
+                    <i class="icon icon-lg icon-tags"></i>
+                    <span>标 签</span><i class="icon icon-lg icon-caret-left"></i>
+                  </a>
+              </li>
+            
+      <div class="nav2">
+          
+              <a class="nav2item" data-title="Email" href="mailto:2424457572@qq.com" target="_parent"title="Email" >
+                <i class="icon icon-lg icon-envelope-o envelope-o"></i>
+              </a>
+          
+              <a class="nav2item" data-title="Github" href="https://github.com/rainoceantop" target="_blank"title="Github" >
+                <i class="icon icon-lg icon-github github"></i>
+              </a>
+          
+              <a class="nav2item" data-title="微博" href="/Jesse/" target="_blank"title="微博" >
+                <i class="icon icon-lg icon-weibo weibo"></i>
+              </a>
+          
+
+            </div>
+        
+      </ul>
+        
+    </div>
+  </div>
+ 
+</aside>
+
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">分布式缓存系统memcached笔记</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        <a href="../../atom.xml" target="_blank" class="header-icon waves-effect waves-circle waves-light" id="Rss">
+            <i class="icon icon-lg icon-rss"></i>
+        </a>
+    </div>
+</header>
+<header class="content-header post-header">
+    
+    
+    <div class="container fade-scale">
+        <div id="myheader">
+            <h1 class="title">
+                
+            </h1>
+            <h5 class="subtitle">
+                
+                
+            </h5>
+        </div>
+    </div>
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#安装向导"><span class="post-toc-number">1.</span> <span class="post-toc-text">安装向导</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#关键字"><span class="post-toc-number">2.</span> <span class="post-toc-text">关键字</span></a></li></ol>
+        </nav>
+    </aside>
+   
+<article id="post-分布式缓存系统memcached笔记"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">分布式缓存系统memcached笔记</h1>
+        <div class="post-meta">
+            <i class="icon icon-lg icon-calendar-o"></i>
+            发表于
+            <time class="post-time" title="2018-07-23 06:57:00" datetime="2018-07-22T22:57:00.000Z"  itemprop="datePublished">2018-07-23</time>
+
+            <br id="mybreak"/>
+            
+	<i class="icon icon-lg icon-folder-o"></i>
+	分类：<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/Jesse/categories/缓存技术/">缓存技术</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/Jesse/categories/缓存技术/memcached/">memcached</a></li></ul></li></ul>
+
+
+            <i>·</i>
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>次浏览
+</span>
+
+
+        </div>
+        <div class="post-count-custom">
+            <i class="icon icon-lg icon-comment-o"></i>
+            阅读本文可能花费您&nbsp;<span class="post-count">3</span>&nbsp;分钟
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>Memcached 是一个高性能的分布式内存对象缓存系统，用于动态Web应用以减轻数据库负载。它通过在内存中缓存数据和对象来减少读取数据库的次数，从而提高动态、数据库驱动网站的速度。Memcached基于一个存储键/值对的hashmap。</p>
+<a id="more"></a>
+<h4 id="安装向导"><a href="#安装向导" class="headerlink" title="安装向导"></a>安装向导</h4><p>linux下载memcached：<code>sudo pacman -S memcached (manjaro)</code> | <code>sudo apt-get install memcached (ubuntu)</code><br>启动/重启：<code>memcached -m 64m -p 11211 -vv (common)))</code> | <code>memcached</code> | <code>memcached start/stop/restart (ubuntu)</code><br>查看运行状态：<code>ps -ef|grep memcached</code><br>查看帮助：<code>memcached -h</code><br>telnet连接：<code>telnet localhost 11211</code></p>
+<h4 id="关键字"><a href="#关键字" class="headerlink" title="关键字"></a>关键字</h4><p>stats：显示分析详情<br>set语句：用于将 value(数据值) 存储在指定的 key(键) 中。如果set的key已经存在，则更新其值<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">set key flags exptime bytes [noreply] </span><br><span class="line">value</span><br></pre></td></tr></table></figure></p>
+<p>add语句：用于将 value(数据值) 存储在指定的 key(键) 中。 如果 add 的 key 已经存在，则不会更新数据(过期的 key 会更新)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">add key flags exptime bytes [noreply]</span><br><span class="line">value</span><br></pre></td></tr></table></figure></p>
+<p>get语句：获取一个或多个存储在 key(键) 中的 value(数据值) ，如果 key 不存在，则返回空<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">get key</span><br><span class="line">get key1 key2 key3</span><br></pre></td></tr></table></figure></p>
+<p>replace语句：用于替换已存在的 key(键) 的 value(数据值)。如果 key 不存在，则替换失败<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">replace key flags exptime bytes [noreply]</span><br><span class="line">value</span><br></pre></td></tr></table></figure></p>
+<p>append语句：用于向已存在 key(键) 的 value(数据值) 后面追加数据<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">append key flags exptime bytes [noreply]</span><br><span class="line">value</span><br></pre></td></tr></table></figure></p>
+<p>prepend语句：用于向已存在 key(键) 的 value(数据值) 前面追加数据<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">prepend key flags exptime bytes [noreply]</span><br><span class="line">value</span><br></pre></td></tr></table></figure></p>
+<p>cas语句：（Check-And-Set 或 Compare-And-Swap） 命令用于执行一个”检查并设置”的操作，它需要指定当前key的cas_token才可以修改值，cas_token可以用gets获取到，每一次修改key值cas_token都会改变<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cas key flags exptime bytes unique_cas_token [noreply]</span><br><span class="line">value</span><br></pre></td></tr></table></figure></p>
+<p>delete语句：用于删除已存在的 key(键)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">delete key [noreply]</span><br></pre></td></tr></table></figure></p>
+<p>incr|decr语句：用于对已存在的 key(键) 的数字值进行自增或自减操作<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">incr key increment_value</span><br><span class="line">decr key decrement_value</span><br></pre></td></tr></table></figure></p>
+<p>flush_all语句：用于清理缓存中的所有 key=&gt;value(键=&gt;值) 对<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flush_all [time] [noreply]</span><br></pre></td></tr></table></figure></p>
+<hr>
+<p>语句参数解释</p>
+<pre><code>key：键值 key-value 结构中的 key，用于查找缓存值
+flags：可以包括键值对的整型参数，客户机使用它存储关于键值对的额外信息 
+exptime：在缓存中保存键值对的时间长度（以秒为单位，0 表示永远）
+bytes：在缓存中存储的字节数
+noreply（可选）： 该参数告知服务器不需要返回数据
+value：存储的值（始终位于第二行）（可直接理解为key-value结构中的value）
+unique_cas_token：通过 gets命令获取的一个唯一的64位值
+increment_value： 增加的数值
+decrement_value： 减少的数值
+time：用于在制定的时间后执行清理缓存操作
+</code></pre><hr>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    <div class="content">
+        
+<span class="post-time">
+    最后更新：<time datetime="2018-07-22T23:27:15.704Z" itemprop="dateUpdated">2018-07-23 07:27:15</time>
+</span>
+
+
+        
+        原文链接：<a href="/Jesse/2018/07/23/分布式缓存系统memcached笔记/" target="_blank" rel="external">https://rainoceantop.github.io/Jesse/2018/07/23/分布式缓存系统memcached笔记/</a>
+        
+    </div>
+    <footer>
+        <div onclick="location.href='https://rainoceantop.github.io/Jesse'">
+            <img src="/Jesse/img/avatar.jpg" alt="Jesse">
+            <a>Jesse</a>
+        </div>
+    </footer>
+</blockquote>
+
+        
+    <div class="page-reward">
+        <nav class="myreward">
+            <a id="rewardBtn" href="javascript:;"><span>打&nbsp;赏</span><span>装成好像很多人打赏的样子</span></a>
+        </nav>
+    </div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/Jesse/tags/memcache/">memcache</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/Jesse/tags/memcached/">memcached</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/Jesse/tags/缓存/">缓存</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/Jesse/tags/缓存技术/">缓存技术</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://rainoceantop.github.io/Jesse/2018/07/23/分布式缓存系统memcached笔记/&title=《分布式缓存系统memcached笔记》 — Jesse&pic=https://rainoceantop.github.io/Jesse/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://rainoceantop.github.io/Jesse/2018/07/23/分布式缓存系统memcached笔记/&title=《分布式缓存系统memcached笔记》 — Jesse&source=Memcached 是一个高性能的分布式内存对象缓存系统，用于动态Web应用以减轻数据库负载。它通过在内存中缓存数据和对象来减少读取数据库的次数，从而提高..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://rainoceantop.github.io/Jesse/2018/07/23/分布式缓存系统memcached笔记/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《分布式缓存系统memcached笔记》 — Jesse&url=https://rainoceantop.github.io/Jesse/2018/07/23/分布式缓存系统memcached笔记/&via=https://rainoceantop.github.io/Jesse" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://rainoceantop.github.io/Jesse/2018/07/23/分布式缓存系统memcached笔记/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/Jesse/2018/07/10/mysql优化/" id="post-next" class="post-nav-link">
+        <h4 class="title" data-hover="下一篇：mysql优化（配置参数优化）">下一篇：mysql优化（配置参数优化）</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+    
+
+    
+
+    
+
+
+</article>
+
+</div>
+
+        <footer class="footer">
+    <div class="footer-content">
+        <span class="power">
+            <i class="icon icon-lg icon-copyright"></i>
+            2018
+            <i class="icon icon-lg icon-heart"></i>
+            <a href="https://rainoceantop.github.io/Jesse">jesse</a>
+            <br/>
+            Power by
+            <a href="https://hexo.io/" target="_blank" rel="external nofollow">Hexo</a>&nbsp;·&nbsp;
+            Theme
+            <a class="tomotoeslink" href="https://github.com/tomotoes/hexo-theme-tomotoes/" target="_blank" rel="external nofollow">tomotoes</a>
+        </span>
+
+        <br/>
+
+        <span id="RunTime" style="color:#a7a7a2;"></span>
+        <br/>
+
+        <span>
+            
+
+        </span>
+        <br/>
+
+        <!--<span class="license"><a  target="_blank" rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">博客内容遵循 知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>-->
+    </div>
+</footer>
+
+    </main>
+    
+        
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        <span>感谢您的鼓励支持！</span>
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" data-img="/Jesse/img/thankyou.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/Jesse/img/wechatpay.png" data-alipay="/Jesse/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechatPay">&nbsp;&nbsp;微信&nbsp;&nbsp;</span>
+                <span class="reward-toggle-item alipayPay">支付宝</span>
+            </div>
+        </label>
+        
+        <i class="icon icon-caret-up"></i>
+    </div>
+</div>
+
+
+    
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://rainoceantop.github.io/Jesse/2018/07/23/分布式缓存系统memcached笔记/&title=《分布式缓存系统memcached笔记》 — Jesse&pic=https://rainoceantop.github.io/Jesse/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://rainoceantop.github.io/Jesse/2018/07/23/分布式缓存系统memcached笔记/&title=《分布式缓存系统memcached笔记》 — Jesse&source=Memcached 是一个高性能的分布式内存对象缓存系统，用于动态Web应用以减轻数据库负载。它通过在内存中缓存数据和对象来减少读取数据库的次数，从而提高..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://rainoceantop.github.io/Jesse/2018/07/23/分布式缓存系统memcached笔记/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《分布式缓存系统memcached笔记》 — Jesse&url=https://rainoceantop.github.io/Jesse/2018/07/23/分布式缓存系统memcached笔记/&via=https://rainoceantop.github.io/Jesse" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://rainoceantop.github.io/Jesse/2018/07/23/分布式缓存系统memcached笔记/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p class="wechatshare">扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPYAAAD2CAAAAADAeSUUAAADIklEQVR42u3aUW4iQQwEUO5/aXKADWyVe5AY580X2kDTryPF63I/HvHzfPv8+8525VeffcbP4xMPNjY29k3YyXIz9qsV3n97fijvv+U/R4ONjY29jp2XlgTWlrf3B/3+gNqjwcbGxsbOS0hyHEmRSxoVbGxsbOxZAZu1EwnvvPnBxsbG/mvsvMzkjcSszZiVzA9madjY2Nhfzz4Zx37b64/Mt7GxsbG/mP0sn2tbkaQQtkPiSIGNjY29iJ0XgPw/9G24PyufbQHDxsbG3s1ui8RVw9ereO34ARsbG3sTO2kwkkA/H8fmlynzX0DeomBjY2NvZecj1bx0neBnx1EMNrCxsbEXsfNNz16fDxVaUjt4wMbGxr47ewbI46R2tfxSzsmwARsbG3sTu91uu9FZazGj1qMFbGxs7BXsPKz/3N//WYDVHgc2Njb2Vvbscsx5E9LmXueR1ssyho2Njb2O3V7BmRWYZOibrzz7dmxsbOwd7KSctO9vr2zmIdRVbQk2Njb2JnZewGb4k6cdM7dlFRsbG3sH+zy+ScYAs5HtefF7eSjY2NjYS9l5Y3ASPCWxUfKppBUpUjRsbGzs27Lz2P1k1JpH/PkgebaHoifDxsbGvhU7X/QTg9s8Qkr2mf8UGxsbexO7vf5yEui0zUxbGtsxAzY2NvYmdhs5zWL9PAaatTHnsRQ2Njb2vdj5MLW9/piUqDZ4atubolZjY2Njr2AnofxsW/nYdRgMlUURGxsbeys7AbcXYpLSctWouDh0bGxs7EXstoTM0qlry2QeXRV4bGxs7Juzo1nBqPy0Y4DkUGYlLaqu2NjY2Ddn5xdxTt45jIHK8hmtho2Njb2afX4dJ9lWciizYfMwSMLGxsa+IftZPsmnHuXTlsaTqz/Y2NjY+9jt5vIGoC2TJ6PlWZuEjY2NvYmdF4nZ6+SATspkG35hY2Njb2Vf2yS0jUQeRZ0UXWxsbGzstrWYxff5MR3tFhsbG/sPs5MAKG8/kvXzAXMyqMbGxsbeyp4Nd89jprw5OQmVfvkXbGxs7EXs2cWaWUuQUE/irXbMjI2NjX1z9g8hqpHNSZS44wAAAABJRU5ErkJggg==" alt="微信分享二维码">
+</div>
+
+
+
+
+    <!-- waves按钮特效 -->
+<script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+
+<!-- 主题配置脚本 -->
+<script>
+var BLOG = { ROOT: '/Jesse/', SHARE: true, REWARD: true };
+</script>
+
+<!-- jquery -->
+<script src="/Jesse/js/jquery.min.js?v=3.0"></script>
+
+<!-- 搜索 -->
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item waves-block waves-effect" onclick="location.href='{path}'">
+    <div class="title ellipsis" title="{title}">{title}</div>
+</li>
+</template>
+
+
+<!-- main博客脚本 -->
+<script src="/Jesse/js/main.min.js?v=3.0" ></script>
+
+<!-- 动画&配置 -->
+<script src="/Jesse/js/script.min.js?v=3.0" ></script>
+
+<!-- 脚本管理 -->
+<script>
+
+if(window.innerWidth > 800){
+	/* 3D标题 */
+	$(".content-header").on("mousemove", threedee);
+
+	/* 底部追随鼠标 */
+	$(".footer").hover(2);
+
+	/* gotop键的涟漪 */
+	$("#gotop").hover(1);
+
+	/* 赞赏的粒子雨 */
+	$("#reward").hover(3);
+
+	/* 微信公众号的底部渲染 */
+	$("#wechat").hover(4);
+
+    /* 标题跳动 */
+    $(".archivestitle").bumpyText();
+
+	/* 图片点击放大 */
+	const postimg = jQuery(".post-content img:not(.github-emoji)");
+	postimg.on("click",function(){
+
+		mask.classList.add("in");
+		main.classList.add("Mask");
+		menu.classList.add("Mask");
+		var myimg = this.cloneNode(true);
+		myimg.classList.add("imgShow");
+
+		setTimeout(function(){
+			jQuery(myimg).animate({
+				opacity:"1"
+			},1000);
+		},0);
+
+		document.body.appendChild(myimg);
+
+		myimg.onclick=function(){
+			document.body.removeChild(myimg);
+			mask.classList.remove("in");
+			main.classList.remove("Mask");
+			menu.classList.remove("Mask");
+		};
+
+	});
+
+}
+
+/* 名字跳动 */
+$("#name").bumpyText();
+
+
+/* 网站运行时间 */
+setInterval(function () {
+	setTime("2018/06/04");
+}, 1000);
+
+/* 文章块的淡出 */
+postshow();
+
+/* 座右铭 */
+
+    elasticText({
+        id: "mymotto",
+        duration: 100,
+        effact: "easeOut",
+        content: "那时候没有伤,不会哭泣"
+    });
+
+
+
+/* 粘贴提示 */
+G($(".post-content"), location.href, "Jesse");
+
+
+/* 控制台 */
+if (window.console && window.console.log) {
+	setTimeout(function () {
+		console.log("\n %c 一个坏掉的番茄 %c  © Simon Ma  http://tomotoes.com \n\n", "color:#FFFFFB;background:#1abc9c;padding:5px 0;border-radius:.5rem 0 0 .5rem;", "color:#FFFFFB;background:#080808;padding:5px 0;border-radius:0 .5rem .5rem 0;");
+	}, 0);
+}
+
+</script>
+
+
+
+
+<!-- 公式渲染 -->
+
+
+
+<!-- 不蒜子 -->
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+
+
+</body>
+</html>
