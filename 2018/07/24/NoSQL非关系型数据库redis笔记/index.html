@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Language" content="zh-cn">
+    <meta charset="utf-8">
+    
+    
+    
+    <title>NoSQL非关系型数据库redis笔记 | Jesse | 个人博客</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    
+    <meta name="theme-color" content="#77AAFF">
+    
+    
+    <meta name="keywords" content="缓存技术,缓存,nosql,redis,非关系型数据库">
+    
+    
+
+    
+
+    <!-- Baidu Push -->
+<script>
+	(function(){
+		var bp = document.createElement('script');
+		var curProtocol = window.location.protocol.split(':')[0];
+		if (curProtocol === 'https') {
+			bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+		}
+		else {
+			bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+		}
+		var s = document.getElementsByTagName("script")[0];
+		s.parentNode.insertBefore(bp, s);
+	})();
+
+	var _hmt = _hmt || [];
+</script>
+
+
+
+    
+    <meta name="description" content="redis是一个key-value存储系统。和Memcached类似，它支持存储的value类型相对更多，包括string(字符串)、list(链表)、set(集合)、zset(sorted set –有序集合)和hash（哈希类型）。这些数据类型都支持push/pop、add/remove及取交集并集和差集及更丰富的操作，而且这些操作都是原子性的。在此基础上，redis支持各种不同方式的排序。与">
+<meta name="keywords" content="缓存技术,缓存,nosql,redis,非关系型数据库">
+<meta property="og:type" content="article">
+<meta property="og:title" content="NoSQL非关系型数据库redis笔记">
+<meta property="og:url" content="https://rainoceantop.github.io/Jesse/2018/07/24/NoSQL非关系型数据库redis笔记/index.html">
+<meta property="og:site_name" content="Jesse">
+<meta property="og:description" content="redis是一个key-value存储系统。和Memcached类似，它支持存储的value类型相对更多，包括string(字符串)、list(链表)、set(集合)、zset(sorted set –有序集合)和hash（哈希类型）。这些数据类型都支持push/pop、add/remove及取交集并集和差集及更丰富的操作，而且这些操作都是原子性的。在此基础上，redis支持各种不同方式的排序。与">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-07-24T00:30:35.620Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="NoSQL非关系型数据库redis笔记">
+<meta name="twitter:description" content="redis是一个key-value存储系统。和Memcached类似，它支持存储的value类型相对更多，包括string(字符串)、list(链表)、set(集合)、zset(sorted set –有序集合)和hash（哈希类型）。这些数据类型都支持push/pop、add/remove及取交集并集和差集及更丰富的操作，而且这些操作都是原子性的。在此基础上，redis支持各种不同方式的排序。与">
+    
+        <link rel="alternate" type="application/atom+xml" title="Jesse" href="/Jesse/atom.xml">
+    
+    <link rel="shortcut icon" href="/Jesse/img/favicon.ico">
+    <link id="style" rel="stylesheet" href="/Jesse/css/style.css?v=3.0">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+            
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+    <aside id="menu"  class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" >
+      <div class="brand">
+        <a href="/Jesse/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/Jesse/img/avatar.jpg" alt="avatar">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname" id="name">Jesse</h5>
+          
+            <div id="mymotto" class="motto"></div>
+          
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+              <li class="waves-block waves-effect">
+                  <a href="/Jesse/"  >
+                    <i class="icon icon-lg icon-home"></i>
+                    <span>主 页</span><i class="icon icon-lg icon-caret-left"></i>
+                  </a>
+              </li>
+            
+              <li class="waves-block waves-effect">
+                  <a href="/Jesse/archives"  >
+                    <i class="icon icon-lg icon-archives"></i>
+                    <span>归 档</span><i class="icon icon-lg icon-caret-left"></i>
+                  </a>
+              </li>
+            
+              <li class="waves-block waves-effect">
+                  <a href="/Jesse/categories"  >
+                    <i class="icon icon-lg icon-th-list"></i>
+                    <span>分 类</span><i class="icon icon-lg icon-caret-left"></i>
+                  </a>
+              </li>
+            
+              <li class="waves-block waves-effect">
+                  <a href="/Jesse/tags"  >
+                    <i class="icon icon-lg icon-tags"></i>
+                    <span>标 签</span><i class="icon icon-lg icon-caret-left"></i>
+                  </a>
+              </li>
+            
+      <div class="nav2">
+          
+              <a class="nav2item" data-title="Email" href="mailto:2424457572@qq.com" target="_parent"title="Email" >
+                <i class="icon icon-lg icon-envelope-o envelope-o"></i>
+              </a>
+          
+              <a class="nav2item" data-title="Github" href="https://github.com/rainoceantop" target="_blank"title="Github" >
+                <i class="icon icon-lg icon-github github"></i>
+              </a>
+          
+              <a class="nav2item" data-title="微博" href="/Jesse/" target="_blank"title="微博" >
+                <i class="icon icon-lg icon-weibo weibo"></i>
+              </a>
+          
+
+            </div>
+        
+      </ul>
+        
+    </div>
+  </div>
+ 
+</aside>
+
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">NoSQL非关系型数据库redis笔记</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        <a href="../../atom.xml" target="_blank" class="header-icon waves-effect waves-circle waves-light" id="Rss">
+            <i class="icon icon-lg icon-rss"></i>
+        </a>
+    </div>
+</header>
+<header class="content-header post-header">
+    
+    
+    <div class="container fade-scale">
+        <div id="myheader">
+            <h1 class="title">
+                
+            </h1>
+            <h5 class="subtitle">
+                
+                
+            </h5>
+        </div>
+    </div>
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#安装向导"><span class="post-toc-number">1.</span> <span class="post-toc-text">安装向导</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#字符串"><span class="post-toc-number">2.</span> <span class="post-toc-text">字符串</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#LIST列表"><span class="post-toc-number">3.</span> <span class="post-toc-text">LIST列表</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#SET集合"><span class="post-toc-number">4.</span> <span class="post-toc-text">SET集合</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#SET有序集合"><span class="post-toc-number">5.</span> <span class="post-toc-text">SET有序集合</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#HSET哈希表"><span class="post-toc-number">6.</span> <span class="post-toc-text">HSET哈希表</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#HYPERLOGLOG基数统计"><span class="post-toc-number">7.</span> <span class="post-toc-text">HYPERLOGLOG基数统计</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#发布订阅"><span class="post-toc-number">8.</span> <span class="post-toc-text">发布订阅</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#事务"><span class="post-toc-number">9.</span> <span class="post-toc-text">事务</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#安全"><span class="post-toc-number">10.</span> <span class="post-toc-text">安全</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#设置密码"><span class="post-toc-number">10.1.</span> <span class="post-toc-text">设置密码</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#数据备份与恢复"><span class="post-toc-number">10.2.</span> <span class="post-toc-text">数据备份与恢复</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#redis服务器命令"><span class="post-toc-number">11.</span> <span class="post-toc-text">redis服务器命令</span></a></li></ol>
+        </nav>
+    </aside>
+   
+<article id="post-NoSQL非关系型数据库redis笔记"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">NoSQL非关系型数据库redis笔记</h1>
+        <div class="post-meta">
+            <i class="icon icon-lg icon-calendar-o"></i>
+            发表于
+            <time class="post-time" title="2018-07-24 06:45:45" datetime="2018-07-23T22:45:45.000Z"  itemprop="datePublished">2018-07-24</time>
+
+            <br id="mybreak"/>
+            
+	<i class="icon icon-lg icon-folder-o"></i>
+	分类：<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/Jesse/categories/NoSQL/">NoSQL</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/Jesse/categories/NoSQL/redis/">redis</a></li></ul></li></ul>
+
+
+            <i>·</i>
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>次浏览
+</span>
+
+
+        </div>
+        <div class="post-count-custom">
+            <i class="icon icon-lg icon-comment-o"></i>
+            阅读本文可能花费您&nbsp;<span class="post-count">17</span>&nbsp;分钟
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>redis是一个key-value存储系统。和Memcached类似，它支持存储的value类型相对更多，包括string(字符串)、list(链表)、set(集合)、zset(sorted set –有序集合)和hash（哈希类型）。这些数据类型都支持push/pop、add/remove及取交集并集和差集及更丰富的操作，而且这些操作都是原子性的。在此基础上，redis支持各种不同方式的排序。与memcached一样，为了保证效率，数据都是缓存在内存中。区别的是redis会周期性的把更新的数据写入磁盘或者把修改操作写入追加的记录文件，并且在此基础上实现了master-slave(主从)同步。</p>
+<a id="more"></a>
+<h4 id="安装向导"><a href="#安装向导" class="headerlink" title="安装向导"></a>安装向导</h4><p>linux安装：<code>sudo pacman -S redis (manjaro)</code> | <code>sudo apt-get install redis-server (ubuntu)</code><br>运行客户端：<code>redis-cli</code><br>遇到<code>Could not connect to Redis at 127.0.0.1:6379: Connection refused</code>问题：<br>1.如果/etc目录下没有redis.conf，将redis.conf复制到/etc目录下<br>2.打开redis.conf，将<strong>daemonize</strong>的值no改为yes，默认启动后台运行<br>3.开启<code>sudo redis-server /etc/redis.conf</code>服务端<br>4.重新运行redis客户端 <code>redis-cli</code>，输入ping，如果返回pong说明运行成功<br><strong>注：redis关键字不区分大小写，本笔记为了防止混淆，所有redis字段用大写</strong></p>
+<hr>
+<h4 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h4><p>set | get：设置|获取 对象<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">SET foo 100</span><br><span class="line">SET foo &quot;hello&quot; EX 10  ：10秒过期</span><br><span class="line">SET foo &quot;hello&quot; PX 1000：1000毫秒或1秒过期</span><br><span class="line">SET foo &quot;hello&quot; NX     ：只有foo键不存在值时才操作</span><br><span class="line">SET foo &quot;hello&quot; XX     ：只有foo键存在值时才操作</span><br><span class="line">GET foo</span><br></pre></td></tr></table></figure></p>
+<p>mset | mget：设置|获取 多个对象<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">MSET foo &quot;hello&quot; bar &quot;world&quot;</span><br><span class="line">MGET foo bar</span><br></pre></td></tr></table></figure></p>
+<p>strlen：返回对象字符串值的长度<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">STRLEN foo</span><br></pre></td></tr></table></figure></p>
+<p>append：给对象字符串追加值<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">APPEND foo &quot; world&quot;</span><br></pre></td></tr></table></figure></p>
+<p>rename：修改key的名称<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RENAME foo bar</span><br></pre></td></tr></table></figure></p>
+<p>del：删除对象<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DEL foo</span><br></pre></td></tr></table></figure></p>
+<p>expire：设置过期<strong>秒数</strong><br>pexpire：设置过期<strong>毫秒数</strong><br>expireat：设置过期<strong>时间戳</strong><br>ttl：查看剩余秒数过期<br>pttl：查看剩余毫秒数过期<br>persist：移除过期时间<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">EXPIRE foo 10</span><br><span class="line">PEXPIRE foo 1000</span><br><span class="line">EXPIREAT foo timestamp_val</span><br><span class="line">TTL foo</span><br><span class="line">PTTL foo</span><br><span class="line">PERSIST foo</span><br></pre></td></tr></table></figure></p>
+<p>incr | decr：数字自增|自减 1<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">INCR foo</span><br><span class="line">DECR foo</span><br></pre></td></tr></table></figure></p>
+<p>exists：查看对象是否存在，可同时查看多个<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">EXISTS foo</span><br><span class="line">EXISTS foo bar</span><br></pre></td></tr></table></figure></p>
+<h4 id="LIST列表"><a href="#LIST列表" class="headerlink" title="LIST列表"></a>LIST列表</h4><p>lpush | rpush：将元素 左推|右推 进列表，列表不存在则创建新列表<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">LPUSH mylist &quot;hello&quot; </span><br><span class="line">RPUSH mylist &quot;world&quot;</span><br><span class="line">RPUSH mylist &quot;hello&quot; &quot;world&quot;</span><br></pre></td></tr></table></figure></p>
+<p>lpushx | rpushx：将元素 左推|右推 进列表，列表不存在则操作失败<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">LPUSHX mylist &quot;hello&quot; </span><br><span class="line">RPUSHX mylist &quot;world&quot;</span><br></pre></td></tr></table></figure></p>
+<p>lrange：获取列表元素值<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">LRANGE mylist 0 -1</span><br></pre></td></tr></table></figure></p>
+<p>llen：获取列表长度<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">LLEN mylist</span><br></pre></td></tr></table></figure></p>
+<p>lpop | rpop： 左弹出|右弹出列表<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">LPOP mylist</span><br><span class="line">RPOP mylist</span><br></pre></td></tr></table></figure></p>
+<p>rpoplpush：从列表中右弹出一个元素，将弹出的元素左插入到另外一个列表中并返回它；如果列表没有元素返回nil<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RPOPLPUSH mylist1 mylist2</span><br></pre></td></tr></table></figure></p>
+<p>linsert：插入元素<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">LINSERT mylist BEFORE &quot;world&quot; &quot;insert text1&quot;</span><br><span class="line">LINSERT mylist AFTER &quot;hello&quot; &quot;insert text2&quot;</span><br></pre></td></tr></table></figure></p>
+<p>lindex：返回列表中该索引的元素<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">LINDEX mylist 0</span><br></pre></td></tr></table></figure></p>
+<p>blpop | brpop：移出并获取列表的第一|最后个元素， 如果列表没有元素会阻塞列表直到等待超时或发现可弹出元素为止<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">BLPOP mylist 10</span><br><span class="line">BRPOP mylist 10</span><br></pre></td></tr></table></figure></p>
+<p>brpoplpush：从列表中右弹出一个元素，将弹出的元素左插入到另外一个列表中并返回它； 如果列表没有元素会阻塞列表直到等待超时或发现可弹出元素为止<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">BRPOPLPUSH mylist1 mylist2</span><br></pre></td></tr></table></figure></p>
+<p>lrem：根据参数 count的值，移除列表中与参数 value相等的元素<br>    语法 ：  lrem key count value<br>    count &gt; 0 ： 从表头开始向表尾搜索，移除与 VALUE 相等的元素，数量为 COUNT<br>    count &lt; 0 ： 从表尾开始向表头搜索，移除与 VALUE 相等的元素，数量为 COUNT 的绝对值<br>    count = 0 ： 移除表中所有与 VALUE 相等的值<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">LREM mylist 1 &apos;foo&apos;</span><br></pre></td></tr></table></figure></p>
+<p>lset：通过索引设置元素的值<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">LSET mylist 0 &apos;new one&apos;</span><br></pre></td></tr></table></figure></p>
+<p>ltrim：设置区间裁剪列表，区间外元素全部丢弃<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">LTRIM mylist 0 5</span><br></pre></td></tr></table></figure></p>
+<h4 id="SET集合"><a href="#SET集合" class="headerlink" title="SET集合"></a>SET集合</h4><p>sadd：将一个或多个成员元素加入到集合中，已经存在于集合的成员元素将被忽略<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SADD people &quot;nancy&quot; &quot;mike&quot; &quot;kevin&quot; &quot;david&quot;</span><br></pre></td></tr></table></figure></p>
+<p>scard：返回集合中元素的数量<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SCARD people</span><br></pre></td></tr></table></figure></p>
+<p>sdiff：返回与第一个给定集合的差集。不存在的集合 key 将视为空集<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SDIFF people people2</span><br></pre></td></tr></table></figure></p>
+<p>sdiffstore：将与第一个给定集合的差集存储在给指定集合中，如果指定集合已存在则会被覆盖<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SDIFFSTORE people3 people people2</span><br></pre></td></tr></table></figure></p>
+<p>sinter：返回给定所有给定集合的交集。不存在的集合 key 被视为空集。当给定集合当中有一个空集时，结果也为空集(根据集合运算定律)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SINTER people people2</span><br></pre></td></tr></table></figure></p>
+<p>sinterstore：将给定集合之间的交集存储在指定的集合中。如果指定的集合已经存在，则将其覆盖<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SINTERSTORE people4 people people2</span><br></pre></td></tr></table></figure></p>
+<p>sismember：判断成员元素是否是集合的成员<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SISMEMBER people &quot;nancy&quot;</span><br></pre></td></tr></table></figure></p>
+<p>smembers：返回集合中所有的元素<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SMEMBERS people</span><br></pre></td></tr></table></figure></p>
+<p>smove：将指定成员 member 元素从 source 集合移动到 destination 集合<br>    SMOVE 是原子性操作<br>    如果 source 集合不存在或不包含指定的 member 元素，则 SMOVE 命令不执行任何操作，仅返回 0 。否则， member 元素从 source 集合中被移除，并添加到 destination 集合中去<br>    当 destination 集合已经包含 member 元素时， SMOVE 命令只是简单地将 source 集合中的 member 元素删除<br>    当 source 或 destination 不是集合类型时，返回一个错误<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SMOVE people people2 &quot;mike&quot;</span><br></pre></td></tr></table></figure></p>
+<p>spop：移除并返回集合中的一个随机元素<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SPOP people</span><br></pre></td></tr></table></figure></p>
+<p>srandmember：返回随机元素<br>    语法：srandmember myset [count]<br>    如果 count 为正数，且小于集合基数，那么命令返回一个包含 count个元素的数组，数组中的元素各不相同。如果 count大于等于集合基数，那么返回整个集合<br>    如果 count 为负数，那么命令返回一个数组，数组中的元素可能会重复出现多次，而数组的长度为 count的绝对值<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SRANDMEMBER people -3</span><br></pre></td></tr></table></figure></p>
+<p>srem：移除集合中的一个或多个成员元素，不存在的成员元素会被忽略<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SREM people &quot;kevin&quot; &quot;david&quot;</span><br></pre></td></tr></table></figure></p>
+<p>sunion：返回给定集合的并集。不存在的集合 key 被视为空集<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SUNION people people2 people3 people4</span><br></pre></td></tr></table></figure></p>
+<p>sunionstore：将给定集合的并集存储在指定的集合 destination 中。如果 destination 已经存在，则将其覆盖<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SUNIONSTORE people5 people people2 people3 people4</span><br></pre></td></tr></table></figure></p>
+<p>sscan：用于迭代集合中键的元素，返回迭代后当前指针位置以及找到的元素<br>    语法：SSCAN key cursor [MATCH pattern] [COUNT count]<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SSCAN people 0 MATCH *i* COUNT 10</span><br></pre></td></tr></table></figure></p>
+<h4 id="SET有序集合"><a href="#SET有序集合" class="headerlink" title="SET有序集合"></a>SET有序集合</h4><p>zadd：将一个或多个成员元素及其分数值加入到有序集当中<br>    语法：ZADD KEY_NAME SCORE1 VALUE1.. SCOREN VALUEN<br>    如果某个成员已经是有序集的成员，那么更新这个成员的分数值，并通过重新插入这个成员元素，来保证该成员在正确的位置上<br>    分数值可以是整数值或双精度浮点数<br>    如果有序集合 key 不存在，则创建一个空的有序集并执行 ZADD 操作<br>    当 key 存在但不是有序集类型时，返回一个错误<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ZADD users 1995 &quot;david&quot; 1996 &quot;mike&quot; 1997 &quot;nancy&quot; 1998 &quot;andy&quot; 1999 &quot;aaron&quot;</span><br></pre></td></tr></table></figure></p>
+<p>zcard：计算集合中元素的数量<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ZCARD users</span><br></pre></td></tr></table></figure></p>
+<p>zcount：计算有序集合中指定分数区间的成员数量<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ZCOUNT users 1996 1998</span><br></pre></td></tr></table></figure></p>
+<p>zincrby：对有序集合中指定成员的分数加上增量，可负数。当集合不存在则创建新有序集合<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ZINCRBY users -5 &quot;andy&quot;</span><br></pre></td></tr></table></figure></p>
+<p>zinterstore：计算给定的一个或多个有序集的交集，其中给定 key 的数量必须以 numkeys 参数指定，并将该交集(结果集)储存到 destination<br>    语法：ZINTERSTORE destination numkeys key [key …] [WEIGHTS weight [weight …]] [AGGREGATE SUM|MIN|MAX]<br>    参数WEIGHTS：将分数以倍数相乘<br>    参数AGGREGATE：以哪种方式进行分数计算，sum相加，min最小，max最大<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ZINTERSTORE users3 2 users users2 WEIGHTS 2 3 AGGREGATE MAX</span><br></pre></td></tr></table></figure></p>
+<p>zrange：返回有序集中，指定区间内的成员。其中成员的位置按分数值递增(从小到大)来排序。返回分数最后加withscores<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ZRANGE users 0 -1 WITHSCORES</span><br></pre></td></tr></table></figure></p>
+<p>zrevrange：返回有序集中，指定区间内的成员。其中成员的位置按分数值递减(从大到小)来排列<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ZREVRANGE users 0 -1 WITHSCORES</span><br></pre></td></tr></table></figure></p>
+<p>zrangebyscore：返回有序集合中指定分数区间的成员列表。有序集成员按分数值递增(从小到大)次序排列。<br>    默认情况下，区间的取值使用闭区间 (小于等于或大于等于)，可以通过给参数前增加 ( 符号来使用可选的开区间 (小于或大于)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ZRANGEBYSCORE users 1996 (1999</span><br></pre></td></tr></table></figure></p>
+<p>zrank：返回有序集中指定成员的排名。排名数字越小分数越大<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ZRANK users andy</span><br></pre></td></tr></table></figure></p>
+<p>zrevrank：返回有序集中指定成员的排名。排名数字越大分数越大<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ZREVRANK users andy</span><br></pre></td></tr></table></figure></p>
+<p>zrem：移除有序集中的一个或多个成员，不存在的成员将被忽略<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ZREM mike andy aaron</span><br></pre></td></tr></table></figure></p>
+<p>zremrangebyrank：移除有序集中，指定排名(rank)区间内的所有成员<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ZREMRANGEBYRANK users 2 3</span><br></pre></td></tr></table></figure></p>
+<p>zremrangebyscore：移除有序集中，指定分数（score）区间内的所有成员<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ZREMRANGEBYSCORE users 1996 1998</span><br></pre></td></tr></table></figure></p>
+<p>zscore：返回有序集中，成员的分数值。 如果成员元素不是有序集 key 的成员，或 key 不存在，返回 nil<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ZSCORE users aaron</span><br></pre></td></tr></table></figure></p>
+<p>zunionstore：算给定的一个或多个有序集的并集，其中给定 key 的数量必须以 numkeys 参数指定，并将该并集(结果集)储存到 destination<br>    语法和参数与zinterstore一致<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ZUNIONSTORE users3 2 users users2 WEIGHTS 2 3 AGGREGATE MAX</span><br></pre></td></tr></table></figure></p>
+<p>zscan：用于迭代有序集合中的元素（包括元素成员和元素分值）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ZSCAN users 0 MATCH *a*</span><br></pre></td></tr></table></figure></p>
+<h4 id="HSET哈希表"><a href="#HSET哈希表" class="headerlink" title="HSET哈希表"></a>HSET哈希表</h4><p>hset：为哈希表中的字段赋值 。如果哈希表不存在，一个新的哈希表被创建并进行 HSET 操作。如果字段已经存在于哈希表中，旧值将被覆盖。<br>hget：返回哈希表中指定字段的值<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">HSET website google &quot;google.com&quot;</span><br><span class="line">HGET website google</span><br></pre></td></tr></table></figure></p>
+<p>hmset：同时将多个 field-value(字段-值)对设置到哈希表中。此命令会覆盖哈希表中已存在的字段。如果哈希表不存在，会创建一个空哈希表，并执行 HMSET操作<br>hmget：返回哈希表中，一个或多个给定字段的值<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">HMSET website baidu &quot;baidu.com&quot; huawei &quot;huawei.com&quot; facebook &quot;facebook.com&quot; visitor 2000125</span><br><span class="line">HMGET website baidu huawei facebook</span><br></pre></td></tr></table></figure></p>
+<p>hlen：获取哈希表中字段的数量<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">HLEN website</span><br></pre></td></tr></table></figure></p>
+<p>hkeys：获取哈希表中的所有域（field）<br>hvals：获取哈希表中所有值<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">HKEYS website</span><br><span class="line">HVALS website</span><br></pre></td></tr></table></figure></p>
+<p>hgetall：获取在哈希表中指定 key 的所有字段和值<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">HGETALL website</span><br></pre></td></tr></table></figure></p>
+<p>hexists：查看哈希表的指定字段是否存在<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">HEXISTS website google</span><br></pre></td></tr></table></figure></p>
+<p>hdel：删除哈希表 key 中的一个或多个指定字段，不存在的字段将被忽略<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">HDEL website baidu facebook</span><br></pre></td></tr></table></figure></p>
+<p>hincrby：用于为哈希表中的字段值加上指定增量值<br>    增量也可以为负数，相当于对指定字段进行减法操作<br>    如果哈希表的 key 不存在，一个新的哈希表被创建并执行 HINCRBY 命令<br>    如果指定的字段不存在，那么在执行命令前，字段的值被初始化为 0<br>    对一个储存字符串值的字段执行 HINCRBY 命令将造成一个错误<br>    本操作的值被限制在 64 位(bit)有符号数字表示之内。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">HINCRBY website visitor 100</span><br></pre></td></tr></table></figure></p>
+<p>hincrbyfloat:为哈希表中的字段值加上指定浮点数增量值。如果指定的字段不存在，那么在执行命令前，字段的值被初始化为 0<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">HINCRBYFLOAT website mark 9.8</span><br></pre></td></tr></table></figure></p>
+<p>hsetnx：为哈希表中不存在的的字段赋值，如果字段已经存在于哈希表中，操作无效。如果哈希表不存在则创建<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">HSETNX website google &quot;hello world&quot;</span><br></pre></td></tr></table></figure></p>
+<p>hscan：迭代哈希表中的键值对<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">HSCAN website 0 MATCH *o*</span><br></pre></td></tr></table></figure></p>
+<h4 id="HYPERLOGLOG基数统计"><a href="#HYPERLOGLOG基数统计" class="headerlink" title="HYPERLOGLOG基数统计"></a>HYPERLOGLOG基数统计</h4><p><strong>用途</strong><br>用来做基数统计的算法，HyperLogLog 的优点是，在输入元素的数量或者体积非常非常大时，计算基数所需的空间总是固定 的、并且是很小的<br>在 Redis 里面，每个 HyperLogLog 键只需要花费 12 KB 内存，就可以计算接近 2^64 个不同元素的基 数。这和计算基数时，元素越多耗费内存就越多的集合形成鲜明对比<br>但是，因为 HyperLogLog 只会根据输入元素来计算基数，而不会储存输入元素本身，所以 HyperLogLog 不能像集合那样，返回输入的各个元素</p>
+<p>pfadd：添加指定元素（一或多）到 HyperLogLog 中<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">PFADD nosqls redis memcached mongodb</span><br><span class="line">PFADD sqls mysql sqlserver</span><br></pre></td></tr></table></figure></p>
+<p>pfcount：返回给定 HyperLogLog 的基数估算值<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PFCOUNT nosqls</span><br></pre></td></tr></table></figure></p>
+<p>pfmerge：将多个 HyperLogLog 合并为一个 HyperLogLog<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PFMERGE dbs nosqls sqls</span><br></pre></td></tr></table></figure></p>
+<h4 id="发布订阅"><a href="#发布订阅" class="headerlink" title="发布订阅"></a>发布订阅</h4><p>subscribe：订阅给定的一个或多个频道的信息<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SUBSCRIBE redisroom</span><br></pre></td></tr></table></figure></p>
+<p>unsubscribe：退订给定的一个或多个频道的信息<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">UNSUBSCRIBE redisroom</span><br></pre></td></tr></table></figure></p>
+<p>psubscribe：订阅一个或多个符合给定模式的频道<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PSUBSCRIBE *chat</span><br></pre></td></tr></table></figure></p>
+<p>punsubscribe：退订所有给定模式的频道<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PUNSUBSCRIBE  *chat</span><br></pre></td></tr></table></figure></p>
+<p>publish：将信息发送到指定的频道<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PUBLISH redisroom &quot;hello there&quot;</span><br></pre></td></tr></table></figure></p>
+<p>pubsub：查看订阅与发布系统状态，三个参数可选CHANNELS，NUMSUB，NUMPAT<br>    参数channels：返回当前活跃的频道，可指定pattern<br>    参数numsub  ：返回指定频道的订阅数，不包含模式订阅数<br>    参数numpat  ：返回通过模式订阅的频道数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">PUBSUB CHANNELS *room</span><br><span class="line">PUBSUB NUMSUB redisroom</span><br><span class="line">PUBSUB NUMPAT</span><br></pre></td></tr></table></figure></p>
+<h4 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h4><p><strong>介绍</strong><br>开启事务可以一次执行多个命令<br>并且带有以下重要的保证<br>        批量操作在发送 EXEC 命令前被放入队列缓存<br>        收到 EXEC 命令后进入事务执行，事务中任意命令执行失败，其余的命令依然被执行<br>        在事务执行过程，其他客户端提交的命令请求不会插入到事务执行命令序列中<br>一个事务从开始到执行会经历三个阶段：开始事务、命令入队、执行事务</p>
+<p>multi：标记一个事务块的开始<br>discard：取消事务，放弃执行事务块内的所有命令<br>exec：执行所有事务块内的命令<br>watch：监视一个(或多个) key ，如果在事务执行之前这个(或这些) key 被其他命令所改动，那么事务将被打断<br>unwatch：取消 WATCH 命令对所有 key 的监视<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">set a aaa</span><br><span class="line">watch a</span><br><span class="line">#unwatch（执行这个取消a监视）</span><br><span class="line">append a bbb （修改a的值）</span><br><span class="line">multi（开始事物）</span><br><span class="line">set b bbb</span><br><span class="line">#discard（执行这个取消事务）</span><br><span class="line">exec（返回nil，被打断，因为事务前a被修改）</span><br></pre></td></tr></table></figure></p>
+<h4 id="安全"><a href="#安全" class="headerlink" title="安全"></a>安全</h4><h5 id="设置密码"><a href="#设置密码" class="headerlink" title="设置密码"></a>设置密码</h5><p><em>可以通过 redis 的配置文件（redis.conf）或使用命令设置密码，这样客户端连接到 redis 服务就需要密码验证</em><br>配置文件redis.conf：找到requirepass那行，将前面的注释去掉并修改密码，重启服务<br>使用命令设置（重启无效，除非配置文件已经设置）：<code>config set requirepass this_is_a_password</code><br>使用命令清除：<code>config set requirepass &quot;&quot;</code><br>使用密码：<code>auth this_is_a_password</code></p>
+<h5 id="数据备份与恢复"><a href="#数据备份与恢复" class="headerlink" title="数据备份与恢复"></a>数据备份与恢复</h5><p><code>save</code>：在 redis安装目录中(/var/lib/redis)创建dump.rdb文件<br><code>bgsave</code>：在后台执行备份<br><code>config get dir</code>：获取redis安装目录<br>恢复数据只需将备份文件 (dump.rdb) 移动到 redis 安装目录并启动服务即可</p>
+<h4 id="redis服务器命令"><a href="#redis服务器命令" class="headerlink" title="redis服务器命令"></a>redis服务器命令</h4><p><code>SELECT [num]</code>：切换数据库，默认数据库是0<br><code>BGREWRITEAOF</code>：异步执行一个 AOF（AppendOnly File） 文件重写操作<br><code>BGSAVE</code>：在后台异步保存当前数据库的数据到磁盘<br><code>CLIENT KILL [ip:port] [ID client-id]</code>：关闭客户端连接<br><code>CLIENT LIST</code>：获取连接到服务器的客户端连接列表<br><code>CLIENT GETNAME</code>：获取连接的名称<br><code>CLIENT PAUSE timeout</code>：在指定时间内终止运行来自客户端的命令<br><code>CLIENT SETNAME connection-name</code>：设置当前连接的名称<br><code>CLUSTER SLOTS</code>：获取集群节点的映射数组<br><code>COMMAND</code>：获取 Redis 命令详情数组<br><code>COMMAND COUNT</code>：获取 Redis 命令总数<br><code>COMMAND GETKEYS</code>：获取给定命令的所有键<br><code>TIME</code>：返回当前服务器时间<br><code>COMMAND INFO command-name [command-name ...]</code>：获取指定 Redis 命令描述的数组<br><code>CONFIG GET parameter</code>：获取指定配置参数的值<br><code>CONFIG REWRITE</code>：对启动 Redis 服务器时所指定的 redis.conf 配置文件进行改写<br><code>CONFIG SET parameter value</code>：修改 redis 配置参数，无需重启<br><code>CONFIG RESETSTAT</code>：重置 INFO 命令中的某些统计数据<br><code>DBSIZE</code>：返回当前数据库的 key 的数量<br><code>DEBUG OBJECT key</code>：获取 key 的调试信息<br><code>DEBUG SEGFAULT</code>：让 Redis 服务崩溃<br><code>FLUSHALL</code>：删除所有数据库的所有key<br><code>FLUSHDB</code>：删除当前数据库的所有key<br><code>INFO [section]</code>：获取 Redis 服务器的各种信息和统计数值<br><code>LASTSAVE</code>：返回最近一次 Redis 成功将数据保存到磁盘上的时间，以 UNIX 时间戳格式表示<br><code>MONITOR</code>：实时打印出 Redis 服务器接收到的命令，调试用<br><code>ROLE</code>：返回主从实例所属的角色<br><code>SAVE</code>：同步保存数据到硬盘<br><code>SHUTDOWN [NOSAVE] [SAVE]</code>：异步保存数据到硬盘，并关闭服务器<br><code>SLAVEOF host port</code>：将当前服务器转变为指定服务器的从属服务器(slave server)<br><code>SLOWLOG subcommand [argument]</code>：管理 redis 的慢日志<br><code>SYNC</code>：用于复制功能(replication)的内部命令</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    <div class="content">
+        
+<span class="post-time">
+    最后更新：<time datetime="2018-07-24T00:30:35.620Z" itemprop="dateUpdated">2018-07-24 08:30:35</time>
+</span>
+
+
+        
+        原文链接：<a href="/Jesse/2018/07/24/NoSQL非关系型数据库redis笔记/" target="_blank" rel="external">https://rainoceantop.github.io/Jesse/2018/07/24/NoSQL非关系型数据库redis笔记/</a>
+        
+    </div>
+    <footer>
+        <div onclick="location.href='https://rainoceantop.github.io/Jesse'">
+            <img src="/Jesse/img/avatar.jpg" alt="Jesse">
+            <a>Jesse</a>
+        </div>
+    </footer>
+</blockquote>
+
+        
+    <div class="page-reward">
+        <nav class="myreward">
+            <a id="rewardBtn" href="javascript:;"><span>打&nbsp;赏</span><span>装成好像很多人打赏的样子</span></a>
+        </nav>
+    </div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/Jesse/tags/nosql/">nosql</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/Jesse/tags/redis/">redis</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/Jesse/tags/缓存/">缓存</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/Jesse/tags/缓存技术/">缓存技术</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/Jesse/tags/非关系型数据库/">非关系型数据库</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://rainoceantop.github.io/Jesse/2018/07/24/NoSQL非关系型数据库redis笔记/&title=《NoSQL非关系型数据库redis笔记》 — Jesse&pic=https://rainoceantop.github.io/Jesse/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://rainoceantop.github.io/Jesse/2018/07/24/NoSQL非关系型数据库redis笔记/&title=《NoSQL非关系型数据库redis笔记》 — Jesse&source=redis是一个key-value存储系统。和Memcached类似，它支持存储的value类型相对更多，包括string(字符串)、list(链表)、s..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://rainoceantop.github.io/Jesse/2018/07/24/NoSQL非关系型数据库redis笔记/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《NoSQL非关系型数据库redis笔记》 — Jesse&url=https://rainoceantop.github.io/Jesse/2018/07/24/NoSQL非关系型数据库redis笔记/&via=https://rainoceantop.github.io/Jesse" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://rainoceantop.github.io/Jesse/2018/07/24/NoSQL非关系型数据库redis笔记/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/Jesse/2018/07/23/php魔法方法/" id="post-next" class="post-nav-link">
+        <h4 class="title" data-hover="下一篇：php魔法方法">下一篇：php魔法方法</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+    
+
+    
+
+    
+
+
+</article>
+
+</div>
+
+        <footer class="footer">
+    <div class="footer-content">
+        <span class="power">
+            <i class="icon icon-lg icon-copyright"></i>
+            2018
+            <i class="icon icon-lg icon-heart"></i>
+            <a href="https://rainoceantop.github.io/Jesse">jesse</a>
+            <br/>
+            Power by
+            <a href="https://hexo.io/" target="_blank" rel="external nofollow">Hexo</a>&nbsp;·&nbsp;
+            Theme
+            <a class="tomotoeslink" href="https://github.com/tomotoes/hexo-theme-tomotoes/" target="_blank" rel="external nofollow">tomotoes</a>
+        </span>
+
+        <br/>
+
+        <span id="RunTime" style="color:#a7a7a2;"></span>
+        <br/>
+
+        <span>
+            
+
+        </span>
+        <br/>
+
+        <!--<span class="license"><a  target="_blank" rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">博客内容遵循 知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>-->
+    </div>
+</footer>
+
+    </main>
+    
+        
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        <span>感谢您的鼓励支持！</span>
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" data-img="/Jesse/img/thankyou.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/Jesse/img/wechatpay.png" data-alipay="/Jesse/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechatPay">&nbsp;&nbsp;微信&nbsp;&nbsp;</span>
+                <span class="reward-toggle-item alipayPay">支付宝</span>
+            </div>
+        </label>
+        
+        <i class="icon icon-caret-up"></i>
+    </div>
+</div>
+
+
+    
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://rainoceantop.github.io/Jesse/2018/07/24/NoSQL非关系型数据库redis笔记/&title=《NoSQL非关系型数据库redis笔记》 — Jesse&pic=https://rainoceantop.github.io/Jesse/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://rainoceantop.github.io/Jesse/2018/07/24/NoSQL非关系型数据库redis笔记/&title=《NoSQL非关系型数据库redis笔记》 — Jesse&source=redis是一个key-value存储系统。和Memcached类似，它支持存储的value类型相对更多，包括string(字符串)、list(链表)、s..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://rainoceantop.github.io/Jesse/2018/07/24/NoSQL非关系型数据库redis笔记/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《NoSQL非关系型数据库redis笔记》 — Jesse&url=https://rainoceantop.github.io/Jesse/2018/07/24/NoSQL非关系型数据库redis笔记/&via=https://rainoceantop.github.io/Jesse" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://rainoceantop.github.io/Jesse/2018/07/24/NoSQL非关系型数据库redis笔记/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p class="wechatshare">扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPYAAAD2CAAAAADAeSUUAAADLUlEQVR42u3aQW7jMBAEQP//09nrAoGl7qEMmEz5ZMSyxKIPk5nm6xW/fv57XX/6+8rrb13//fq51/d54IWNjY29Cfvn8jVjv/vWuyuT7XuHvL7/25VjY2NjH8dOCklbBfKtvFliXFaLYomNjY39h9krRWjWzCTlEBsbGxt7VsCuG5VZe5NvcVtosbGxsc9mt4VnfbgzK0VtcX1gloaNjY399ex8fPP97z+Sb2NjY2N/MXs21s8H9Ovj/lmrc6PAxsbGPoidF4B2PNS2Lm35bAsYNjY29tnsfCifXzNrFdZD3DaKwMbGxt6dPWshkmCgheUBcBIP178wNjY29rbstqjMvpu3MbMjPk8dPMLGxsbekZ0fc0zKwwyQXzMcG/1ePzY2NvZB7Bacty75NuWN0MMRMjY2NvZx7Hx4lC/o2aM27c9zsynY2NjYB7GfigpmA/3k0/zwUNtiYWNjY+/OXj8i07YiT23rUgHDxsbGPojdBr3tItpsOdmah3nY2NjYm7PzMjMrcu3QPzn084AIGxsb+yB2e/gmX1xxdKZsjWYNz6v9ZbCxsbE3YV//i59Hs23omy99Npa6eY+NjY19ELsd7syC2NkYK9/o9WEWNjY29hns9VsnJWrW9qyX2JuTStjY2NjbsvNgNf93f7aJs6I4ixywsbGxz2PPRkV5OzHb1nZQVQyesLGxsQ9iz+LSPIKdka6LU3JAp4h7sbGxsTdnt8P3lWYmD3FnR3nyAAMbGxv7JPZsxDOLe9s2ox05tSvExsbGPok9G9CsxAzJtq5EC0mLgo2NjX0qOw8DVqKF2ZGdvGTWcS82Njb2Eez19mN9PLQyxqqfgo2NjX0ce1ao2kOWK6HvU6EFNjY29qns/AGzeLgNDD5e6rCxsbGPYM+K0+zKvGlZ39DX7BfAxsbG3pDdFoP1sDaPY/MDOnk4XW8KNjY29ibsvBS113+uBOZbiY2Njf132CvD+rxQzaKIWe2NChg2NjY2drkpK8VpBYmNjY2N3S4uJz11tzpaxsbGxj6O/enhThshtIHB9X3qgzvY2NjYW7HbAc16+UmW2D7rqZYGGxsbeyv2P2tvct4HU10yAAAAAElFTkSuQmCC" alt="微信分享二维码">
+</div>
+
+
+
+
+    <!-- waves按钮特效 -->
+<script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+
+<!-- 主题配置脚本 -->
+<script>
+var BLOG = { ROOT: '/Jesse/', SHARE: true, REWARD: true };
+</script>
+
+<!-- jquery -->
+<script src="/Jesse/js/jquery.min.js?v=3.0"></script>
+
+<!-- 搜索 -->
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item waves-block waves-effect" onclick="location.href='{path}'">
+    <div class="title ellipsis" title="{title}">{title}</div>
+</li>
+</template>
+
+
+<!-- main博客脚本 -->
+<script src="/Jesse/js/main.min.js?v=3.0" ></script>
+
+<!-- 动画&配置 -->
+<script src="/Jesse/js/script.min.js?v=3.0" ></script>
+
+<!-- 脚本管理 -->
+<script>
+
+if(window.innerWidth > 800){
+	/* 3D标题 */
+	$(".content-header").on("mousemove", threedee);
+
+	/* 底部追随鼠标 */
+	$(".footer").hover(2);
+
+	/* gotop键的涟漪 */
+	$("#gotop").hover(1);
+
+	/* 赞赏的粒子雨 */
+	$("#reward").hover(3);
+
+	/* 微信公众号的底部渲染 */
+	$("#wechat").hover(4);
+
+    /* 标题跳动 */
+    $(".archivestitle").bumpyText();
+
+	/* 图片点击放大 */
+	const postimg = jQuery(".post-content img:not(.github-emoji)");
+	postimg.on("click",function(){
+
+		mask.classList.add("in");
+		main.classList.add("Mask");
+		menu.classList.add("Mask");
+		var myimg = this.cloneNode(true);
+		myimg.classList.add("imgShow");
+
+		setTimeout(function(){
+			jQuery(myimg).animate({
+				opacity:"1"
+			},1000);
+		},0);
+
+		document.body.appendChild(myimg);
+
+		myimg.onclick=function(){
+			document.body.removeChild(myimg);
+			mask.classList.remove("in");
+			main.classList.remove("Mask");
+			menu.classList.remove("Mask");
+		};
+
+	});
+
+}
+
+/* 名字跳动 */
+$("#name").bumpyText();
+
+
+/* 网站运行时间 */
+setInterval(function () {
+	setTime("2018/06/04");
+}, 1000);
+
+/* 文章块的淡出 */
+postshow();
+
+/* 座右铭 */
+
+    elasticText({
+        id: "mymotto",
+        duration: 100,
+        effact: "easeOut",
+        content: "那时候没有伤,不会哭泣"
+    });
+
+
+
+/* 粘贴提示 */
+G($(".post-content"), location.href, "Jesse");
+
+
+/* 控制台 */
+if (window.console && window.console.log) {
+	setTimeout(function () {
+		console.log("\n %c 一个坏掉的番茄 %c  © Simon Ma  http://tomotoes.com \n\n", "color:#FFFFFB;background:#1abc9c;padding:5px 0;border-radius:.5rem 0 0 .5rem;", "color:#FFFFFB;background:#080808;padding:5px 0;border-radius:0 .5rem .5rem 0;");
+	}, 0);
+}
+
+</script>
+
+
+
+
+<!-- 公式渲染 -->
+
+
+
+<!-- 不蒜子 -->
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+
+
+</body>
+</html>

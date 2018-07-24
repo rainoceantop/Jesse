@@ -47,7 +47,7 @@
 <meta property="og:site_name" content="Jesse">
 <meta property="og:description" content="Memcached 是一个高性能的分布式内存对象缓存系统，用于动态Web应用以减轻数据库负载。它通过在内存中缓存数据和对象来减少读取数据库的次数，从而提高动态、数据库驱动网站的速度。Memcached基于一个存储键/值对的hashmap。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-07-22T23:31:17.864Z">
+<meta property="og:updated_time" content="2018-07-23T23:05:50.797Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="分布式缓存系统memcached笔记">
 <meta name="twitter:description" content="Memcached 是一个高性能的分布式内存对象缓存系统，用于动态Web应用以减轻数据库负载。它通过在内存中缓存数据和对象来减少读取数据库的次数，从而提高动态、数据库驱动网站的速度。Memcached基于一个存储键/值对的hashmap。">
@@ -185,7 +185,7 @@
     <aside class="post-widget">
         <nav class="post-toc-wrap" id="post-toc">
             <h4>TOC</h4>
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#安装向导"><span class="post-toc-number">1.</span> <span class="post-toc-text">安装向导</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#关键字"><span class="post-toc-number">2.</span> <span class="post-toc-text">关键字</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#安装向导"><span class="post-toc-number">1.</span> <span class="post-toc-text">安装向导</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#关键字"><span class="post-toc-number">2.</span> <span class="post-toc-text">关键字</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#语句参数解释"><span class="post-toc-number">3.</span> <span class="post-toc-text">语句参数解释</span></a></li></ol>
         </nav>
     </aside>
    
@@ -220,20 +220,20 @@
         <div class="post-content" id="post-content" itemprop="postContent">
             <p>Memcached 是一个高性能的分布式内存对象缓存系统，用于动态Web应用以减轻数据库负载。它通过在内存中缓存数据和对象来减少读取数据库的次数，从而提高动态、数据库驱动网站的速度。Memcached基于一个存储键/值对的hashmap。</p>
 <a id="more"></a>
-<h4 id="安装向导"><a href="#安装向导" class="headerlink" title="安装向导"></a>安装向导</h4><p>linux下载memcached：<code>sudo pacman -S memcached (manjaro)</code> | <code>sudo apt-get install memcached (ubuntu)</code><br>启动/重启：<code>memcached -m 64m -p 11211 -vv (common)</code> | <code>memcached</code> | <code>memcached start/stop/restart (ubuntu)</code><br>查看运行状态：<code>ps -ef|grep memcached</code><br>查看帮助：<code>memcached -h</code><br>telnet连接：<code>telnet localhost 11211</code></p>
-<h4 id="关键字"><a href="#关键字" class="headerlink" title="关键字"></a>关键字</h4><p>stats：显示分析详情<br>set语句：用于将 value(数据值) 存储在指定的 key(键) 中。如果set的key已经存在，则更新其值<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">set key flags exptime bytes [noreply] </span><br><span class="line">value</span><br></pre></td></tr></table></figure></p>
-<p>add语句：用于将 value(数据值) 存储在指定的 key(键) 中。 如果 add 的 key 已经存在，则不会更新数据(过期的 key 会更新)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">add key flags exptime bytes [noreply]</span><br><span class="line">value</span><br></pre></td></tr></table></figure></p>
-<p>get语句：获取一个或多个存储在 key(键) 中的 value(数据值) ，如果 key 不存在，则返回空<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">get key</span><br><span class="line">get key1 key2 key3</span><br></pre></td></tr></table></figure></p>
-<p>replace语句：用于替换已存在的 key(键) 的 value(数据值)。如果 key 不存在，则替换失败<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">replace key flags exptime bytes [noreply]</span><br><span class="line">value</span><br></pre></td></tr></table></figure></p>
-<p>append语句：用于向已存在 key(键) 的 value(数据值) 后面追加数据<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">append key flags exptime bytes [noreply]</span><br><span class="line">value</span><br></pre></td></tr></table></figure></p>
-<p>prepend语句：用于向已存在 key(键) 的 value(数据值) 前面追加数据<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">prepend key flags exptime bytes [noreply]</span><br><span class="line">value</span><br></pre></td></tr></table></figure></p>
-<p>cas语句：（Check-And-Set 或 Compare-And-Swap） 命令用于执行一个”检查并设置”的操作，它需要指定当前key的cas_token才可以修改值，cas_token可以用gets获取到，每一次修改key值cas_token都会改变<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cas key flags exptime bytes unique_cas_token [noreply]</span><br><span class="line">value</span><br></pre></td></tr></table></figure></p>
-<p>delete语句：用于删除已存在的 key(键)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">delete key [noreply]</span><br></pre></td></tr></table></figure></p>
-<p>incr|decr语句：用于对已存在的 key(键) 的数字值进行自增或自减操作<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">incr key increment_value</span><br><span class="line">decr key decrement_value</span><br></pre></td></tr></table></figure></p>
-<p>flush_all语句：用于清理缓存中的所有 key=&gt;value(键=&gt;值) 对<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flush_all [time] [noreply]</span><br></pre></td></tr></table></figure></p>
+<h4 id="安装向导"><a href="#安装向导" class="headerlink" title="安装向导"></a>安装向导</h4><p>linux安装memcached：<code>sudo pacman -S memcached (manjaro)</code> | <code>sudo apt-get install memcached (ubuntu)</code><br>启动/重启：<code>memcached -m 64m -p 11211 -vv (common)</code> | <code>memcached</code> | <code>memcached start/stop/restart (ubuntu)</code><br>查看运行状态：<code>ps -ef|grep memcached</code><br>查看帮助：<code>memcached -h</code><br>telnet连接：<code>telnet localhost 11211</code></p>
 <hr>
-<p>语句参数解释</p>
-<pre><code>key：键值 key-value 结构中的 key，用于查找缓存值
+<h4 id="关键字"><a href="#关键字" class="headerlink" title="关键字"></a>关键字</h4><p>stats：显示分析详情<br>set：用于将 value(数据值) 存储在指定的 key(键) 中。如果set的key已经存在，则更新其值<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">set key flags exptime bytes [noreply] </span><br><span class="line">value</span><br></pre></td></tr></table></figure></p>
+<p>add：用于将 value(数据值) 存储在指定的 key(键) 中。 如果 add 的 key 已经存在，则不会更新数据(过期的 key 会更新)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">add key flags exptime bytes [noreply]</span><br><span class="line">value</span><br></pre></td></tr></table></figure></p>
+<p>get：获取一个或多个存储在 key(键) 中的 value(数据值) ，如果 key 不存在，则返回空<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">get key</span><br><span class="line">get key1 key2 key3</span><br></pre></td></tr></table></figure></p>
+<p>replace：用于替换已存在的 key(键) 的 value(数据值)。如果 key 不存在，则替换失败<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">replace key flags exptime bytes [noreply]</span><br><span class="line">value</span><br></pre></td></tr></table></figure></p>
+<p>append：用于向已存在 key(键) 的 value(数据值) 后面追加数据<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">append key flags exptime bytes [noreply]</span><br><span class="line">value</span><br></pre></td></tr></table></figure></p>
+<p>prepend：用于向已存在 key(键) 的 value(数据值) 前面追加数据<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">prepend key flags exptime bytes [noreply]</span><br><span class="line">value</span><br></pre></td></tr></table></figure></p>
+<p>cas：（Check-And-Set 或 Compare-And-Swap） 命令用于执行一个”检查并设置”的操作，它需要指定当前key的cas_token才可以修改值，cas_token可以用gets获取到，每一次修改key值cas_token都会改变<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cas key flags exptime bytes unique_cas_token [noreply]</span><br><span class="line">value</span><br></pre></td></tr></table></figure></p>
+<p>delete：用于删除已存在的 key(键)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">delete key [noreply]</span><br></pre></td></tr></table></figure></p>
+<p>incr|decr：用于对已存在的 key(键) 的数字值进行自增或自减操作<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">incr key increment_value</span><br><span class="line">decr key decrement_value</span><br></pre></td></tr></table></figure></p>
+<p>flush_all：用于清理缓存中的所有 key=&gt;value(键=&gt;值) 对<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flush_all [time] [noreply]</span><br></pre></td></tr></table></figure></p>
+<hr>
+<h4 id="语句参数解释"><a href="#语句参数解释" class="headerlink" title="语句参数解释"></a>语句参数解释</h4><pre><code>key：键值 key-value 结构中的 key，用于查找缓存值
 flags：可以包括键值对的整型参数，客户机使用它存储关于键值对的额外信息 
 exptime：在缓存中保存键值对的时间长度（以秒为单位，0 表示永远）
 bytes：在缓存中存储的字节数
@@ -251,7 +251,7 @@ time：用于在制定的时间后执行清理缓存操作
     <div class="content">
         
 <span class="post-time">
-    最后更新：<time datetime="2018-07-22T23:31:17.864Z" itemprop="dateUpdated">2018-07-23 07:31:17</time>
+    最后更新：<time datetime="2018-07-23T23:05:50.797Z" itemprop="dateUpdated">2018-07-24 07:05:50</time>
 </span>
 
 
